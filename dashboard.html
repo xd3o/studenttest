@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>بيانات الطالب – إعدادية رافدين</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوجو" class="logo">
+  <h1>إعدادية رافدين</h1>
+</header>
+
+<div class="container">
+  <div class="student-info">
+    <h3>👤 الاسم: <span id="student-name"></span></h3>
+    <h3>🏷️ الكود: <span id="student-code"></span></h3>
+    <h3>📚 الصف: <span id="student-class"></span> - <span id="student-section"></span></h3>
+  </div>
+
+  <div class="card">
+    <h2>الكورس الأول</h2>
+    <table>
+      <thead>
+        <tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 1</th><th>نصف السنة</th></tr>
+      </thead>
+      <tbody id="course1-body"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>الكورس الثاني</h2>
+    <table>
+      <thead>
+        <tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 2</th><th>السعي السنوي</th><th>النهائي</th><th>بعد الإكمال</th></tr>
+      </thead>
+      <tbody id="course2-body"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>📅 الجدول الأسبوعي</h2>
+    <table>
+      <thead><tr><th>اليوم</th><th>الحصص</th></tr></thead>
+      <tbody id="weekly-table"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>📢 رسالة من الإدارة</h2>
+    <p id="admin-message"></p>
+  </div>
+</div>
+
+<script>
+  const student = JSON.parse(localStorage.getItem("studentData"));
+  if (!student) {
+    document.body.innerHTML = "<h2 style='text-align:center;color:red;'>لم يتم العثور على بيانات الطالب. يرجى تسجيل الدخول من جديد.</h2>";
+  } else {
+    document.getElementById("student-name").textContent = student["الاسم"];
+    document.getElementById("student-code").textContent = student["الكود"];
+    document.getElementById("student-class").textContent = student["الصف"];
+    document.getElementById("student-section").textContent = student["الشعبة"];
+    document.getElementById("admin-message").textContent = student["رسالة"] || "نتمنى لكم دوام الموفقية والنجاح.";
+
+    const course1Body = document.getElementById("course1-body");
+    const course2Body = document.getElementById("course2-body");
+
+    for (const [subject, scores] of Object.entries(student["الدرجات"])) {
+      const row1 = document.createElement("tr");
+      row1.innerHTML = `
+        <td>${subject}</td>
+        <td>${scores["الشهر الأول"]}</td>
+        <td>${scores["الشهر الثاني"]}</td>
+        <td>${scores["الشهر الثالث"]}</td>
+        <td>${scores["السعي الأول"]}</td>
+        <td>${scores["نصف السنة"]}</td>
+      `;
+      course1Body.appendChild(row1);
+
+      const row2 = document.createElement("tr");
+      row2.innerHTML = `
+        <td>${subject}</td>
+        <td>${scores["الكورس الثاني - الشهر الأول"]}</td>
+        <td>${scores["الكورس الثاني - الشهر الثاني"]}</td>
+        <td>${scores["الكورس الثاني - الشهر الثالث"]}</td>
+        <td>${scores["السعي الثاني"]}</td>
+        <td>${scores["السعي السنوي"]}</td>
+        <td>${scores["الدرجة النهائية"]}</td>
+        <td>${scores["الدرجة النهائية بعد الإكمال"]}</td>
+      `;
+      course2Body.appendChild(row2);
+    }
+
+    const weeklyTable = document.getElementById("weekly-table");
+    if (student["الجدول"]) {
+      for (const [day, subjects] of Object.entries(student["الجدول"])) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${day}</td><td>${subjects.join(" - ")}</td>`;
+        weeklyTable.appendChild(row);
+      }
+    } else {
+      weeklyTable.innerHTML = "<tr><td colspan='2'>لا يوجد جدول مرفق.</td></tr>";
+    }
+  }
+</script>
+
+</body>
+</html>
