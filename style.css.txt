@@ -5,6 +5,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .login-container, .dashboard-container {
   background: rgba(255,255,255,0.95);
   padding: 20px;
@@ -13,50 +14,137 @@ body {
   border-radius: 8px;
   text-align: center;
 }
+
 input, select, button {
   width: 90%;
   padding: 10px;
   margin: 10px 0;
   font-size: 16px;
 }
+
 button {
   background: #1976d2;
   color: white;
   border: none;
   border-radius: 5px;
 }
+
 button:hover {
   background: #125ca1;
 }
+
 .logo, .logo-small {
   width: 100px;
   margin-bottom: 15px;
 }
-.red { color: red; font-weight: bold; }
 
-/* جدول متجاوب */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  table-layout: fixed;       /* يجعل الأعمدة متوازنة */
-  word-wrap: break-word;     /* يكسر النصوص الطويلة */
-  display: block;
-  overflow-x: auto;          /* يسمح بالتمرير على الشاشات الصغيرة */
-  -webkit-overflow-scrolling: touch;
+.red { 
+  color: red; 
+  font-weight: bold; 
 }
 
-td, th {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: center;
-  font-size: 14px;
-  white-space: nowrap;       /* يمنع تكسير النصوص */
+/* ===== الجداول - أساسي ===== */
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 10px; 
+  table-layout: fixed;       /* الأعمدة تبقى متساوية */
+  word-wrap: break-word;
 }
 
-@media (max-width: 768px) {
-  td, th {
-    font-size: 12px;         /* تصغير الخط للموبايل */
-    padding: 6px;
+td, th { 
+  padding: 8px; 
+  border: 1px solid #ddd; 
+  text-align: center; 
+  font-size: 14px; 
+}
+
+/* ===== Responsive Design ===== */
+
+/* للأجهزة الصغيرة جداً (موبايلات صغيرة) */
+@media (max-width: 360px) {
+  .login-container, .dashboard-container {
+    width: 90%;
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  input, select, button {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .logo, .logo-small {
+    width: 80px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  td, th { 
+    font-size: 10px; 
+    padding: 4px; 
+    white-space: nowrap;
+  }
+}
+
+/* للهواتف العادية (أغلب الموبايلات) */
+@media (min-width: 361px) and (max-width: 768px) {
+  .login-container, .dashboard-container {
+    width: 85%;
+    margin: 30px auto;
+  }
+
+  input, select, button {
+    font-size: 15px;
+  }
+
+  .logo, .logo-small {
+    width: 90px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  td, th { 
+    font-size: 12px; 
+    padding: 6px; 
+    white-space: nowrap;
+  }
+}
+
+/* للأجهزة اللوحية (آيباد وما يشبه) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login-container, .dashboard-container {
+    width: 70%;
+    max-width: 500px;
+  }
+
+  input, select, button {
+    font-size: 16px;
+  }
+
+  td, th { 
+    font-size: 13px; 
+    padding: 7px; 
+  }
+}
+
+/* لأجهزة اللابتوب والكمبيوتر */
+@media (min-width: 1025px) {
+  .login-container, .dashboard-container {
+    width: 400px;
+    margin: 40px auto;
+  }
+
+  input, select, button {
+    font-size: 16px;
+  }
+
+  td, th { 
+    font-size: 14px; 
+    padding: 8px; 
   }
 }
