@@ -5,7 +5,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
 .login-container, .dashboard-container {
   background: rgba(255,255,255,0.95);
   padding: 20px;
@@ -14,52 +13,28 @@ body {
   border-radius: 8px;
   text-align: center;
 }
-
 input, select, button {
   width: 90%;
   padding: 10px;
   margin: 10px 0;
   font-size: 16px;
 }
-
 button {
   background: #1976d2;
   color: white;
   border: none;
   border-radius: 5px;
 }
-
 button:hover {
   background: #125ca1;
 }
-
 .logo, .logo-small {
   width: 100px;
   margin-bottom: 15px;
 }
-
-.red { 
-  color: red; 
-  font-weight: bold; 
-}
-
-/* ===== الجداول - أساسي ===== */
-table { 
-  width: 100%; 
-  border-collapse: collapse; 
-  margin-top: 10px; 
-  table-layout: fixed;       /* الأعمدة تبقى متساوية */
-  word-wrap: break-word;
-}
-
-td, th { 
-  padding: 8px; 
-  border: 1px solid #ddd; 
-  text-align: center; 
-  font-size: 14px; 
-}
-
-/* ===== Responsive Design ===== */
+.red { color: red; font-weight: bold; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+td, th { padding: 8px; border: 1px solid #ddd; text-align: center; font-size: 14px; }
 
 /* للأجهزة الصغيرة جداً (موبايلات صغيرة) */
 @media (max-width: 360px) {
@@ -77,16 +52,6 @@ td, th {
   .logo, .logo-small {
     width: 80px;
   }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-  td, th { 
-    font-size: 10px; 
-    padding: 4px; 
-    white-space: nowrap;
-  }
 }
 
 /* للهواتف العادية (أغلب الموبايلات) */
@@ -103,16 +68,6 @@ td, th {
   .logo, .logo-small {
     width: 90px;
   }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-  td, th { 
-    font-size: 12px; 
-    padding: 6px; 
-    white-space: nowrap;
-  }
 }
 
 /* للأجهزة اللوحية (آيباد وما يشبه) */
@@ -125,11 +80,6 @@ td, th {
   input, select, button {
     font-size: 16px;
   }
-
-  td, th { 
-    font-size: 13px; 
-    padding: 7px; 
-  }
 }
 
 /* لأجهزة اللابتوب والكمبيوتر */
@@ -141,10 +91,5 @@ td, th {
 
   input, select, button {
     font-size: 16px;
-  }
-
-  td, th { 
-    font-size: 14px; 
-    padding: 8px; 
   }
 }
