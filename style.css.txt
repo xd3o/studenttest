@@ -1,105 +1,62 @@
-/* ===== Reset & Base ===== */
-*,
-*::before,
-*::after { 
-  box-sizing: border-box; 
-}
-
-html { 
-  -webkit-text-size-adjust: 100%; 
-}
-
 body {
   font-family: 'Tahoma', sans-serif;
-  margin: 0;
-  background: #f5f7fb url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center center fixed;
+  background: url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center center fixed;
   background-size: cover;
+  margin: 0;
   padding: 0;
 }
-
-/* إصلاح مشكلة الخلفية الثابتة على الأجهزة اللمسية */
-@media (max-width: 1024px) {
-  body { background-attachment: scroll; }
-}
-
-/* ===== Containers ===== */
 .login-container, .dashboard-container {
-  width: min(92vw, 420px);
-  background: rgba(255, 255, 255, 0.95);
-  padding: clamp(16px, 3vw, 24px);
-  margin: clamp(16px, 4vh, 40px) auto;
+  background: rgba(255,255,255,0.95);
+  padding: 20px;
+  margin: 40px auto;
+  max-width: 400px;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
 }
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .login-container, .dashboard-container {
-    width: min(80vw, 520px);
-  }
-}
-
-@media (min-width: 1024px) {
-  .login-container, .dashboard-container {
-    width: 420px;
-  }
-}
-
-/* ===== Form Controls ===== */
 input, select, button {
-  width: 100%;
-  padding: clamp(10px, 2.2vw, 14px);
+  width: 90%;
+  padding: 10px;
   margin: 10px 0;
-  font-size: clamp(14px, 1.8vw, 16px);
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  outline: none;
+  font-size: 16px;
 }
-
-input:focus, select:focus, button:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
-}
-
 button {
   background: #1976d2;
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background .2s ease-in-out;
+  border-radius: 5px;
 }
-
-button:hover { 
-  background: #125ca1; 
+button:hover {
+  background: #125ca1;
 }
-
-/* ===== Logo ===== */
 .logo, .logo-small {
-  width: clamp(80px, 18vw, 120px);
+  width: 100px;
   margin-bottom: 15px;
 }
+.red { color: red; font-weight: bold; }
 
-/* ===== Helpers ===== */
-.red { 
-  color: #e53935; 
-  font-weight: 700; 
-}
-
-/* ===== Table (Scrollable on Mobile) ===== */
+/* جدول متجاوب */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  table-layout: fixed;       /* يجعل الأعمدة متوازنة */
+  word-wrap: break-word;     /* يكسر النصوص الطويلة */
   display: block;
-  overflow-x: auto;
+  overflow-x: auto;          /* يسمح بالتمرير على الشاشات الصغيرة */
   -webkit-overflow-scrolling: touch;
 }
 
 td, th {
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
-  font-size: clamp(12px, 1.6vw, 14px);
-  white-space: nowrap;
+  font-size: 14px;
+  white-space: nowrap;       /* يمنع تكسير النصوص */
+}
+
+@media (max-width: 768px) {
+  td, th {
+    font-size: 12px;         /* تصغير الخط للموبايل */
+    padding: 6px;
+  }
 }
