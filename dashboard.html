@@ -5,38 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>نتائج الطالب – إعدادية رافدين</title>
   <style>
-    body { margin: 0; font-family: "Arial", sans-serif; background-color: #f9f9f9; direction: rtl; }
-    header { background-color: #f4b400; color: white; text-align: center; padding: 20px; }
-    .logo { width: 60px; margin-bottom: 10px; }
-    .school-title { font-size: 24px; margin: 0; }
-    .container { max-width: 1000px; margin: 20px auto; padding: 10px; }
-    .info { text-align: center; margin-bottom: 20px; }
-    .info h2 { margin: 10px 0; font-size: 20px; }
-    .card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-    .card h3 { color: #38b6b2; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px; font-size: 20px; }
-    table { width: 100%; border-collapse: collapse; font-size: 15px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background-color: #f4b400; color: white; }
-    .footer { text-align: center; font-size: 14px; margin: 20px 0; color: #444; }
-    .fail { color: red; font-weight: bold; }
+    body { 
+      margin: 0; 
+      font-family: "Arial", sans-serif; 
+      background-color: #f9f9f9; 
+      direction: rtl; 
+    }
+    header { 
+      background-color: #f4b400; 
+      color: white; 
+      text-align: center; 
+      padding: 20px; 
+    }
+    .logo { 
+      width: 60px; 
+      margin-bottom: 10px; 
+    }
+    .school-title { 
+      font-size: 24px; 
+      margin: 0; 
+    }
+    .container { 
+      max-width: 1200px; 
+      margin: 20px auto; 
+      padding: 15px; 
+    }
+    .info { 
+      text-align: center; 
+      margin-bottom: 20px; 
+    }
+    .info h2 { 
+      margin: 10px 0; 
+      font-size: 20px; 
+    }
+    .card { 
+      background: white; 
+      border-radius: 10px; 
+      padding: 15px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1); 
+      overflow-x: auto; /* مهم للجوال */
+    }
+    .card h3 { 
+      color: #38b6b2; 
+      border-bottom: 1px solid #ddd; 
+      padding-bottom: 5px; 
+      margin-bottom: 10px; 
+      font-size: 20px; 
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      font-size: 15px; 
+      min-width: 600px; /* حتى يبين مرتب بالتابلت */
+    }
+    th, td { 
+      border: 1px solid #ccc; 
+      padding: 10px; 
+      text-align: center; 
+    }
+    th { 
+      background-color: #f4b400; 
+      color: white; 
+    }
+    .footer { 
+      text-align: center; 
+      font-size: 14px; 
+      margin: 20px 0; 
+      color: #444; 
+    }
+    .fail { 
+      color: red; 
+      font-weight: bold; 
+    }
+
+    /* شاشات الموبايل */
     @media (max-width: 600px) {
       .info h2, .card h3 { font-size: 16px; }
       table, th, td { font-size: 13px; }
+      table { min-width: unset; } /* خلي الجدول يصغر */
     }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 15px;
-      table-layout: fixed;
+
+    /* شاشات التابلت */
+    @media (min-width: 601px) and (max-width: 991px) {
+      .info h2 { font-size: 18px; }
+      table { font-size: 14px; }
     }
-    .card table {
-      display: block;
-      width: 100%;
-      overflow-x: auto;
-    }
-    .card th, .card td {
-      word-wrap: break-word;
+
+    /* شاشات الكمبيوتر */
+    @media (min-width: 992px) {
+      .info h2 { font-size: 22px; }
+      table { font-size: 16px; }
     }
   </style>
 </head>
