@@ -1,48 +1,157 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>لوحة الطالب</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>نتائج الطالب – إعدادية رافدين</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { 
+      margin: 0; 
+      font-family: "Arial", sans-serif; 
+      background-color: #f9f9f9; 
+      direction: rtl; 
+    }
+    header { 
+      background-color: #f4b400; 
+      color: white; 
+      text-align: center; 
+      padding: 20px; 
+    }
+    .logo { 
+      width: 60px; 
+      margin-bottom: 10px; 
+    }
+    .school-title { 
+      font-size: 24px; 
+      margin: 0; 
+    }
+    .container { 
+      max-width: 1200px; 
+      margin: 20px auto; 
+      padding: 15px; 
+    }
+    .info { 
+      text-align: center; 
+      margin-bottom: 20px; 
+    }
+    .info h2 { 
+      margin: 10px 0; 
+      font-size: 20px; 
+    }
+    .card { 
+      background: white; 
+      border-radius: 10px; 
+      padding: 15px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1); 
+      overflow-x: auto; 
+    }
+    .card h3 { 
+      color: #38b6b2; 
+      border-bottom: 1px solid #ddd; 
+      padding-bottom: 5px; 
+      margin-bottom: 10px; 
+      font-size: 20px; 
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      font-size: 15px; 
+      min-width: 600px; 
+    }
+    th, td { 
+      border: 1px solid #ccc; 
+      padding: 10px; 
+      text-align: center; 
+    }
+    th { 
+      background-color: #f4b400; 
+      color: white; 
+    }
+    .footer { 
+      text-align: center; 
+      font-size: 14px; 
+      margin: 20px 0; 
+      color: #444; 
+    }
+    .fail { 
+      color: red; 
+      font-weight: bold; 
+    }
+    .admin-box {
+      background: #e3f2fd;
+      border: 1px solid #90caf9;
+      padding: 15px;
+      margin: 15px auto;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0d47a1;
+    }
+    .pdf-btn {
+      display: block;
+      margin: 20px auto;
+      background: #38b6b2;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+  <!-- زر القائمة (3 خطوط) -->
+  <div class="menu-btn" id="menu-btn">&#9776;</div>
+
+  <!-- القائمة الجانبية -->
+  <div class="sidebar" id="sidebar">
+    <button id="darkToggle">🌙 الوضع المظلم</button>
+    <button id="gradesBtn">📊 درجاتي</button>
+    <button id="scheduleBtn">📅 جدول الأسبوع</button>
+    <button id="activitiesBtn">📖 جدول النشاطات</button>
+    <a href="https://facebook.com" target="_blank">📘 فيسبوك</a>
+    <a href="https://t.me" target="_blank">✈️ تليجرام</a>
+  </div>
+
   <header>
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-    <h1 id="studentName">مرحبا بالطالب</h1>
+    <img src="logo.png" alt="شعار المدرسة" class="logo">
+    <h1 class="school-title">إعدادية رافدين للبنين</h1>
   </header>
 
-  <aside id="sidebar" class="sidebar">
-    <a href="#" onclick="showSection('gradesSection')">📊 الدرجات</a>
-    <a href="#" onclick="showSection('honorSection')">🏆 لوحة الشرف</a>
-    <a href="#" onclick="showSection('scheduleSection')">📅 الجدول الأسبوعي</a>
-    <a href="#" onclick="downloadPDF()">📄 تحميل PDF</a>
-    <a href="#" onclick="toggleDarkMode()">🌙 الوضع المظلم</a>
-    <a href="https://facebook.com" target="_blank">فيسبوك</a>
-    <a href="https://t.me" target="_blank">تليجرام</a>
-  </aside>
+  <div class="container">
+    <div class="info">
+      <h2>مرحباً بالطالب</h2>
+      <p>هذه هي لوحة التحكم الخاصة بك.</p>
+    </div>
 
-  <main>
-    <section id="gradesSection">
-      <h2>📊 الدرجات</h2>
-      <table id="gradesTable"></table>
-    </section>
+    <div class="card">
+      <h3>المواد الدراسية</h3>
+      <div id="subjectsTable"></div>
+    </div>
 
-    <section id="honorSection" style="display:none;">
-      <h2>🏆 لوحة الشرف</h2>
-      <table>
-        <tr><th>الاسم</th><th>الصف</th><th>الشعبة</th></tr>
-        <tr><td>أحمد علي</td><td>خامس</td><td>أ</td></tr>
-        <tr><td>محمد حسين</td><td>خامس</td><td>ب</td></tr>
-        <tr><td>زينب كاظم</td><td>رابع</td><td>ج</td></tr>
-        <tr><td>حسن كريم</td><td>سادس</td><td>أ</td></tr>
-      </table>
-    </section>
+    <div class="card">
+      <h3>الإعلانات</h3>
+      <p>هنا تظهر آخر الإعلانات من الإدارة.</p>
+    </div>
 
-    <section id="scheduleSection" style="display:none;">
-      <h2>📅 الجدول الأسبوعي</h2>
-      <table id="scheduleTable"></table>
-    </section>
-  </main>
+    <div class="admin-box">
+      ملاحظة: يمكن لإدارة المدرسة تحديث البيانات مباشرة من النظام.
+    </div>
+
+    <button class="pdf-btn" onclick="window.print()">تحميل النتائج PDF</button>
+
+    <div id="dashboardData">
+      <!-- البيانات القادمة من السكربت -->
+    </div>
+  </div>
+
+  <footer class="footer">
+    &copy; 2025 إعدادية رافدين للبنين – جميع الحقوق محفوظة
+  </footer>
 
   <script src="script.js"></script>
 </body>
