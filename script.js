@@ -1,44 +1,103 @@
-const classMap = {
-  "رابع أ": "r4_a", "رابع ب": "r4_b", "رابع ج": "r4_c", "رابع د": "r4_d", "رابع هـ": "r4_e", "رابع و": "r4_f",
-  "خامس أ": "r5_a", "خامس ب": "r5_b", "خامس ج": "r5_c", "خامس د": "r5_d", "خامس هـ": "r5_e", "خامس و": "r5_f",
-  "سادس أ": "r6_a", "سادس ب": "r6_b", "سادس ج": "r6_c", "سادس د": "r6_d", "سادس هـ": "r6_e", "سادس و": "r6_f"
+// فتح/إغلاق القائمة الجانبية
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+// إظهار قسم معين وإخفاء البقية
+function showSection(sectionId) {
+  document.getElementById("gradesSection").style.display = "none";
+  document.getElementById("honorSection").style.display = "none";
+  document.getElementById("scheduleSection").style.display = "none";
+
+  document.getElementById(sectionId).style.display = "block";
+  toggleSidebar();
+}
+
+// الوضع المظلم (يحفظ في localStorage)
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("theme", "dark");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
+}
+
+// عند تحميل الصفحة، تأكد من استرجاع الوضع
+window.onload = function () {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+  }
+  loadStudentData();
 };
 
-function login() {
-  const code = document.getElementById("code").value.trim().toUpperCase();
-  const studentClass = document.getElementById("class").value.trim();
+// تحميل بيانات الطالب من ملف JSON
+function loadStudentData() {
+  // الكود المفترض أنه مأخوذ من تسجيل الدخول
+  const studentCode = localStorage.getItem("studentCode") || "1234"; 
 
-  if (!code || !studentClass) {
-    alert("يرجى إدخال الكود واختيار الصف.");
-    return;
+  // تحديد ملف الشعبة (مؤقتًا ملف عام واحد)
+  fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
+      const student = data.students.find(s => s.code === studentCode);
+      if (student) {
+        document.getElementById("studentName").textContent = "مرحباً " + student.name;
+        loadGrades(student.grades);
+      }
+      if (data.schedule) {
+        loadSchedule(data.schedule);
+      }
+    })
+    .catch(err => console.error("خطأ في تحميل البيانات:", err));
+}
+
+// عرض الدرجات في جدول
+function loadGrades(grades) {
+  const table = document.getElementById("gradesTable");
+  table.innerHTML = `
+    <tr><th>المادة</th><th>الدرجة</th></tr>
+  `;
+  for (let subject in grades) {
+    table.innerHTML += `
+      <tr><td>${subject}</td><td>${grades[subject]}</td></tr>
+    `;
   }
+}
 
-  const key = classMap[studentClass];
-  if (!key) {
-    alert("الصف غير معروف.");
-    return;
+// عرض الجدول الأسبوعي في جدول
+function loadSchedule(schedule) {
+  const table = document.getElementById("scheduleTable");
+  table.innerHTML = `
+    <tr>
+      <th>اليوم</th>
+      <th>الحصة 1</th>
+      <th>الحصة 2</th>
+      <th>الحصة 3</th>
+      <th>الحصة 4</th>
+      <th>الحصة 5</th>
+      <th>الحصة 6</th>
+    </tr>
+  `;
+  for (let day in schedule) {
+    let row = <tr><td>${day}</td>;
+    schedule[day].forEach(period => {
+      row += <td>${period}</td>;
+    });
+    row += "</tr>";
+    table.innerHTML += row;
   }
+}
 
-  const script = document.createElement("script");
-  script.src = `student_data_files/data_${key}.js`;
-  script.onload = function () {
-    if (typeof students === "undefined") {
-      alert("تعذر تحميل بيانات الطلاب.");
-      return;
-    }
-
-    const student = students.find(s => s["الكود"] === code);
-    if (!student) {
-      alert("الكود غير صحيح أو لا ينتمي للصف المحدد.");
-      return;
-    }
-
-    localStorage.setItem("studentData", JSON.stringify(student));
-    window.location.href = "dashboard.html";
+// تحميل الصفحة كـ PDF
+function downloadPDF() {
+  const element = document.body;
+  const opt = {
+    margin:       0.5,
+    filename:     'student-report.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
-  script.onerror = function () {
-    alert("تعذر تحميل بيانات الصف المحدد. تأكد من اختيار الصف الصحيح.");
-  };
-
-  document.body.appendChild(script);
+  html2pdf().from(element).set(opt).save();
 }
