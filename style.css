@@ -1,23 +1,25 @@
-body{margin:0;font-family:"Tahoma",sans-serif;background:#f5f5f5;color:#333;transition:0.3s;}
-header{display:flex;justify-content:space-between;align-items:center;background:#004d99;color:#fff;padding:10px 20px;}
-header h1{margin:0;font-size:20px;}
-header button{background:#F4BE45;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;}
-.app-wrap{max-width:1100px;margin:20px auto;display:flex;gap:20px;}
-.sidebar{width:250px;background:#222;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
-.sidebar button{width:100%;padding:10px;margin:6px 0;background:#444;color:#fff;border:none;border-radius:6px;cursor:pointer;}
-.sidebar button.active{background:#F4BE45;color:#000;}
-.main{flex:1;background:#fff;padding:18px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-.hidden{display:none;}
-table{width:100%;border-collapse:collapse;}
-th,td{border:1px solid #ccc;padding:8px;text-align:center;}
-th{background:#004d99;color:#fff;}
-tr:nth-child(even){background:#f2f2f2;}
-body.dark{background:#121212;color:#e0e0e0;}
-body.dark header{background:#1e1e1e;}
-body.dark th{background:#333;}
-body.dark td{border-color:#555;}
-.login-container{background:#fff;padding:25px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.15);width:300px;text-align:center;margin:auto;top:0;position:absolute;left:0;right:0;}
-.login-container input,.login-container select,.login-container button{width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;font-size:14px;}
-.login-container button{background:#004d99;color:#fff;border:none;cursor:pointer;}
-.login-container button:hover{background:#003366;}
-.login-container .logo{width:80px;margin-bottom:15px;}
+body { margin:0; font-family:"Tahoma",sans-serif; background:#f5f5f5; color:#333; transition:0.3s; }
+.login-container { width:300px; margin:100px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); text-align:center; }
+.login-container input, .login-container select { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px; }
+.login-container button { width:100%; padding:10px; background:#004d99; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px; }
+.login-container button:hover { background:#0066cc; }
+.login-container .logo { width:100px; margin-bottom:10px; }
+
+/* داشبورد */
+header { display:flex; justify-content:space-between; align-items:center; background:#004d99; color:white; padding:10px 20px; }
+header button { background:#f4be45; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; }
+.app-wrap { display:flex; }
+.sidebar { width:200px; background:#222; padding-top:20px; }
+.sidebar button { display:block; width:100%; padding:10px; color:white; background:none; border:none; text-align:right; cursor:pointer; margin-bottom:2px; }
+.sidebar button.active, .sidebar button:hover { background:#575757; }
+.main { flex:1; padding:20px; }
+.hidden { display:none; }
+table { width:100%; border-collapse:collapse; margin-top:10px; }
+th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+th { background:#004d99; color:white; }
+
+/* الوضع المظلم */
+body.dark { background:#121212; color:#e0e0e0; }
+body.dark header { background:#1e1e1e; }
+body.dark table { background:#1e1e1e; color:#e0e0e0; }
+body.dark th { background:#333; }
