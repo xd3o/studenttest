@@ -1,158 +1,157 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>نتائج الطالب – إعدادية رافدين</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body { 
-      margin: 0; 
-      font-family: "Arial", sans-serif; 
-      background-color: #f9f9f9; 
-      direction: rtl; 
-    }
-    header { 
-      background-color: #f4b400; 
-      color: white; 
-      text-align: center; 
-      padding: 20px; 
-    }
-    .logo { 
-      width: 60px; 
-      margin-bottom: 10px; 
-    }
-    .school-title { 
-      font-size: 24px; 
-      margin: 0; 
-    }
-    .container { 
-      max-width: 1200px; 
-      margin: 20px auto; 
-      padding: 15px; 
-    }
-    .info { 
-      text-align: center; 
-      margin-bottom: 20px; 
-    }
-    .info h2 { 
-      margin: 10px 0; 
-      font-size: 20px; 
-    }
-    .card { 
-      background: white; 
-      border-radius: 10px; 
-      padding: 15px; 
-      margin-bottom: 20px; 
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1); 
-      overflow-x: auto; 
-    }
-    .card h3 { 
-      color: #38b6b2; 
-      border-bottom: 1px solid #ddd; 
-      padding-bottom: 5px; 
-      margin-bottom: 10px; 
-      font-size: 20px; 
-    }
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      font-size: 15px; 
-      min-width: 600px; 
-    }
-    th, td { 
-      border: 1px solid #ccc; 
-      padding: 10px; 
-      text-align: center; 
-    }
-    th { 
-      background-color: #f4b400; 
-      color: white; 
-    }
-    .footer { 
-      text-align: center; 
-      font-size: 14px; 
-      margin: 20px 0; 
-      color: #444; 
-    }
-    .fail { 
-      color: red; 
-      font-weight: bold; 
-    }
-    .admin-box {
-      background: #e3f2fd;
-      border: 1px solid #90caf9;
-      padding: 15px;
-      margin: 15px auto;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      color: #0d47a1;
-    }
-    .pdf-btn {
-      display: block;
-      margin: 20px auto;
-      background: #38b6b2;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>لوحة الطالب - إعدادية رافدين</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+/* إضافات تنسيقية للداشبورد الحديث (متوافقة مع الستايل الموجود) */
+.app-wrap { max-width:1100px; margin: 30px auto; display: flex; gap: 20px; padding: 20px; }
+.sidebar { width: 250px; background: rgba(255,255,255,0.98); border-radius:8px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); height:fit-content; }
+.sidebar .logo-small { display:block; margin: 0 auto 10px auto; }
+.sidebar button { width:100%; text-align:right; padding:10px 12px; margin:6px 0; font-size:15px; cursor:pointer; border-radius:6px; border:1px solid rgba(0,0,0,0.06); background:#fff; }
+.sidebar button.active { background: linear-gradient(90deg,#F4BE45,#54B8C2); color:#fff; border:none; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+.main { flex:1; background: rgba(255,255,255,0.98); border-radius:8px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.student-card { display:flex; gap:14px; align-items:center; margin-bottom:14px; }
+.student-info { flex:1; }
+.student-info h2 { margin:0 0 6px 0; font-size:20px; }
+.student-meta { color:#555; font-size:14px; }
+.admin-message { margin:12px 0; padding:12px; background: #fff6e6; border-left:4px solid #F4BE45; border-radius:6px; display:none; }
+.news-list { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:10px; }
+.news-card { padding:12px; border-radius:8px; background:#fafafa; border:1px solid #eee; }
+.news-card h4 { margin:0 0 6px 0; font-size:15px; }
+.news-card time { color:#777; font-size:13px; }
+
+.section { margin-top:14px; }
+.hidden { display:none; }
+
+.light-muted { color:#666; font-size:13px; }
+
+/* Dark mode quick override */
+body.dark .main, body.dark .sidebar { background: rgba(32,32,32,0.86); color:#e9eef1; }
+body.dark .news-card { background: rgba(0,0,0,0.45); border-color: rgba(255,255,255,0.06); }
+body.dark .admin-message { background: rgba(255,255,255,0.03); border-left-color: #F4BE45; color:#fff; }
+
+@media (max-width:900px){
+  .app-wrap{ flex-direction:column; padding:12px; margin:12px; }
+  .sidebar{ width:100%; display:flex; gap:10px; overflow-x:auto; }
+  .sidebar button{ flex:0 0 auto; white-space:nowrap; }
+}
+</style>
 </head>
 <body>
-  <!-- زر القائمة (3 خطوط) -->
-  <div class="menu-btn" id="menu-btn">&#9776;</div>
-
-  <!-- القائمة الجانبية -->
-  <div class="sidebar" id="sidebar">
-    <button id="darkToggle">🌙 الوضع المظلم</button>
-    <button id="gradesBtn">📊 درجاتي</button>
-    <button id="scheduleBtn">📅 جدول الأسبوع</button>
-    <button id="activitiesBtn">📖 جدول النشاطات</button>
-    <a href="https://facebook.com" target="_blank">📘 فيسبوك</a>
-    <a href="https://t.me" target="_blank">✈️ تليجرام</a>
-  </div>
-
-  <header>
-    <img src="logo.png" alt="شعار المدرسة" class="logo">
-    <h1 class="school-title">إعدادية رافدين للبنين</h1>
-  </header>
-
-  <div class="container">
-    <div class="info">
-      <h2>مرحباً بالطالب</h2>
-      <p>هذه هي لوحة التحكم الخاصة بك.</p>
-    </div>
-
-    <div class="card">
-      <h3>المواد الدراسية</h3>
-      <div id="subjectsTable"></div>
-    </div>
-
-    <div class="card">
-      <h3>الإعلانات</h3>
-      <p>هنا تظهر آخر الإعلانات من الإدارة.</p>
-    </div>
-
-    <div class="admin-box">
-      ملاحظة: يمكن لإدارة المدرسة تحديث البيانات مباشرة من النظام.
-    </div>
-
-    <button class="pdf-btn" onclick="window.print()">تحميل النتائج PDF</button>
-
-    <div id="dashboardData">
-      <!-- البيانات القادمة من السكربت -->
+<header style="direction:rtl;padding:12px 20px;background:linear-gradient(90deg,#54B8C2,#F4BE45);color:white">
+  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center">
+    <div style="font-weight:700">إعدادية رافدين - لوحة الطالب</div>
+    <div id="top-quick" style="display:flex;gap:10px;align-items:center">
+      <button id="logoutBtn" style="padding:6px 8px;border-radius:6px;border:none;cursor:pointer">تسجيل الخروج</button>
     </div>
   </div>
+</header>
 
-  <footer class="footer">
-    &copy; 2025 إعدادية رافدين للبنين – جميع الحقوق محفوظة
-  </footer>
+<div class="app-wrap">
+  <aside class="sidebar" aria-label="القائمة الجانبية">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="logo" class="logo-small" />
+    <button id="btn-home" class="active">الرئيسية</button>
+    <button id="btn-grades">درجاتي</button>
+    <button id="btn-timetable">جدول الأسبوعي</button>
+    <button id="btn-activities">جدول النشاطات</button>
+    <button id="btn-dark">الوضع المظلم</button>
+    <button id="btn-contact">تواصل معنا</button>
+  </aside>
 
-  <script src="script.js"></script>
+  <main class="main" role="main">
+    <!-- Home / Student card -->
+    <section id="home-section">
+      <div class="student-card">
+        <div style="width:82px;height:82px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:28px;color:#777">👩‍🎓</div>
+        <div class="student-info">
+          <h2 id="student-name">اسم الطالب</h2>
+          <div class="student-meta"><span id="student-class">الصف</span> — شعبة <span id="student-section">شعبة</span></div>
+        </div>
+      </div>
+
+      <div id="admin-msg" class="admin-message" aria-live="polite"></div>
+
+      <div class="section">
+        <h3 style="margin:0 0 8px 0">الأخبار</h3>q('#grades-container').innerHTML = html;
+  }
+  renderGrades(grades);
+
+  // render timetable if exists
+  const timetable = student['الجدول']  student['الاسبوعي']  student['timetable'] || null;
+  function renderTimetable(tt){
+    if(!tt){ q('#timetable-container').innerHTML = '<p class="light-muted">لا يتوفر جدول أسبوعي لهذا الطالب.</p>'; return; }
+    // expect tt as object mapping day->array
+    let html = '<div style="overflow:auto"><table><thead><tr><th>اليوم</th><th>الحصة 1</th><th>الحصة 2</th><th>الحصة 3</th><th>الحصة 4</th><th>الحصة 5</th><th>الحصة 6</th></tr></thead><tbody>';
+    const days = Object.keys(tt);
+    for(const d of days){
+      const row = tt[d];
+      html += '<tr><td>'+d+'</td>';
+      for(let i=0;i<6;i++){
+        html += '<td>'+(row && row[i]?row[i]:'—')+'</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    q('#timetable-container').innerHTML = html;
+  }
+  renderTimetable(timetable);
+}
+
+// load news (news.json) and show last up to 3 sorted by date desc
+fetch('news.json').then(r=>{
+  if(!r.ok) throw new Error('news fetch failed');
+  return r.json();
+}).then(list=>{
+  if(!Array.isArray(list)) return;
+  // sort by date if present
+  list.sort((a,b)=> (new Date(b.date||b.created_at)) - (new Date(a.date||a.created_at)));
+  const max = 3;
+  const show = list.slice(0,max);
+  const container = q('#news-container');
+  container.innerHTML='';
+  show.forEach(n=>{
+    const card = document.createElement('article');
+    card.className='news-card';
+    const title = document.createElement('h4');
+    title.textContent = n.title  n.title_ar  'خبر';
+    const time = document.createElement('time');
+    time.textContent = n.date ? formatDate(n.date) : (n.created_at?formatDate(n.created_at):'');
+    const desc = document.createElement('div');
+    desc.style.marginTop='6px';
+    desc.style.fontSize='14px';
+    desc.style.color='#444';
+    desc.textContent = n.description  n.desc  '';
+    card.appendChild(title);
+    if(time.textContent) card.appendChild(time);
+    if(desc.textContent) card.appendChild(desc);
+    container.appendChild(card);
+  });
+}).catch(err=>{ console.warn('news load err',err); });
+
+// sidebar buttons
+q('#btn-home').addEventListener('click',()=> showSection('home-section'));
+q('#btn-grades').addEventListener('click',()=> showSection('grades-section'));
+q('#btn-timetable').addEventListener('click',()=> showSection('timetable-section'));
+q('#btn-activities').addEventListener('click',()=> showSection('activities-section'));
+q('#btn-contact').addEventListener('click',()=> showSection('contact-section'));
+
+// dark mode toggle
+const darkBtn = q('#btn-dark');
+darkBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  darkBtn.classList.toggle('active');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark') ? '1' : '0');
+});
+if(localStorage.getItem('darkMode')==='1'){ document.body.classList.add('dark'); darkBtn.classList.add('active'); }
+
+// logout
+q('#logoutBtn').addEventListener('click', ()=>{
+  localStorage.removeItem('studentData');
+  window.location.href='index.html';
+});
+</script>
 </body>
 </html>
