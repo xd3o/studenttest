@@ -5,17 +5,11 @@ if(document.getElementById('loginBtn')){
     const cls = document.getElementById('class').value;
     if(!code || !cls){ alert('يرجى إدخال الكود واختيار الصف'); return; }
 
-    // جلب بيانات الصف من مجلد البيانات
     fetch(`data.storage.data.file/${cls}.json`)
       .then(res => res.json())
       .then(data => {
-        // البحث عن الطالب بالكود
         const student = data.students.find(s => s.code === code || s.الكود === code);
-        if(!student){
-          alert('الكود غير موجود في هذا الصف.');
-          return;
-        }
-        // حفظ البيانات للداشبورد
+        if(!student){ alert('الكود غير موجود في هذا الصف.'); return; }
         localStorage.setItem('studentCode', code);
         localStorage.setItem('studentClass', cls);
         localStorage.setItem('studentData', JSON.stringify(student));
