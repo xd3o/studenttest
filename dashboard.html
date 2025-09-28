@@ -1,73 +1,58 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>لوحة الطالب - إعدادية رافدين</title>
-<link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة الطالب – إعدادية رافدين</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header style="direction:rtl;padding:12px 20px;background:linear-gradient(90deg,#54B8C2,#F4BE45);color:white">
-  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center">
-    <div style="font-weight:700">إعدادية رافدين - لوحة الطالب</div>
-    <button id="logoutBtn" style="padding:6px 8px;border-radius:6px;border:none;cursor:pointer">تسجيل الخروج</button>
+
+<header>
+  <div class="header-inner">
+    <div>إعدادية رافدين - لوحة الطالب</div>
+    <button id="menu-btn">☰</button>
   </div>
 </header>
 
-<div class="app-wrap">
-  <aside class="sidebar" aria-label="القائمة الجانبية">
-    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="logo" class="logo-small" />
-    <button id="btn-home" class="active">الرئيسية</button>
-    <button id="btn-grades">درجاتي</button>
-    <button id="btn-timetable">جدول الأسبوعي</button>
-    <button id="btn-activities">النشاطات</button>
-    <button id="btn-dark">الوضع المظلم</button>
-    <button id="btn-contact">تواصل معنا</button>
-  </aside>
-
-  <main class="main" role="main">
-    <!-- Home -->
-    <section id="home-section">
-      <div class="student-card">
-        <div style="width:82px;height:82px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:28px;color:#777">👩‍🎓</div>
-        <div class="student-info">
-          <h2 id="student-name">اسم الطالب</h2>
-          <div class="student-meta"><span id="student-class">الصف</span> — شعبة <span id="student-section">شعبة</span></div>
-        </div>
-      </div>
-      <div id="admin-msg" class="admin-message"></div>
-      <div class="section">
-        <h3 style="margin:0 0 8px 0">الأخبار</h3>
-        <div id="news-container" class="news-list"></div>
-      </div>
-    </section>
-
-    <!-- Grades -->
-    <section id="grades-section" class="hidden section">
-      <h3>درجاتي</h3>
-      <div id="grades-container"></div>
-    </section>
-
-    <!-- Timetable -->
-    <section id="timetable-section" class="hidden section">
-      <h3>جدول الأسبوعي</h3>
-      <div id="timetable-container"></div>
-    </section>
-
-    <!-- Activities -->
-    <section id="activities-section" class="hidden section">
-      <h3>النشاطات</h3>
-      <div id="activities-container"><p class="light-muted">لا توجد نشاطات حالياً.</p></div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact-section" class="hidden section">
-      <h3>تواصل معنا</h3>
-      <p class="light-muted">روابط التواصل قابلة للتعديل من قبل الإدارة.</p>
-      <div style="margin-top:10px"><a id="fb-link" href="#" target="_blank">فيسبوك</a> — <a id="tg-link" href="#" target="_blank">تيليجرام</a></div>
-    </section>
-  </main>
+<div class="sidebar" id="sidebar">
+  <button id="btn-home" class="active">الرئيسية</button>
+  <button id="btn-grades">درجاتي</button>
+  <button id="btn-timetable">جدول الأسبوعي</button>
+  <button id="btn-activities">النشاطات</button>
+  <button id="btn-dark">الوضع المظلم</button>
+  <button id="logoutBtn">تسجيل الخروج</button>
 </div>
+
+<main class="main">
+  <section id="home-section">
+    <div class="student-card">
+      <div class="avatar">👩‍🎓</div>
+      <div class="student-info">
+        <h2 id="student-name">اسم الطالب</h2>
+        <div><span id="student-class">الصف</span> — شعبة <span id="student-section">الشعبة</span></div>
+      </div>
+    </div>
+    <div id="admin-msg" class="admin-message"></div>
+    <h3>آخر الأخبار</h3>
+    <div id="news-container" class="news-list"></div>
+  </section>
+
+  <section id="grades-section" class="hidden">
+    <h3>درجات الطالب</h3>
+    <div id="grades-container"></div>
+  </section>
+
+  <section id="timetable-section" class="hidden">
+    <h3>الجدول الأسبوعي</h3>
+    <div id="timetable-container"></div>
+  </section>
+
+  <section id="activities-section" class="hidden">
+    <h3>النشاطات</h3>
+    <div id="activities-container">لا توجد نشاطات حالياً.</div>
+  </section>
+</main>
 
 <script src="script.js"></script>
 </body>
