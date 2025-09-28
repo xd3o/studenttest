@@ -4,275 +4,250 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>لوحة الطالب - إعدادية رافدين</title>
+<link rel="stylesheet" href="style.css" />
 <style>
 body {
+  font-family: 'Tahoma', sans-serif;
   margin:0;
-  font-family:"Arial",sans-serif;
-  background: url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center top;
+  background: url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center center fixed;
   background-size: cover;
-  direction: rtl;
 }
-header{
-  background: linear-gradient(90deg,#F4BE45,#54B8C2);
+header {
+  background: linear-gradient(90deg,#54B8C2,#F4BE45);
   color:white;
   padding:12px 20px;
-  text-align:center;
-  font-weight:700;
 }
-.app-wrap{
+header .top-bar {
   max-width:1100px;
-  margin:20px auto;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header .top-bar .logo-small { width:50px; }
+header .top-bar button { padding:6px 8px;border-radius:6px;border:none;cursor:pointer;background:white;color:#333; }
+
+.app-wrap {
+  max-width:1100px;
+  margin:30px auto;
   display:flex;
   gap:20px;
+  padding:20px;
   position:relative;
 }
-.sidebar{
+
+/* القائمة الجانبية - مخفية افتراضيًا */
+.sidebar {
+  width:250px;
+  background: rgba(255,255,255,0.95);
+  border-radius:8px;
+  padding:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  height:100%;
   position:fixed;
   top:0;
-  right:-25%;
-  width:25%;
-  height:100%;
-  background:white;
-  border-radius:0 0 0 8px;
-  padding:12px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.06);
-  transition:right 0.3s ease;
+  right:-260px; /* مخفية خارج الشاشة */
+  transition: right 0.3s ease;
   z-index:1000;
 }
-.sidebar.active{
-  right:0;
-}
-.sidebar .logo-small{
-  display:block;
-  margin:0 auto 10px auto;
-}
-.sidebar button{
-  width:100%;
-  text-align:right;
-  padding:10px 12px;
-  margin:6px 0;
-  font-size:15px;
-  cursor:pointer;
-  border-radius:6px;
-  border:1px solid rgba(0,0,0,0.06);
-  background:#fff;
-}
-.sidebar button.active{
-  background: linear-gradient(90deg,#F4BE45,#54B8C2);
-  color:white;
-  border:none;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-.main{
-  flex:1;
-  background: rgba(255,255,255,0.98);
-  border-radius:8px;
-  padding:18px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.06);
-  min-width:0;
-}
-.student-card{
-  display:flex;
-  gap:14px;
-  align-items:center;
-  margin-bottom:14px;
-}
-.student-info h2{margin:0 0 6px 0;font-size:20px;}
-.student-meta{color:#555;font-size:14px;}
-.admin-message{
-  margin:12px 0;
-  padding:12px;
-  background:#fff6e6;
-  border-left:4px solid #F4BE45;
-  border-radius:6px;
-  display:none;
-}
-.card{background:white;border-radius:8px;padding:12px;margin-bottom:20px;overflow-x:auto;}
-.card h3{color:#38b6b2;margin-bottom:10px;border-bottom:1px solid #ddd;padding-bottom:5px;}
-table{width:100%;border-collapse:collapse;font-size:15px;min-width:600px;}
-th,td{border:1px solid #ccc;padding:10px;text-align:center;}
-th{background:#F4BE45;color:white;}
-.fail{color:red;font-weight:bold;}
-.hidden{display:none;}
-#menuBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:#54B8C2;
-  border:none;
-  color:white;
-  padding:12px;
-  font-size:20px;
-  border-radius:6px;
-  cursor:pointer;
-  z-index:1100;
-}
+.sidebar.active { right:0; }
+.sidebar .logo-small { display:block; margin:0 auto 10px auto; }
+.sidebar button { width:100%; text-align:right; padding:10px 12px; margin:6px 0; font-size:15px; cursor:pointer; border-radius:6px; border:1px solid rgba(0,0,0,0.06); background:#fff; }
+.sidebar button.active { background: linear-gradient(90deg,#F4BE45,#54B8C2); color:#fff; border:none; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+
+/* محتوى رئيسي */
+.main { flex:1; background: rgba(255,255,255,0.95); border-radius:8px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.student-card { display:flex; gap:14px; align-items:center; margin-bottom:14px; }
+.student-info { flex:1; }
+.student-info h2 { margin:0 0 6px 0; font-size:20px; }
+.student-meta { color:#555; font-size:14px; }
+.admin-message { margin:12px 0; padding:12px; background: #fff6e6; border-left:4px solid #F4BE45; border-radius:6px; display:none; }
+.section { margin-top:14px; }
+.hidden { display:none; }
+table { width:100%; border-collapse:collapse; margin-top:10px; }
+th, td { border:1px solid #ddd; padding:8px; text-align:center; font-size:14px; }
+th { background:#F4BE45; color:white; }
+td.fail { color:red; font-weight:bold; }
+
 @media(max-width:900px){
-  .app-wrap{flex-direction:column;padding:12px;margin:12px;}
-  .sidebar{width:70%;}
-  table{font-size:13px;min-width:auto;}
+  .app-wrap{ flex-direction:column; padding:12px; margin:12px; }
 }
 </style>
 </head>
 <body>
-
-<header>إعدادية رافدين - لوحة الطالب</header>
-
-<button id="menuBtn">☰</button>
-
-<div class="app-wrap">
-
-<aside class="sidebar" aria-label="القائمة الجانبية">
-  <img src="https://e.top4top.io/p_34909jjnx0.png" alt="logo" class="logo-small" />
-  <button id="btn-home" class="active">الرئيسية</button>
-  <button id="btn-grades">درجاتي</button>
-  <button id="btn-timetable">جدول الأسبوعي</button>
-  <button id="btn-activities">جدول النشاطات</button>
-  <button id="btn-dark">الوضع المظلم</button>
-  <button id="btn-contact">تواصل معنا</button>
-</aside>
-
-<main class="main" role="main">
-
-<section id="home-section">
-  <div class="student-card">
-    <div style="width:82px;height:82px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:28px;color:#777">👩‍🎓</div>
-    <div class="student-info">
-      <h2 id="student-name">اسم الطالب</h2>
-      <div class="student-meta"><span id="student-class">الصف</span> — شعبة <span id="student-section">شعبة</span></div>
+<header>
+  <div class="top-bar">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" class="logo-small" />
+    <div>
+      <button id="menu-btn">☰ القائمة</button>
+      <button id="logoutBtn">تسجيل الخروج</button>
     </div>
   </div>
-  <div id="admin-msg" class="admin-message" aria-live="polite"></div>
-</section>
+</header>
 
-<section id="grades-section" class="hidden">
-  <div class="card">
-    <h3>الكورس الأول</h3>
-    <table>
-      <thead>
-        <tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 1</th><th>نصف السنة</th></tr>
-      </thead>
-      <tbody id="course1-body"></tbody>
-    </table>
-  </div>
-  <div class="card">
-    <h3>الكورس الثاني</h3>
-    <table>
-      <thead>
-        <tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 2</th><th>السعي السنوي</th><th>النهائي</th><th>بعد الإكمال</th></tr>
-      </thead>
-      <tbody id="course2-body"></tbody>
-    </table>
-  </div>
-</section>
+<div class="app-wrap">
+  <aside class="sidebar" id="sidebar">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="logo-small" />
+    <button id="btn-home" class="active">الرئيسية</button>
+    <button id="btn-grades">درجاتي</button>
+    <button id="btn-timetable">جدول الأسبوعي</button>
+    <button id="btn-activities">جدول النشاطات</button>
+    <button id="btn-dark">الوضع المظلم</button>
+    <button id="btn-contact">تواصل معنا</button>
+  </aside>
 
-<section id="timetable-section" class="hidden">
-  <div class="card">
-    <h3>جدول الأسبوعي</h3>
-    <table>
-      <thead><tr><th>اليوم</th><th>الحصة 1</th><th>الحصة 2</th><th>الحصة 3</th><th>الحصة 4</th><th>الحصة 5</th><th>الحصة 6</th></tr></thead>
-      <tbody id="schedule-body"></tbody>
-    </table>
-  </div>
-</section>
+  <main class="main">
+    <section id="home-section">
+      <div class="student-card">
+        <div style="width:82px;height:82px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:28px;color:#777">👩‍🎓</div>
+        <div class="student-info">
+          <h2 id="student-name">اسم الطالب</h2>
+          <div class="student-meta"><span id="student-class">الصف</span> — شعبة <span id="student-section">شعبة</span></div>
+        </div>
+      </div>
+      <div id="admin-msg" class="admin-message"></div>
+    </section>
 
-<section id="activities-section" class="hidden">
-  <div class="card">
-    <h3>جدول النشاطات</h3>
-    <table id="activities-table">
-      <thead><tr><th>النشاط</th><th>اليوم</th><th>التاريخ</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
+    <section id="grades-section" class="hidden section">
+      <h3>درجاتي</h3>
+      <div id="grades-container"></div>
+    </section>
 
-<section id="contact-section" class="hidden">
-  <h3>تواصل معنا</h3>
-  <p class="light-muted">روابط التواصل قابلة للتعديل من قبل الإدارة.</p>
-  <div style="margin-top:10px"><a id="fb-link" href="#" target="_blank">فيسبوك</a> — <a id="tg-link" href="#" target="_blank">تيليجرام</a></div>
-</section>
+    <section id="timetable-section" class="hidden section">
+      <h3>جدول الأسبوعي</h3>
+      <div id="timetable-container"></div>
+    </section>
 
-</main>
+    <section id="activities-section" class="hidden section">
+      <h3>جدول النشاطات</h3>
+      <div id="activities-container"><p class="light-muted">لا توجد نشاطات حالياً.</p></div>
+    </section>
+
+    <section id="contact-section" class="hidden section">
+      <h3>تواصل معنا</h3>
+      <p class="light-muted">روابط التواصل قابلة للتعديل من قبل الإدارة.</p>
+    </section>
+  </main>
 </div>
 
 <script>
-// Helpers
+// helpers
 function q(sel){ return document.querySelector(sel); }
 function showSection(id){
   document.querySelectorAll('.main section').forEach(s=>s.classList.add('hidden'));
-  const el = document.getElementById(id); if(el) el.classList.remove('hidden');
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('hidden');
   document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
   const map = { 'home-section':'btn-home','grades-section':'btn-grades','timetable-section':'btn-timetable','activities-section':'btn-activities','contact-section':'btn-contact' };
   const btn = document.getElementById(map[id]);
   if(btn) btn.classList.add('active');
-  // عند اختيار أي زر، اخفاء القائمة الجانبية
-  document.querySelector('.sidebar').classList.remove('active');
+  // إخفاء القائمة الجانبية بعد اختيار أي زر
+  q('#sidebar').classList.remove('active');
 }
 
 // load student
 const student = JSON.parse(localStorage.getItem('studentData') || 'null');
-if(!student){ alert('لم يتم العثور على بيانات الطالب. الرجاء تسجيل الدخول.'); window.location.href='index.html'; }
+if(!student){
+  alert('لم يتم العثور على بيانات الطالب. يرجى تسجيل الدخول.');
+  window.location.href='index.html';
+} else {
+  q('#student-name').textContent = student['الاسم'] || '—';
+  q('#student-class').textContent = student['الصف'] || '—';
+  q('#student-section').textContent = student['الشعبة'] || '—';
 
-// student info
-q('#student-name').textContent = student['الاسم']||'—';
-q('#student-class').textContent = student['الصف']||'—';
-q('#student-section').textContent = student['الشعبة']||'—';
+  // admin message
+  if(student['رسالة'] && student['رسالة'].trim()!==''){
+    q('#admin-msg').style.display='block';
+    q('#admin-msg').textContent = student['رسالة'];
+  }
 
-// admin msg
-let msg = student['رسالة_الإدارة']||student['adminMessage']||'';
-if(msg){ q('#admin-msg').style.display='block'; q('#admin-msg').innerHTML=msg.replace(/\n/g,'<br>'); }
+  // render grades
+  const grades = student['الدرجات'];
+  if(grades){
+    let html = '<table><thead><tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 1</th><th>نصف السنة</th><th>سعي 2</th><th>النهائي</th><th>بعد الإكمال</th></tr></thead><tbody>';
+    for(const subj in grades){
+      const g = grades[subj];
+      html += `<tr>
+        <td>${subj}</td>
+        <td class="${g['شهر1']<50?'fail':''}">${g['شهر1']??'—'}</td>
+        <td class="${g['شهر2']<50?'fail':''}">${g['شهر2']??'—'}</td>
+        <td class="${g['شهر3']<50?'fail':''}">${g['شهر3']??'—'}</td>
+        <td class="${g['سعي1']<50?'fail':''}">${g['سعي1']??'—'}</td>
+        <td class="${g['نصف السنة']<50?'fail':''}">${g['نصف السنة']??'—'}</td>
+        <td class="${g['سعي2']<50?'fail':''}">${g['سعي2']??'—'}</td>
+        <td class="${g['النهائي']<50?'fail':''}">${g['النهائي']??'—'}</td>
+        <td class="${g['الإكمال']<50?'fail':''}">${g['الإكمال']??'—'}</td>
+      </tr>`;
+    }
+    html+='</tbody></table>';
+    q('#grades-container').innerHTML=html;
+  } else {
+    q('#grades-container').innerHTML='<p class="light-muted">لا تتوفر بيانات درجات.</p>';
+  }
 
-// درجات
-const grades = student['الدرجات']||{};
-const c1 = q('#course1-body'), c2 = q('#course2-body');
-for(const sub in grades){
-  const g = grades[sub];
-  const fail = v => (v<50?`<td class="fail">${v}</td>`:`<td>${v}</td>`);
-  c1.innerHTML += `<tr><td>${sub}</td><td>${g["الشهر الأول"]||0}</td><td>${g["الشهر الثاني"]||0}</td><td>${g["الشهر الثالث"]||0}</td><td>${g["السعي الأول"]||0}</td>${fail(g["نصف السنة"]||0)}</tr>`;
-  c2.innerHTML += `<tr><td>${sub}</td><td>${g["الكورس الثاني - الشهر الأول"]||0}</td><td>${g["الكورس الثاني - الشهر الثاني"]||0}</td><td>${g["الكورس الثاني - الشهر الثالث"]||0}</td><td>${g["السعي الثاني"]||0}</td><td>${g["السعي السنوي"]||0}</td>${fail(g["النهائي"]||0)}${fail(g["بعد الإكمال"]||0)}</tr>`;
+  // timetable
+  const tt = student['الجدول'];
+  if(tt){
+    let html = '<table><thead><tr><th>اليوم</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody>';
+    for(const day in tt){
+      html+='<tr><td>'+day+'</td>';
+      for(let i=0;i<6;i++){
+        html+='<td>'+(tt[day][i]??'—')+'</td>';
+      }
+      html+='</tr>';
+    }
+    html+='</tbody></table>';
+    q('#timetable-container').innerHTML=html;
+  }
 }
-
-// جدول الاسبوعي
-const timetable = student['الجدول']||{};
-const schedule = q('#schedule-body');
-for(const day in timetable){
-  const row = timetable[day];
-  schedule.innerHTML += `<tr><td>${day}</td>${[0,1,2,3,4,5].map(i=>`<td>${row[i]||'—'}</td>`).join('')}</tr>`;
-}
-
-// أخبار
-fetch('/student/news.json').then(r=>r.json()).then(list=>{
-  if(!Array.isArray(list)) return;
-  const container = document.createElement('div'); container.className='card'; container.innerHTML='<h3>الأخبار</h3>';
-  const tbl = document.createElement('table'); tbl.innerHTML='<tbody>'+list.slice(0,3).map(n=>`<tr><td>${n.title||''}</td><td>${n.date||''}</td></tr>`).join('')+'</tbody>';
-  container.appendChild(tbl); q('#home-section').appendChild(container);
-});
-
-// النشاطات
-fetch('/student/ac.json').then(r=>r.json()).then(list=>{
-  const body = q('#activities-table tbody');
-  list.forEach(act=>{ body.innerHTML += `<tr><td>${act.name}</td><td>${act.day}</td><td>${act.date}</td></tr>`; });
-});
 
 // sidebar toggle
-const menuBtn = q('#menuBtn');
-menuBtn.addEventListener('click',()=>{ document.querySelector('.sidebar').classList.toggle('active'); });
+const menuBtn = q('#menu-btn');
+const sidebar = q('#sidebar');
+menuBtn.addEventListener('click',()=> sidebar.classList.toggle('active'));
 
 // sidebar buttons
-q('#btn-home').addEventListener('click',()=>showSection('home-section'));
-q('#btn-grades').addEventListener('click',()=>showSection('grades-section'));
-q('#btn-timetable').addEventListener('click',()=>showSection('timetable-section'));
-q('#btn-activities').addEventListener('click',()=>showSection('activities-section'));
-q('#btn-contact').addEventListener('click',()=>showSection('contact-section'));
+q('#btn-home').addEventListener('click',()=> showSection('home-section'));
+q('#btn-grades').addEventListener('click',()=> showSection('grades-section'));
+q('#btn-timetable').addEventListener('click',()=> showSection('timetable-section'));
+q('#btn-activities').addEventListener('click',()=> showSection('activities-section'));
+q('#btn-contact').addEventListener('click',()=> showSection('contact-section'));
 
 // dark mode
 const darkBtn = q('#btn-dark');
 darkBtn.addEventListener('click',()=>{
   document.body.classList.toggle('dark');
   darkBtn.classList.toggle('active');
-  localStorage.setItem('darkMode',document.body.classList.contains('dark')?'1':'0');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark')?'1':'0');
 });
-if(localStorage.getItem('darkMode')==='1'){document.body.classList.add('dark'); darkBtn.classList.add('active');}
+if(localStorage.getItem('darkMode')==='1'){ document.body.classList.add('dark'); darkBtn.classList.add('active'); }
+
+// logout
+q('#logoutBtn').addEventListener('click',()=>{
+  localStorage.removeItem('studentData');
+  window.location.href='index.html';
+});
+
+// load news
+fetch('/student/news.json').then(r=>r.json()).then(list=>{
+  const container = document.createElement('div'); container.id='news-container';
+  list.sort((a,b)=> new Date(b.date)-new Date(a.date));
+  list.slice(0,3).forEach(n=>{
+    const div = document.createElement('div'); div.textContent = n.title; container.appendChild(div);
+  });
+  q('#home-section').appendChild(container);
+});
+
+// load activities
+fetch('/student/ac.json').then(r=>r.json()).then(list=>{
+  const container = q('#activities-container');
+  if(list.length>0){
+    let html='<table><thead><tr><th>النشاط</th><th>اليوم</th><th>الوقت</th></tr></thead><tbody>';
+    list.forEach(a=> html+='<tr><td>'+a.name+'</td><td>'+a.day+'</td><td>'+a.time+'</td></tr>');
+    html+='</tbody></table>';
+    container.innerHTML=html;
+  }
+});
 </script>
 </body>
 </html>
