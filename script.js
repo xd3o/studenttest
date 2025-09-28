@@ -4,19 +4,21 @@ if(document.getElementById('loginBtn')){
     const code = document.getElementById('code').value.trim();
     const cls = document.getElementById('class').value;
     if(!code || !cls){ alert('يرجى إدخال الكود واختيار الصف'); return; }
-    localStorage.setItem('studentCode', code);
-    localStorage.setItem('studentClass', cls);
 
+    // جلب بيانات الصف من مجلد البيانات
     fetch(`data.storage.data.file/${cls}.json`)
       .then(res => res.json())
       .then(data => {
-        const student = data.students.find(s => s.code === code);
+        // البحث عن الطالب بالكود
+        const student = data.students.find(s => s.code === code || s.الكود === code);
         if(!student){
           alert('الكود غير موجود في هذا الصف.');
-          localStorage.removeItem('studentCode');
-          localStorage.removeItem('studentClass');
           return;
         }
+        // حفظ البيانات للداشبورد
+        localStorage.setItem('studentCode', code);
+        localStorage.setItem('studentClass', cls);
+        localStorage.setItem('studentData', JSON.stringify(student));
         window.location.href = 'dashboard.html';
       })
       .catch(err => { console.error(err); alert('حدث خطأ أثناء التحقق من بيانات الطالب.'); });
@@ -25,45 +27,36 @@ if(document.getElementById('loginBtn')){
 
 // داشبورد
 if(document.querySelector('.main')){
-  const studentCode = localStorage.getItem('studentCode');
-  const studentClass = localStorage.getItem('studentClass');
+  const student = JSON.parse(localStorage.getItem('studentData'));
+  if(!student){ alert('لم يتم العثور على بيانات الطالب.'); window.location.href='index.html'; }
+  else{
+    document.getElementById('studentName').textContent = "مرحباً " + (student.name || student.الاسم);
 
-  if(!studentCode || !studentClass){
-    alert('لم يتم العثور على بيانات الطالب. يرجى تسجيل الدخول.');
-    window.location.href='index.html';
-  } else {
-    fetch(`data.storage.data.file/${studentClass}.json`)
-      .then(res => res.json())
-      .then(data => {
-        const student = data.students.find(s=>s.code===studentCode);
-        if(!student){ alert('الطالب غير موجود'); return; }
+    // عرض الدرجات
+    const gradesTable = document.getElementById('gradesTable');
+    if(student.grades || student.الدرجات){
+      const g = student.grades || student.الدرجات;
+      gradesTable.innerHTML = '<tr><th>المادة</th><th>الدرجة</th></tr>';
+      for(let key in g){
+        gradesTable.innerHTML += `<tr><td>${key}</td><td>${g[key]}</td></tr>`;
+      }
+    }
 
-        document.getElementById('studentName').textContent = "مرحباً " + student.name;
-
-        // عرض الدرجات
-        const gradesTable = document.getElementById('gradesTable');
-        if(student.grades){
-          gradesTable.innerHTML = '<tr><th>المادة</th><th>الدرجة</th></tr>';
-          for(let key in student.grades){
-            gradesTable.innerHTML += `<tr><td>${key}</td><td>${student.grades[key]}</td></tr>`;
-          }
-        }
-
-        // عرض الجدول الأسبوعي
-        const scheduleTable = document.getElementById('scheduleTable');
-        if(student.schedule){
-          let html = '<tr><th>اليوم</th><th>الحصة 1</th><th>الحصة 2</th><th>الحصة 3</th><th>الحصة 4</th><th>الحصة 5</th><th>الحصة 6</th></tr>';
-          for(let day in student.schedule){
-            html += `<tr><td>${day}</td>`;
-            student.schedule[day].forEach(p=>{ html+=`<td>${p}</td>`; });
-            html += '</tr>';
-          }
-          scheduleTable.innerHTML = html;
-        }
-      }).catch(err=>console.error(err));
+    // عرض الجدول الأسبوعي
+    const scheduleTable = document.getElementById('scheduleTable');
+    if(student.schedule || student.الجدول){
+      const tt = student.schedule || student.الجدول;
+      let html = '<tr><th>اليوم</th><th>الحصة 1</th><th>الحصة 2</th><th>الحصة 3</th><th>الحصة 4</th><th>الحصة 5</th><th>الحصة 6</th></tr>';
+      for(let day in tt){
+        html += `<tr><td>${day}</td>`;
+        tt[day].forEach(p=>{ html+=`<td>${p}</td>`; });
+        html += '</tr>';
+      }
+      scheduleTable.innerHTML = html;
+    }
   }
 
-  // الأزرار الجانبية
+  // أزرار جانبية
   document.getElementById('btn-home').addEventListener('click', ()=>showSection('home-section'));
   document.getElementById('btn-grades').addEventListener('click', ()=>showSection('grades-section'));
   document.getElementById('btn-timetable').addEventListener('click', ()=>showSection('timetable-section'));
@@ -74,6 +67,7 @@ if(document.querySelector('.main')){
   document.getElementById('logoutBtn').addEventListener('click', ()=>{
     localStorage.removeItem('studentCode');
     localStorage.removeItem('studentClass');
+    localStorage.removeItem('studentData');
     window.location.href='index.html';
   });
 
