@@ -1,35 +1,180 @@
-/* الخلفية */
-.login-background { background:url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center/cover; min-height:100vh; display:flex; justify-content:center; align-items:center; }
-.login-card { background: rgba(255,255,255,0.95); padding:30px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2); text-align:center; width:320px; }
-.login-card input, .login-card select { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:16px; }
-.login-card button { width:100%; padding:12px; background:#F4BE45; border:none; color:#fff; font-size:16px; border-radius:6px; cursor:pointer; }
+/* إعدادات أساسية */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Tahoma", Arial, sans-serif;
+}
 
-/* Dashboard Header */
-.dashboard-header { display:flex; justify-content:space-between; align-items:center; padding:12px 20px; background:#54B8C2; color:white; }
-.header-logo { width:50px; vertical-align:middle; }
-.header-title { font-size:22px; font-weight:700; margin-left:12px; }
+body {
+  display: flex;
+  min-height: 100vh;
+  background: url("https://e.top4top.io/p_34909jjnx0.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #000;
+  transition: background 0.3s, color 0.3s;
+}
 
-/* Sidebar */
-.sidebar-hidden { position:fixed; top:0; right:-300px; width:250px; height:100%; background:#fff; box-shadow:-2px 0 8px rgba(0,0,0,0.1); padding:20px; transition:0.3s; z-index:10; }
-.sidebar-visible { right:0; }
+/* الوضع المظلم */
+body.dark {
+  background: #121212;
+  color: #fff;
+}
 
-/* Sidebar Buttons */
-.sidebar-hidden button, .sidebar-visible button { width:100%; margin:10px 0; padding:10px; font-size:16px; border:none; border-radius:6px; background:#F4BE45; color:#fff; cursor:pointer; }
+body.dark .sidebar {
+  background: #1e1e1e;
+}
 
-/* Sections */
-.main-section { display:none; padding:20px; }
-.main-section.active { display:block; }
+body.dark .sidebar nav ul li button,
+body.dark .sidebar nav ul li a {
+  color: #fff;
+}
 
-/* Student card */
-.student-card { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
-.avatar { width:80px; height:80px; background:#f1f1f1; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:32px; }
-.student-info h2 { margin:0 0 6px 0; font-size:20px; }
-.admin-message { background:#fff6e6; padding:12px; border-left:4px solid #F4BE45; border-radius:6px; display:none; }
+body.dark .message-box {
+  background: #2a2a2a;
+  border: 1px solid #444;
+}
 
-/* News List */
-.news-list { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:12px; }
+/* الشريط الجانبي */
+.sidebar {
+  width: 260px;
+  background: #000;
+  padding: 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-/* Dark Mode */
-body.dark { background:#222; color:#e9eef1; }
-body.dark .dashboard-header { background:#333; }
-body.dark .sidebar-hidden, body.dark .sidebar-visible { background:#444; }
+.sidebar .logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar .logo img {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.sidebar .logo h2 {
+  color: #fff;
+  font-size: 20px;
+}
+
+/* القائمة */
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  margin: 10px 0;
+  position: relative;
+}
+
+.sidebar nav ul li button,
+.sidebar nav ul li a {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  text-align: right;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: block;
+}
+
+.sidebar nav ul li button:hover,
+.sidebar nav ul li a:hover {
+  background: #54b8c2;
+}
+
+/* القائمة الفرعية (تواصل معنا) */
+.submenu-list {
+  display: none;
+  list-style: none;
+  padding-left: 15px;
+  margin-top: 5px;
+}
+
+.submenu-list li a {
+  font-size: 14px;
+  color: #f4be45;
+}
+
+.submenu.active .submenu-list {
+  display: block;
+}
+
+/* المحتوى */
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+h1, h2, h3 {
+  margin-bottom: 15px;
+  color: inherit;
+}
+
+.message-box {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* جداول */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+body.dark table {
+  background: #1e1e1e;
+}
+
+body.dark table th, 
+body.dark table td {
+  border: 1px solid #444;
+}
+
+/* متجاوب مع جميع الشاشات */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    transition: left 0.3s;
+    z-index: 1000;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 15px;
+  }
+}
