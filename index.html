@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تسجيل الدخول - إعدادية رافدين</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل دخول - إعدادية رافدين</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="login-background">
-  <div class="login-card">
-    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="Logo" class="login-logo">
-    <h1>إعدادية رافدين</h1>
-    <input type="text" id="code" placeholder="أدخل الكود" maxlength="10">
-    <select id="class">
-      <option value="">اختر الصف</option>
-      <option>رابع أ</option><option>رابع ب</option><option>رابع ج</option>
-      <option>خامس أ</option><option>خامس ب</option><option>خامس ج</option>
-      <option>سادس أ</option><option>سادس ب</option><option>سادس ج</option>
-    </select>
-    <button onclick="login()">تسجيل الدخول</button>
-  </div>
-</div>
+<body class="login-page">
 
-<script src="script.js"></script>
+  <div class="login-container">
+    <!-- اللوغو -->
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار الإعدادية" class="school-logo">
+
+    <!-- العنوان -->
+    <h1 class="login-title">تسجيل دخول إعدادية رافدين</h1>
+
+    <!-- اختيار الصف -->
+    <label for="classSelect">اختر الصف:</label>
+    <select id="classSelect" required>
+      <option value="">-- اختر الصف --</option>
+      <option value="R4">الرابع العلمي</option>
+      <option value="R5">الخامس العلمي</option>
+      <option value="R6">السادس العلمي</option>
+    </select>
+
+    <!-- اختيار الشعبة -->
+    <label for="groupSelect">اختر الشعبة:</label>
+    <select id="groupSelect" required>
+      <option value="">-- اختر الشعبة --</option>
+      <option value="A">أ</option>
+      <option value="B">ب</option>
+      <option value="C">ج</option>
+      <option value="D">د</option>
+      <option value="E">هـ</option>
+      <option value="F">و</option>
+    </select>
+
+    <!-- إدخال الكود -->
+    <label for="studentCode">ادخل الكود:</label>
+    <input type="text" id="studentCode" placeholder="مثال: R4A123" required>
+
+    <!-- زر تسجيل الدخول -->
+    <button id="loginBtn" class="btn">دخول</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
