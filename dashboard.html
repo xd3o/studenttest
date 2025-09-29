@@ -1,92 +1,91 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة الطالب</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>لوحة الطالب - إعدادية رافدين</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- الشريط الجانبي -->
-  <aside class="sidebar">
-    <div class="logo">
-      <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار">
-      <h2>إعدادية رافدين</h2>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="header-left">
+      <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="header-logo">
+      <div class="header-title">لوحة الطالب — إعدادية رافدين</div>
     </div>
-    <nav>
-      <ul>
-        <li><button data-section="main">الرئيسية</button></li>
-        <li><button data-section="grades">درجاتي</button></li>
-        <li><button data-section="schedule">جدول الأسبوع</button></li>
-        <li><button data-section="activities">النشاطات</button></li>
-        <li><button data-section="news">الأخبار</button></li>
-        <li class="submenu">
-          <button id="contactToggle">تواصل معنا</button>
-          <ul class="submenu-list" id="contactMenu">
-            <li><a href="#" target="_blank" id="facebookLink">فيسبوك</a></li>
-            <li><a href="#" target="_blank" id="telegramLink">تليجرام</a></li>
-          </ul>
-        </li>
-        <li><button id="darkModeToggle">الوضع المظلم</button></li>
-      </ul>
-    </nav>
-  </aside>
+    <div class="header-right">
+      <button id="menuBtn" class="hamburger" aria-label="قائمة">☰</button>
+    </div>
+  </div>
+</header>
 
-  <!-- محتوى الصفحة -->
-  <main class="content">
-    <!-- الرئيسية -->
-    <section id="main" class="section active">
-      <h1>مرحباً، <span id="studentName">الطالب</span></h1>
-      <p>الصف: <span id="studentClass"></span> / الشعبة: <span id="studentSection"></span></p>
-      <div class="message-box">
-        <h3>رسالة من الإدارة</h3>
-        <p id="adminMessage">سيتم جلب الرسالة من ملف البيانات...</p>
+<aside id="sidebar" class="sidebar" aria-hidden="true">
+  <div class="logo-box">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="side-logo">
+  </div>
+  <nav>
+    <ul>
+      <li><button class="nav-btn" data-section="main">الرئيسية</button></li>
+      <li><button class="nav-btn" data-section="grades">درجاتي</button></li>
+      <li><button class="nav-btn" data-section="schedule">جدول الأسبوع</button></li>
+      <li><button class="nav-btn" data-section="activities">النشاطات</button></li>
+      <li><button class="nav-btn" data-section="news">الأخبار</button></li>
+      <li class="has-sub">
+        <button id="contactToggle">تواصل معنا ▾</button>
+        <ul id="contactMenu" class="sub-list" hidden>
+          <li><a id="facebookLink" href="#" target="_blank">فيسبوك</a></li>
+          <li><a id="telegramLink" href="#" target="_blank">تيليجرام</a></li>
+        </ul>
+      </li>
+      <li><button id="darkBtn">الوضع المظلم</button></li>
+      <li><button id="logoutBtn">تسجيل الخروج</button></li>
+    </ul>
+  </nav>
+</aside>
+
+<main class="container">
+  <section id="main" class="panel active">
+    <div class="student-card">
+      <div class="avatar">👩‍🎓</div>
+      <div class="student-info">
+        <h2 id="studentName">---</h2>
+        <div id="studentMeta">الصف: <span id="studentClass">—</span> — الشعبة: <span id="studentSection">—</span></div>
       </div>
-    </section>
+    </div>
 
-    <!-- الدرجات -->
-    <section id="grades" class="section">
-      <h2>درجاتي</h2>
-      <div id="gradesContainer">
-        <!-- يتم ملؤها ديناميكياً -->
-      </div>
-    </section>
+    <div id="adminMsg" class="admin-box" hidden></div>
 
-    <!-- جدول الأسبوع -->
-    <section id="schedule" class="section">
-      <h2>جدول الأسبوع</h2>
-      <div id="scheduleContainer">
-        <!-- يتم ملؤه ديناميكياً -->
-      </div>
-    </section>
+    <h3>الأخبار</h3>
+    <div id="newsContainer" class="news-list"></div>
+  </section>
 
-    <!-- النشاطات -->
-    <section id="activities" class="section">
-      <h2>النشاطات</h2>
-      <table id="activitiesTable">
-        <thead>
-          <tr>
-            <th>اسم الطالب</th>
-            <th>الصف</th>
-            <th>الشعبة</th>
-            <th>نوع النشاط</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- يتم جلب النشاطات من ac.json -->
-        </tbody>
-      </table>
-    </section>
+  <section id="grades" class="panel">
+    <h3>درجاتي</h3>
+    <div id="gradesContainer" class="table-wrap"></div>
+  </section>
 
-    <!-- الأخبار -->
-    <section id="news" class="section">
-      <h2>الأخبار</h2>
-      <div id="newsContainer">
-        <!-- يتم جلب الأخبار من news.json -->
-      </div>
-    </section>
-  </main>
+  <section id="schedule" class="panel">
+    <h3>الجدول الأسبوعي</h3>
+    <div id="scheduleContainer" class="table-wrap"></div>
+  </section>
 
-  <script src="script.js"></script>
+  <section id="activities" class="panel">
+    <h3>النشاطات</h3>
+    <table id="activitiesTable">
+      <thead>
+        <tr><th>اسم الطالب</th><th>الصف</th><th>الشعبة</th><th>نوع النشاط</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="news" class="panel">
+    <h3>الأخبار</h3>
+    <div id="allNews" class="news-list"></div>
+  </section>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
