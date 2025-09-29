@@ -1,49 +1,64 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل دخول - إعدادية رافدين</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>تسجيل دخول - إعدادية رافدين</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="login-page">
 
-  <div class="login-container">
-    <!-- اللوغو -->
-    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار الإعدادية" class="school-logo">
+<div class="login-background">
+  <div class="login-card" role="main">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="login-logo">
+    <h1 class="login-title">تسجيل دخول - إعدادية رافدين</h1>
 
-    <!-- العنوان -->
-    <h1 class="login-title">تسجيل دخول إعدادية رافدين</h1>
-
-    <!-- اختيار الصف -->
-    <label for="classSelect">اختر الصف:</label>
-    <select id="classSelect" required>
-      <option value="">-- اختر الصف --</option>
-      <option value="R4">الرابع العلمي</option>
-      <option value="R5">الخامس العلمي</option>
-      <option value="R6">السادس العلمي</option>
+    <label class="sr-only" for="stage">اختر المرحلة</label>
+    <select id="stage" aria-label="اختر المرحلة">
+      <option value="">اختر المرحلة</option>
+      <option value="R4">الرابع إعدادي</option>
+      <option value="R5">الخامس إعدادي</option>
+      <option value="R6">السادس إعدادي</option>
     </select>
 
-    <!-- اختيار الشعبة -->
-    <label for="groupSelect">اختر الشعبة:</label>
-    <select id="groupSelect" required>
-      <option value="">-- اختر الشعبة --</option>
-      <option value="A">أ</option>
-      <option value="B">ب</option>
-      <option value="C">ج</option>
-      <option value="D">د</option>
-      <option value="E">هـ</option>
-      <option value="F">و</option>
+    <label class="sr-only" for="group">اختر الشعبة</label>
+    <select id="group" aria-label="اختر الشعبة">
+      <option value="">اختر الشعبة</option>
     </select>
 
-    <!-- إدخال الكود -->
-    <label for="studentCode">ادخل الكود:</label>
-    <input type="text" id="studentCode" placeholder="مثال: R4A123" required>
+    <input id="code" type="text" inputmode="numeric" placeholder="أدخل كود الطالب" autocomplete="off" />
 
-    <!-- زر تسجيل الدخول -->
-    <button id="loginBtn" class="btn">دخول</button>
+    <button id="login" class="primary-btn">دخول</button>
+
+    <div id="msg" role="status" aria-live="polite" class="msg"></div>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+<script>
+/* fill groups with single letters (أ ب ج د هـ و) values a..f */
+(function(){
+  const stage = document.getElementById('stage');
+  const group = document.getElementById('group');
+  const letters = [
+    {val:'a', label:'أ'},
+    {val:'b', label:'ب'},
+    {val:'c', label:'ج'},
+    {val:'d', label:'د'},
+    {val:'e', label:'هـ'},
+    {val:'f', label:'و'}
+  ];
+  function fill(){
+    group.innerHTML = '<option value="">اختر الشعبة</option>';
+    if(!stage.value) return;
+    letters.forEach(l=>{
+      const o = document.createElement('option');
+      o.value = l.val; o.textContent = l.label;
+      group.appendChild(o);
+    });
+  }
+  stage.addEventListener('change', fill);
+})();
+</script>
 </body>
 </html>
