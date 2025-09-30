@@ -1,44 +1,77 @@
-const classMap = {
-  "رابع أ": "r4_a", "رابع ب": "r4_b", "رابع ج": "r4_c", "رابع د": "r4_d", "رابع هـ": "r4_e", "رابع و": "r4_f",
-  "خامس أ": "r5_a", "خامس ب": "r5_b", "خامس ج": "r5_c", "خامس د": "r5_d", "خامس هـ": "r5_e", "خامس و": "r5_f",
-  "سادس أ": "r6_a", "سادس ب": "r6_b", "سادس ج": "r6_c", "سادس د": "r6_d", "سادس هـ": "r6_e", "سادس و": "r6_f"
-};
+// تحميل بيانات الطالب من ملف JSON
+async function loadStudentData() {
+  const res = await fetch("student.file.data");
+  const student = await res.json();
 
-function login() {
-  const code = document.getElementById("code").value.trim().toUpperCase();
-  const studentClass = document.getElementById("class").value.trim();
+  // تعبئة بيانات الطالب
+  document.getElementById("student-name").textContent = student.name;
+  document.getElementById("student-class").textContent = student.class;
+  document.getElementById("student-section").textContent = student.section;
 
-  if (!code || !studentClass) {
-    alert("يرجى إدخال الكود واختيار الصف.");
-    return;
-  }
-
-  const key = classMap[studentClass];
-  if (!key) {
-    alert("الصف غير معروف.");
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.src = `student_data_files/data_${key}.js`;
-  script.onload = function () {
-    if (typeof students === "undefined") {
-      alert("تعذر تحميل بيانات الطلاب.");
-      return;
-    }
-
-    const student = students.find(s => s["الكود"] === code);
-    if (!student) {
-      alert("الكود غير صحيح أو لا ينتمي للصف المحدد.");
-      return;
-    }
-
-    localStorage.setItem("studentData", JSON.stringify(student));
-    window.location.href = "dashboard.html";
-  };
-  script.onerror = function () {
-    alert("تعذر تحميل بيانات الصف المحدد. تأكد من اختيار الصف الصحيح.");
-  };
-
-  document.body.appendChild(script);
+  renderGrades(student.grades);
+  renderSchedule(student.schedule);
+  renderMessages(student.messages);
 }
+
+// عرض الدرجات
+function renderGrades(grades) {
+  let html = "<table><tr><th>المادة</th><th>الكورس الأول</th><th>الكورس الثاني</th><th>السعي السنوي</th><th>الامتحان النهائي</th><th>الإكمال</th><th>المعدل</th></tr>";
+
+  grades.forEach(subject => {
+    let avg = (subject.course1 + subject.course2 + subject.final) / 3;
+    let className = avg < 50 ? "low-grade" : "";
+
+    html += `
+      <tr>
+        <td>${subject.name}</td>
+        <td>${subject.course1}</td>
+        <td>${subject.course2}</td>
+        <td>${subject.yearly}</td>
+        <td>${subject.final}</td>
+        <td>${subject.makeup ?? "-"}</td>
+        <td class="${className}">${avg.toFixed(1)}</td>
+      </tr>
+    `;
+  });
+
+  html += "</table>";
+  document.getElementById("grades-table").innerHTML = html;
+}
+
+// عرض الجدول الأسبوعي
+function renderSchedule(schedule) {
+  let html = "<table><tr><th>اليوم</th><th>الدروس</th></tr>";
+
+  schedule.forEach(day => {
+    html += `<tr><td>${day.day}</td><td>${day.subjects.join(" - ")}</td></tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("schedule-table").innerHTML = html;
+}
+
+// عرض الرسائل
+function renderMessages(messages) {
+  let html = "";
+  messages.forEach(msg => {
+    html += `<p>📢 ${msg}</p>`;
+  });
+  document.getElementById("admin-messages").innerHTML = html;
+}
+
+// تحميل الأخبار
+async function loadNews() {
+  const res = await fetch("news.json");
+  const news = await res.json();
+  let html = "";
+
+  news.forEach(n => {
+    html += `<li>${n.date} - ${n.title}</li>`;
+  });
+
+  document.getElementById("news-list").innerHTML = html;
+}
+
+// بدء التشغيل
+loadStudentData();
+loadNews();
