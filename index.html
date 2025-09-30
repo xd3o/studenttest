@@ -1,64 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>تسجيل دخول - إعدادية رافدين</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول – إعدادية رافدين</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="style.css" rel="stylesheet">
 </head>
-<body class="login-page">
-
-<div class="login-background">
-  <div class="login-card" role="main">
-    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="login-logo">
-    <h1 class="login-title">تسجيل دخول - إعدادية رافدين</h1>
-
-    <label class="sr-only" for="stage">اختر المرحلة</label>
-    <select id="stage" aria-label="اختر المرحلة">
-      <option value="">اختر المرحلة</option>
-      <option value="R4">الرابع إعدادي</option>
-      <option value="R5">الخامس إعدادي</option>
-      <option value="R6">السادس إعدادي</option>
+<body>
+  <div class="login-container">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة" class="logo">
+    <h2>تسجيل دخول الطالب</h2>
+    <input type="text" id="code" placeholder="أدخل الكود">
+    <select id="class">
+      <option value="">اختر الصف</option>
+      <option>رابع أ</option><option>رابع ب</option><option>رابع ج</option><option>رابع د</option><option>رابع هـ</option><option>رابع و</option>
+      <option>خامس أ</option><option>خامس ب</option><option>خامس ج</option><option>خامس د</option><option>خامس هـ</option><option>خامس و</option>
+      <option>سادس أ</option><option>سادس ب</option><option>سادس ج</option><option>سادس د</option><option>سادس هـ</option><option>سادس و</option>
     </select>
-
-    <label class="sr-only" for="group">اختر الشعبة</label>
-    <select id="group" aria-label="اختر الشعبة">
-      <option value="">اختر الشعبة</option>
-    </select>
-
-    <input id="code" type="text" inputmode="numeric" placeholder="أدخل كود الطالب" autocomplete="off" />
-
-    <button id="login" class="primary-btn">دخول</button>
-
-    <div id="msg" role="status" aria-live="polite" class="msg"></div>
+    <button onclick="login()">دخول</button>
   </div>
-</div>
-
-<script src="script.js"></script>
-<script>
-/* fill groups with single letters (أ ب ج د هـ و) values a..f */
-(function(){
-  const stage = document.getElementById('stage');
-  const group = document.getElementById('group');
-  const letters = [
-    {val:'a', label:'أ'},
-    {val:'b', label:'ب'},
-    {val:'c', label:'ج'},
-    {val:'d', label:'د'},
-    {val:'e', label:'هـ'},
-    {val:'f', label:'و'}
-  ];
-  function fill(){
-    group.innerHTML = '<option value="">اختر الشعبة</option>';
-    if(!stage.value) return;
-    letters.forEach(l=>{
-      const o = document.createElement('option');
-      o.value = l.val; o.textContent = l.label;
-      group.appendChild(o);
-    });
-  }
-  stage.addEventListener('change', fill);
-})();
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
