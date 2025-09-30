@@ -1,58 +1,53 @@
-/* ====== إعدادات أساسية ====== */
+/* الأساسيات */
 body {
   margin: 0;
-  font-family: "Tahoma", sans-serif;
-  background: #f4f4f4;
-  color: #222;
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
   direction: rtl;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-h2, h3 {
-  margin: 15px 0;
+header {
+  background-color: #f4b400;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  position: relative;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+.school-title {
+  margin: 0;
+  font-size: 22px;
 }
 
-/* ====== الهيدر ====== */
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #004080;
-  color: #fff;
-  padding: 10px 15px;
-}
-
-.topbar .school-name {
-  font-weight: bold;
-}
-
-.topbar .menu-btn {
-  font-size: 20px;
-  background: transparent;
+.menu-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  background: none;
   border: none;
-  color: #fff;
+  color: white;
   cursor: pointer;
 }
 
-/* ====== القائمة الجانبية ====== */
+/* القائمة الجانبية */
 .sidebar {
   position: fixed;
   top: 0;
   right: -250px;
-  width: 220px;
+  width: 250px;
   height: 100%;
-  background: #fff;
+  background-color: #fff;
   box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  overflow-y: auto;
   transition: right 0.3s ease;
+  z-index: 1000;
   padding-top: 60px;
-  z-index: 999;
 }
 
-.sidebar.open {
+.sidebar.active {
   right: 0;
 }
 
@@ -63,131 +58,82 @@ a {
 }
 
 .sidebar ul li {
-  margin: 0;
-}
-
-.sidebar .nav-btn {
-  display: block;
-  width: 100%;
-  padding: 12px 15px;
-  border: none;
-  background: none;
-  text-align: right;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
   cursor: pointer;
-  font-size: 15px;
+  transition: background 0.2s;
 }
 
-.sidebar .nav-btn:hover {
-  background: #eee;
+.sidebar ul li:hover {
+  background-color: #f4f4f4;
 }
 
-/* ====== المحتوى ====== */
-.main {
+/* المحتوى */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
   padding: 15px;
 }
 
-.page {
+.section {
   display: none;
 }
 
-.page.active {
+.section.active {
   display: block;
 }
 
-/* ====== بطاقة الطالب ====== */
-.student-card {
-  background: #fff;
-  border: 1px solid #ddd;
+.card {
+  background: white;
+  border-radius: 10px;
   padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
 }
 
-.student-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.student-info {
-  color: #555;
-  font-size: 14px;
-}
-
-/* ====== رسالة الإدارة ====== */
-.admin-message {
-  background: #fefefe;
-  border: 1px solid #ddd;
-  padding: 10px 15px;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
-
-/* ====== الجداول ====== */
-.data-table {
-  border-collapse: collapse;
-  width: 100%;
+.info h2 {
   margin: 10px 0;
+  font-size: 20px;
 }
 
-.data-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
+/* روابط التواصل */
+.social-links a {
+  display: inline-block;
+  margin: 10px 0;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 18px;
 }
 
-/* ====== تواصل معنا ====== */
-.contact-icons {
-  display: flex;
-  gap: 15px;
+.social-links a:hover {
+  text-decoration: underline;
 }
 
-.contact-btn {
-  padding: 10px 15px;
-  border-radius: 6px;
-  background: #004080;
-  color: #fff;
-  font-size: 14px;
-  transition: background 0.3s;
-}
-
-.contact-btn:hover {
-  background: #0066cc;
-}
-
-/* ====== الوضع المظلم ====== */
+/* الوضع المظلم */
 body.dark {
-  background: #1c1c1c;
-  color: #eee;
+  background-color: #121212;
+  color: #f1f1f1;
 }
 
-body.dark .topbar {
-  background: #222;
-  color: #eee;
+body.dark header {
+  background-color: #333;
 }
 
 body.dark .sidebar {
-  background: #2a2a2a;
-  color: #eee;
+  background-color: #1e1e1e;
+  color: #f1f1f1;
 }
 
-body.dark .sidebar .nav-btn:hover {
-  background: #444;
+body.dark .sidebar ul li {
+  border-bottom: 1px solid #444;
 }
 
-body.dark .student-card,
-body.dark .admin-message {
-  background: #2a2a2a;
-  border-color: #444;
+body.dark .card {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  box-shadow: 0 1px 6px rgba(255,255,255,0.1);
 }
 
-body.dark .data-table td {
-  border: 1px solid #555;
-}
-
-body.dark .contact-btn {
-  background: #444;
-  color: #eee;
-}
-
-body.dark .contact-btn:hover {
-  background: #666;
+body.dark .social-links a {
+  color: #66aaff;
 }
