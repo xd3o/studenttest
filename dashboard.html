@@ -1,78 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>نتائج الطالب – إعدادية رافدين</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- رأس الصفحة -->
-  <header>
-    <button id="menu-toggle" class="menu-btn">☰</button>
-    <h1 class="school-title">إعدادية رافدين</h1>
-  </header>
-
-  <!-- القائمة الجانبية -->
-  <aside id="sidebar" class="sidebar">
-    <ul>
-      <li data-section="home">الرئيسية</li>
-      <li data-section="grades">الدرجات</li>
-      <li data-section="schedule">الجدول الأسبوعي</li>
-      <li data-section="activities">جدول النشاطات</li>
-      <li data-section="news">الأخبار</li>
-      <li data-section="darkmode">تفعيل الوضع المظلم</li>
-      <li data-section="contact">تواصل معنا</li>
-    </ul>
-  </aside>
-
-  <!-- المحتوى الرئيسي -->
-  <main id="main-content" class="container">
-    <!-- الأقسام -->
-    <section id="home" class="section active">
-      <div class="info">
-        <h2>معلومات الطالب</h2>
-        <div id="student-info"></div>
-      </div>
-      <div class="card">
-        <h3>رسالة من الإدارة</h3>
-        <div id="admin-message"></div>
-      </div>
-      <div class="card">
-        <h3>أخبار الإدارة</h3>
-        <div id="home-news"></div>
-      </div>
-    </section>
-
-    <section id="grades" class="section">
-      <h2>الدرجات</h2>
-      <div id="grades-table"></div>
-    </section>
-
-    <section id="schedule" class="section">
-      <h2>الجدول الأسبوعي</h2>
-      <div id="schedule-table"></div>
-    </section>
-
-    <section id="activities" class="section">
-      <h2>جدول النشاطات</h2>
-      <div id="activities-table"></div>
-    </section>
-
-    <section id="news" class="section">
-      <h2>الأخبار</h2>
-      <div id="news-list"></div>
-    </section>
-
-    <section id="contact" class="section">
-      <h2>تواصل معنا</h2>
-      <div class="social-links">
-        <a href="#" id="facebook-link" target="_blank">📘 فيسبوك</a><br/>
-        <a href="#" id="telegram-link" target="_blank">📲 تليجرام</a>
-      </div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
-</body>
-</html>
