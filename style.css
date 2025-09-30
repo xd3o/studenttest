@@ -1,88 +1,193 @@
-:root{
-  --black:#0b0b0b;
-  --white:#ffffff;
-  --blue:#0b57d0;
-  --cyan:#54B8C2;
-  --yellow:#F4BE45;
-  --panel-bg: rgba(255,255,255,0.95);
+/* ====== إعدادات أساسية ====== */
+body {
+  margin: 0;
+  font-family: "Tahoma", sans-serif;
+  background: #f4f4f4;
+  color: #222;
+  direction: rtl;
 }
 
-/* reset */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:"Tahoma",sans-serif;
-  background: url('https://k.top4top.io/p_3498f7ivx1.png') center/cover fixed;
-  color:var(--black);
-  min-height:100vh;
+h2, h3 {
+  margin: 15px 0;
 }
 
-/* topbar */
-.topbar{position:sticky;top:0;z-index:30;padding:10px 14px;background:rgba(255,255,255,0.85);backdrop-filter:blur(4px)}
-.topbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.header-left{display:flex;align-items:center;gap:12px}
-.header-logo{height:48px}
-.header-title{font-weight:700;font-size:18px}
-
-/* sidebar */
-.sidebar{
-  position:fixed;top:0;right:-360px;width:340px;height:100%;padding-top:84px;background:var(--panel-bg);
-  box-shadow:-6px 0 18px rgba(0,0,0,0.12);transition:right .28s ease;z-index:40;
+a {
+  text-decoration: none;
+  color: inherit;
 }
-.sidebar[aria-hidden="false"]{ right:0; }
-.side-logo{display:block;margin:0 auto 10px;height:60px}
-.sidebar nav ul{list-style:none;padding:0 12px}
-.sidebar nav ul li{margin-bottom:8px}
-.sidebar button, .sidebar a{
-  width:100%;display:block;text-align:right;padding:12px 14px;border-radius:8px;border:none;background:transparent;font-size:15px;cursor:pointer;color:var(--black);
+
+/* ====== الهيدر ====== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #004080;
+  color: #fff;
+  padding: 10px 15px;
 }
-.sidebar button:hover, .sidebar a:hover{background:linear-gradient(90deg,var(--cyan),var(--yellow));color:#fff}
 
-/* submenu */
-.sub-list{list-style:none;padding-left:6px;margin-top:6px}
-.sub-list li a{display:block;padding:8px 12px;color:var(--blue);text-decoration:none}
-.sub-list li a:hover{color:#000}
+.topbar .school-name {
+  font-weight: bold;
+}
 
-/* container */
-.container{max-width:1100px;margin:18px auto;padding:12px}
-.panel{display:none;background:var(--panel-bg);border-radius:10px;padding:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-.panel.active{display:block}
+.topbar .menu-btn {
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
 
-/* student card */
-.student-card{display:flex;gap:12px;align-items:center;margin-bottom:12px}
-.avatar{width:82px;height:82px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:34px}
-.admin-box{background:#fff6e6;border-left:4px solid var(--yellow);padding:10px;border-radius:6px;margin:10px 0}
+/* ====== القائمة الجانبية ====== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 220px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  padding-top: 60px;
+  z-index: 999;
+}
 
-/* news list */
-.news-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-.news-item{background:#fafafa;padding:10px;border-radius:8px;border:1px solid #eee}
+.sidebar.open {
+  right: 0;
+}
 
-/* table */
-.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:8px;border:1px solid #ddd;text-align:center}
-th{background:var(--yellow);color:#111}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-/* login-specific classes (used by index.html) */
-.login-background{min-height:100vh;display:flex;align-items:center;justify-content:center}
-.login-card{width:360px;background:var(--panel-bg);padding:22px;border-radius:10px;box-shadow:0 6px 22px rgba(0,0,0,0.12);text-align:center}
-.login-logo{width:90px;margin-bottom:8px}
-.login-title{margin-bottom:12px;font-size:18px}
-input,select{width:100%;padding:10px;margin:8px 0;border-radius:6px;border:1px solid #ccc;font-size:15px}
-.primary-btn, .btn, button.primary-btn{width:100%;padding:12px;border-radius:8px;border:none;background:var(--cyan);color:#fff;font-size:16px;cursor:pointer}
-.msg{margin-top:10px;color:#b00;font-size:14px}
+.sidebar ul li {
+  margin: 0;
+}
 
-/* dark mode */
-body.dark{background:#0f1113;color:#e9eef1}
-body.dark .topbar{background:rgba(20,20,20,0.7)}
-body.dark .sidebar{background:#1b1b1b}
-body.dark .panel{background:rgba(255,255,255,0.03)}
-body.dark th{background:#333;color:#fff}
+.sidebar .nav-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  background: none;
+  text-align: right;
+  cursor: pointer;
+  font-size: 15px;
+}
 
-/* responsive */
-@media (max-width:900px){
-  .sidebar{width:86%;right:-100%}
-  .sidebar[aria-hidden="false"]{right:0}
-  .container{padding:12px}
-  .login-card{width:92%}
+.sidebar .nav-btn:hover {
+  background: #eee;
+}
+
+/* ====== المحتوى ====== */
+.main {
+  padding: 15px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* ====== بطاقة الطالب ====== */
+.student-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.student-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.student-info {
+  color: #555;
+  font-size: 14px;
+}
+
+/* ====== رسالة الإدارة ====== */
+.admin-message {
+  background: #fefefe;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* ====== الجداول ====== */
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.data-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+/* ====== تواصل معنا ====== */
+.contact-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.contact-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  background: #004080;
+  color: #fff;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.contact-btn:hover {
+  background: #0066cc;
+}
+
+/* ====== الوضع المظلم ====== */
+body.dark {
+  background: #1c1c1c;
+  color: #eee;
+}
+
+body.dark .topbar {
+  background: #222;
+  color: #eee;
+}
+
+body.dark .sidebar {
+  background: #2a2a2a;
+  color: #eee;
+}
+
+body.dark .sidebar .nav-btn:hover {
+  background: #444;
+}
+
+body.dark .student-card,
+body.dark .admin-message {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark .data-table td {
+  border: 1px solid #555;
+}
+
+body.dark .contact-btn {
+  background: #444;
+  color: #eee;
+}
+
+body.dark .contact-btn:hover {
+  background: #666;
 }
