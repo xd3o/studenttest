@@ -1,91 +1,89 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>لوحة الطالب - إعدادية رافدين</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لوحة الطالب - إعدادية الرافدين</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="header-left">
-      <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="header-logo">
-      <div class="header-title">لوحة الطالب — إعدادية رافدين</div>
+  <!-- الهيدر -->
+  <header class="topbar">
+    <div class="top-left">
+      <img src="logo.png" alt="شعار" class="logo-small" onerror="this.style.display='none'">
+      <div class="school-name">إعدادية الرافدين</div>
     </div>
-    <div class="header-right">
-      <button id="menuBtn" class="hamburger" aria-label="قائمة">☰</button>
-    </div>
-  </div>
-</header>
+    <div class="top-center">لوحة الطالب / إعدادية الرافدين</div>
+    <button id="menuBtn" class="menu-btn" aria-label="قائمة">☰</button>
+  </header>
 
-<aside id="sidebar" class="sidebar" aria-hidden="true">
-  <div class="logo-box">
-    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="لوغو" class="side-logo">
-  </div>
-  <nav>
+  <!-- القائمة الجانبية -->
+  <nav id="sidebar" class="sidebar" aria-hidden="true">
     <ul>
-      <li><button class="nav-btn" data-section="main">الرئيسية</button></li>
-      <li><button class="nav-btn" data-section="grades">درجاتي</button></li>
-      <li><button class="nav-btn" data-section="schedule">جدول الأسبوع</button></li>
-      <li><button class="nav-btn" data-section="activities">النشاطات</button></li>
-      <li><button class="nav-btn" data-section="news">الأخبار</button></li>
-      <li class="has-sub">
-        <button id="contactToggle">تواصل معنا ▾</button>
-        <ul id="contactMenu" class="sub-list" hidden>
-          <li><a id="facebookLink" href="#" target="_blank">فيسبوك</a></li>
-          <li><a id="telegramLink" href="#" target="_blank">تيليجرام</a></li>
-        </ul>
-      </li>
-      <li><button id="darkBtn">الوضع المظلم</button></li>
-      <li><button id="logoutBtn">تسجيل الخروج</button></li>
+      <li><button class="nav-btn" data-target="home">الرئيسية</button></li>
+      <li><button class="nav-btn" data-target="grades">درجاتي</button></li>
+      <li><button class="nav-btn" data-target="timetable">الجدول الأسبوعي</button></li>
+      <li><button class="nav-btn" data-target="news">الأخبار</button></li>
+      <li><button class="nav-btn" data-target="activities">جدول النشاطات</button></li>
+      <li><button id="darkToggle" class="nav-btn">تفعيل الوضع المظلم</button></li>
+      <li><button class="nav-btn" data-target="contact">تواصل معنا</button></li>
     </ul>
   </nav>
-</aside>
 
-<main class="container">
-  <section id="main" class="panel active">
-    <div class="student-card">
-      <div class="avatar">👩‍🎓</div>
-      <div class="student-info">
-        <h2 id="studentName">---</h2>
-        <div id="studentMeta">الصف: <span id="studentClass">—</span> — الشعبة: <span id="studentSection">—</span></div>
+  <!-- الصفحات -->
+  <main id="main" class="main">
+    <!-- الرئيسية -->
+    <section id="home" class="page active">
+      <div class="student-card" id="studentCard">
+        <div class="student-name" id="stuName">--</div>
+        <div class="student-info" id="stuInfo">--</div>
       </div>
-    </div>
 
-    <div id="adminMsg" class="admin-box" hidden></div>
+      <div class="admin-message" id="adminMessage">
+        <h3>رسالة من الإدارة</h3>
+        <p id="messageText">لا توجد رسائل حالياً.</p>
+      </div>
 
-    <h3>الأخبار</h3>
-    <div id="newsContainer" class="news-list"></div>
-  </section>
+      <div class="news-section" id="newsSection">
+        <h3>الأخبار</h3>
+        <div id="newsList">جارٍ التحميل...</div>
+      </div>
+    </section>
 
-  <section id="grades" class="panel">
-    <h3>درجاتي</h3>
-    <div id="gradesContainer" class="table-wrap"></div>
-  </section>
+    <!-- الدرجات -->
+    <section id="grades" class="page">
+      <h2>درجاتي</h2>
+      <div id="gradesContent">جارٍ تحميل درجات الطالب...</div>
+    </section>
 
-  <section id="schedule" class="panel">
-    <h3>الجدول الأسبوعي</h3>
-    <div id="scheduleContainer" class="table-wrap"></div>
-  </section>
+    <!-- الجدول الأسبوعي -->
+    <section id="timetable" class="page">
+      <h2>الجدول الأسبوعي</h2>
+      <div id="timetableContent">جارٍ تحميل الجدول...</div>
+    </section>
 
-  <section id="activities" class="panel">
-    <h3>النشاطات</h3>
-    <table id="activitiesTable">
-      <thead>
-        <tr><th>اسم الطالب</th><th>الصف</th><th>الشعبة</th><th>نوع النشاط</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
+    <!-- الأخبار -->
+    <section id="news" class="page">
+      <h2>الأخبار - كاملة</h2>
+      <div id="newsPageList">جارٍ التحميل...</div>
+    </section>
 
-  <section id="news" class="panel">
-    <h3>الأخبار</h3>
-    <div id="allNews" class="news-list"></div>
-  </section>
-</main>
+    <!-- النشاطات -->
+    <section id="activities" class="page">
+      <h2>جدول النشاطات</h2>
+      <div id="activitiesList">جارٍ التحميل...</div>
+    </section>
 
-<script src="script.js"></script>
+    <!-- تواصل معنا -->
+    <section id="contact" class="page">
+      <h2>تواصل معنا</h2>
+      <div class="contact-icons">
+        <a id="fbLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn">فيسبوك</a>
+        <a id="tgLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn">تلغرام</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
