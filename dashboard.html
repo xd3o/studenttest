@@ -1,85 +1,74 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>لوحة الطالب - إعدادية الرافدين</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>نتائج الطالب – إعدادية رافدين</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- الهيدر -->
-  <header class="topbar">
-    <div class="top-left">
-      <img src="logo.png" alt="شعار" class="logo-small" onerror="this.style.display='none'">
-      <div class="school-name">إعدادية الرافدين</div>
-    </div>
-    <div class="top-center">لوحة الطالب / إعدادية الرافدين</div>
-    <button id="menuBtn" class="menu-btn" aria-label="قائمة">☰</button>
+  <!-- رأس الصفحة -->
+  <header>
+    <button id="menu-toggle" class="menu-btn">☰</button>
+    <h1 class="school-title">إعدادية رافدين</h1>
   </header>
 
   <!-- القائمة الجانبية -->
-  <nav id="sidebar" class="sidebar" aria-hidden="true">
+  <aside id="sidebar" class="sidebar">
     <ul>
-      <li><button class="nav-btn" data-target="home">الرئيسية</button></li>
-      <li><button class="nav-btn" data-target="grades">درجاتي</button></li>
-      <li><button class="nav-btn" data-target="timetable">الجدول الأسبوعي</button></li>
-      <li><button class="nav-btn" data-target="news">الأخبار</button></li>
-      <li><button class="nav-btn" data-target="activities">جدول النشاطات</button></li>
-      <li><button id="darkToggle" class="nav-btn">تفعيل الوضع المظلم</button></li>
-      <li><button class="nav-btn" data-target="contact">تواصل معنا</button></li>
+      <li data-section="home">الرئيسية</li>
+      <li data-section="grades">الدرجات</li>
+      <li data-section="schedule">الجدول الأسبوعي</li>
+      <li data-section="activities">جدول النشاطات</li>
+      <li data-section="news">الأخبار</li>
+      <li data-section="darkmode">تفعيل الوضع المظلم</li>
+      <li data-section="contact">تواصل معنا</li>
     </ul>
-  </nav>
+  </aside>
 
-  <!-- الصفحات -->
-  <main id="main" class="main">
-    <!-- الرئيسية -->
-    <section id="home" class="page active">
-      <div class="student-card" id="studentCard">
-        <div class="student-name" id="stuName">--</div>
-        <div class="student-info" id="stuInfo">--</div>
+  <!-- المحتوى الرئيسي -->
+  <main id="main-content" class="container">
+    <!-- الأقسام -->
+    <section id="home" class="section active">
+      <div class="info">
+        <h2>معلومات الطالب</h2>
+        <div id="student-info"></div>
       </div>
-
-      <div class="admin-message" id="adminMessage">
+      <div class="card">
         <h3>رسالة من الإدارة</h3>
-        <p id="messageText">لا توجد رسائل حالياً.</p>
+        <div id="admin-message"></div>
       </div>
-
-      <div class="news-section" id="newsSection">
-        <h3>الأخبار</h3>
-        <div id="newsList">جارٍ التحميل...</div>
+      <div class="card">
+        <h3>أخبار الإدارة</h3>
+        <div id="home-news"></div>
       </div>
     </section>
 
-    <!-- الدرجات -->
-    <section id="grades" class="page">
-      <h2>درجاتي</h2>
-      <div id="gradesContent">جارٍ تحميل درجات الطالب...</div>
+    <section id="grades" class="section">
+      <h2>الدرجات</h2>
+      <div id="grades-table"></div>
     </section>
 
-    <!-- الجدول الأسبوعي -->
-    <section id="timetable" class="page">
+    <section id="schedule" class="section">
       <h2>الجدول الأسبوعي</h2>
-      <div id="timetableContent">جارٍ تحميل الجدول...</div>
+      <div id="schedule-table"></div>
     </section>
 
-    <!-- الأخبار -->
-    <section id="news" class="page">
-      <h2>الأخبار - كاملة</h2>
-      <div id="newsPageList">جارٍ التحميل...</div>
-    </section>
-
-    <!-- النشاطات -->
-    <section id="activities" class="page">
+    <section id="activities" class="section">
       <h2>جدول النشاطات</h2>
-      <div id="activitiesList">جارٍ التحميل...</div>
+      <div id="activities-table"></div>
     </section>
 
-    <!-- تواصل معنا -->
-    <section id="contact" class="page">
+    <section id="news" class="section">
+      <h2>الأخبار</h2>
+      <div id="news-list"></div>
+    </section>
+
+    <section id="contact" class="section">
       <h2>تواصل معنا</h2>
-      <div class="contact-icons">
-        <a id="fbLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn">فيسبوك</a>
-        <a id="tgLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn">تلغرام</a>
+      <div class="social-links">
+        <a href="#" id="facebook-link" target="_blank">📘 فيسبوك</a><br/>
+        <a href="#" id="telegram-link" target="_blank">📲 تليجرام</a>
       </div>
     </section>
   </main>
