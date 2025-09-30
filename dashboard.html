@@ -1,272 +1,57 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>نتائج الطالب – إعدادية رافدين</title>
-  <style>
-    body { 
-      margin: 0; 
-      font-family: "Arial", sans-serif; 
-      background-color: #f9f9f9; 
-      direction: rtl; 
-    }
-    header { 
-      background-color: #f4b400; 
-      color: white; 
-      text-align: center; 
-      padding: 20px; 
-    }
-    .logo { 
-      width: 60px; 
-      margin-bottom: 10px; 
-    }
-    .school-title { 
-      font-size: 24px; 
-      margin: 0; 
-    }
-    .container { 
-      max-width: 1200px; 
-      margin: 20px auto; 
-      padding: 15px; 
-    }
-    .info { 
-      text-align: center; 
-      margin-bottom: 20px; 
-    }
-    .info h2 { 
-      margin: 10px 0; 
-      font-size: 20px; 
-    }
-    .card { 
-      background: white; 
-      border-radius: 10px; 
-      padding: 15px; 
-      margin-bottom: 20px; 
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1); 
-      overflow-x: auto; 
-    }
-    .card h3 { 
-      color: #38b6b2; 
-      border-bottom: 1px solid #ddd; 
-      padding-bottom: 5px; 
-      margin-bottom: 10px; 
-      font-size: 20px; 
-    }
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      font-size: 15px; 
-      min-width: 600px; 
-    }
-    th, td { 
-      border: 1px solid #ccc; 
-      padding: 10px; 
-      text-align: center; 
-    }
-    th { 
-      background-color: #f4b400; 
-      color: white; 
-    }
-    .footer { 
-      text-align: center; 
-      font-size: 14px; 
-      margin: 20px 0; 
-      color: #444; 
-    }
-    .fail { 
-      color: red; 
-      font-weight: bold; 
-    }
-    .admin-box {
-      background: #e3f2fd;
-      border: 1px solid #90caf9;
-      padding: 15px;
-      margin: 15px auto;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      color: #0d47a1;
-    }
-    .pdf-btn {
-      display: block;
-      margin: 20px auto;
-      background: #38b6b2;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .pdf-btn:hover {
-      background: #2a918e;
-    }
-    .honor-board {
-      background: #fff3e0;
-      border: 1px solid #ffcc80;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-    .honor-board h3 {
-      color: #e65100;
-    }
-    .social-links {
-      margin-top: 25px;
-      text-align: center;
-    }
-    .social-links img {
-      width: 40px;
-      margin: 0 10px;
-      cursor: pointer;
-    }
-    @media (max-width: 600px) {
-      .info h2, .card h3 { font-size: 16px; }
-      table, th, td { font-size: 13px; }
-      table { min-width: unset; }
-    }
-    @media (min-width: 601px) and (max-width: 991px) {
-      .info h2 { font-size: 18px; }
-      table { font-size: 14px; }
-    }
-    @media (min-width: 992px) {
-      .info h2 { font-size: 22px; }
-      table { font-size: 16px; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إعدادية رافدين - بيانات الطالب</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار" class="logo">
-  <h1 class="school-title">إعدادية رافدين</h1>
-</header>
+  <header class="header">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار" class="logo">
+    <h1>إعدادية رافدين</h1>
+  </header>
 
-<div class="container">
-  <div class="info">
-    <h2>الاسم: <span id="student-name">---</span></h2>
-    <h2>الصف: <span id="student-class">---</span> - الشعبة <span id="student-section">---</span></h2>
-    <div id="admin-message" class="admin-box"></div>
-  </div>
+  <main class="dashboard">
+    <!-- بيانات الطالب -->
+    <section class="student-info">
+      <h2>بيانات الطالب</h2>
+      <p><strong>الاسم:</strong> <span id="student-name"></span></p>
+      <p><strong>الصف:</strong> <span id="student-class"></span></p>
+      <p><strong>الشعبة:</strong> <span id="student-section"></span></p>
+    </section>
 
-  <button class="pdf-btn" onclick="downloadPDF()">📄 تحميل الصفحة كـ PDF</button>
+    <!-- الدرجات -->
+    <section class="grades">
+      <h2>الدرجات</h2>
+      <div id="grades-table"></div>
+    </section>
 
-  <div class="card">
-    <h3>الكورس الأول</h3>
-    <table>
-      <thead>
-        <tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 1</th><th>نصف السنة</th></tr>
-      </thead>
-      <tbody id="course1-body"></tbody>
-    </table>
-  </div>
+    <!-- الجدول الأسبوعي -->
+    <section class="schedule">
+      <h2>الجدول الأسبوعي</h2>
+      <div id="schedule-table"></div>
+    </section>
 
-  <div class="card">
-    <h3>الكورس الثاني</h3>
-    <table>
-      <thead>
-        <tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>شهر 3</th><th>سعي 2</th><th>السعي السنوي</th><th>النهائي</th><th>بعد الإكمال</th></tr>
-      </thead>
-      <tbody id="course2-body"></tbody>
-    </table>
-  </div>
+    <!-- الأخبار -->
+    <section class="news">
+      <h2>أحدث الأخبار</h2>
+      <ul id="news-list"></ul>
+    </section>
 
-  <div class="card">
-    <h3>الجدول الأسبوعي</h3>
-    <table>
-      <thead>
-        <tr><th>اليوم</th><th>الحصة 1</th><th>الحصة 2</th><th>الحصة 3</th><th>الحصة 4</th><th>الحصة 5</th><th>الحصة 6</th></tr>
-      </thead>
-      <tbody id="schedule-body"></tbody>
-    </table>
-  </div>
+    <!-- الرسائل -->
+    <section class="messages">
+      <h2>رسائل الإدارة</h2>
+      <div id="admin-messages"></div>
+    </section>
 
-  <div class="honor-board">
-    <h3>لوحة الشرف</h3>
-    <ul id="honor-list"></ul>
-  </div>
+  </main>
 
-  <div class="social-links">
-    <a href="https://facebook.com/YourSchoolPage" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
-    </a>
-    <a href="https://t.me/YourSchoolPage" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
-    </a>
-  </div>
+  <footer class="footer">
+    <p>© 2025 - إعدادية رافدين</p>
+  </footer>
 
-</div>
-
-<!-- مكتبة لتحويل الصفحة إلى PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script>
-  const student = JSON.parse(localStorage.getItem("studentData"));
-  if (!student) {
-    document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px;'>لم يتم العثور على بيانات الطالب. يرجى العودة إلى صفحة الدخول.</h2>";
-  } else {
-    document.getElementById("student-name").textContent = student["الاسم"];
-    document.getElementById("student-class").textContent = student["الصف"];
-    document.getElementById("student-section").textContent = student["الشعبة"];
-    document.getElementById("admin-message").textContent = student["رسالة"] || "نتمنى لكم النجاح والتوفيق.";
-
-    const c1 = document.getElementById("course1-body");
-    const c2 = document.getElementById("course2-body");
-
-    for (const [subject, data] of Object.entries(student["الدرجات"])) {
-      const tdOrRed = v => (parseFloat(v) < 50 ? `<td class="fail">${v}</td>` : `<td>${v}</td>`);
-
-      c1.innerHTML += `<tr><td>${subject}</td>
-        <td>${data["الشهر الأول"]}</td>
-        <td>${data["الشهر الثاني"]}</td>
-        <td>${data["الشهر الثالث"]}</td>
-        <td>${data["السعي الأول"]}</td>
-        ${tdOrRed(data["نصف السنة"])}</tr>`;
-
-      c2.innerHTML += `<tr><td>${subject}</td>
-        <td>${data["الكورس الثاني - الشهر الأول"]}</td>
-        <td>${data["الكورس الثاني - الشهر الثاني"]}</td>
-        <td>${data["الكورس الثاني - الشهر الثالث"]}</td>
-        <td>${data["السعي الثاني"]}</td>
-        <td>${data["السعي السنوي"]}</td>
-        ${tdOrRed(data["الدرجة النهائية"])}
-        ${tdOrRed(data["الدرجة النهائية بعد الإكمال"])}</tr>`;
-    }
-
-    const scheduleBody = document.getElementById("schedule-body");
-    const week = student["الجدول"];
-    for (const day in week) {
-      scheduleBody.innerHTML += `<tr><td>${day}</td>` + week[day].map(p => `<td>${p}</td>`).join("") + "</tr>";
-    }
-
-    // لوحة الشرف
-    const honorList = document.getElementById("honor-list");
-    const honorStudents = [
-      { name: "محمد علي", class: "الثالث العلمي", section: "أ" },
-      { name: "زينب حسن", class: "الثالث العلمي", section: "ب" },
-      { name: "حسين كاظم", class: "الثالث الأدبي", section: "ج" }
-    ];
-    honorStudents.forEach(st => {
-      const li = document.createElement("li");
-      li.textContent = `${st.name} – ${st.class} (${st.section})`;
-      honorList.appendChild(li);
-    });
-  }
-
-  // وظيفة تحميل PDF
-  function downloadPDF() {
-    const element = document.querySelector(".container");
-    html2pdf().set({
-      margin: 0.5,
-      filename: "student-dashboard.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
-    }).from(element).save();
-  }
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
