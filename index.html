@@ -1,47 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>تسجيل دخول الطالب</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول – إعدادية رافدين</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="style.css" rel="stylesheet">
 </head>
-<body class="login-page">
-  <div class="login-box">
-    <img class="logo" src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة">
+<body>
+  <div class="login-container">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة" class="logo">
     <h2>تسجيل دخول الطالب</h2>
-
-    <input id="code" type="text" placeholder="أدخل الكود" autocomplete="off">
-
+    <input type="text" id="code" placeholder="أدخل الكود">
     <select id="class">
       <option value="">اختر الصف</option>
-      <option value="r4_a">رابع أ</option>
-      <option value="r4_b">رابع ب</option>
-      <option value="r4_c">رابع ج</option>
-      <option value="r4_d">رابع د</option>
-      <option value="r4_e">رابع هـ</option>
-      <option value="r4_f">رابع و</option>
-
-      <option value="r5_a">خامس أ</option>
-      <option value="r5_b">خامس ب</option>
-      <option value="r5_c">خامس ج</option>
-      <option value="r5_d">خامس د</option>
-      <option value="r5_e">خامس هـ</option>
-      <option value="r5_f">خامس و</option>
-
-      <option value="r6_a">سادس أ</option>
-      <option value="r6_b">سادس ب</option>
-      <option value="r6_c">سادس ج</option>
-      <option value="r6_d">سادس د</option>
-      <option value="r6_e">سادس هـ</option>
-      <option value="r6_f">سادس و</option>
+      <option>رابع أ</option><option>رابع ب</option><option>رابع ج</option><option>رابع د</option><option>رابع هـ</option><option>رابع و</option>
+      <option>خامس أ</option><option>خامس ب</option><option>خامس ج</option><option>خامس د</option><option>خامس هـ</option><option>خامس و</option>
+      <option>سادس أ</option><option>سادس ب</option><option>سادس ج</option><option>سادس د</option><option>سادس هـ</option><option>سادس و</option>
     </select>
-
-    <button id="login-btn">دخول</button>
-
-    <div id="login-error" class="error-msg"></div>
+    <button onclick="login()">دخول</button>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
