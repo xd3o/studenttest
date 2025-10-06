@@ -1,79 +1,80 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>لوحة الطالب – إعدادية رافدين</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="style.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- ====== الهيدر ====== -->
   <header>
-    <h1>لوحة الطالب</h1>
-    <button id="menu-toggle">☰</button>
+    <h1 class="school-title">إعدادية رافدين — لوحة الطالب</h1>
+    <button id="menu-toggle" aria-label="قائمة">☰</button>
   </header>
 
-  <!-- ====== القائمة الجانبية ====== -->
-  <aside id="sidebar" class="sidebar">
-    <h3>القائمة</h3>
-    <ul>
-      <li data-section="home">الرئيسية</li>
-      <li data-section="grades">الدرجات</li>
-      <li data-section="schedule">الجدول الأسبوعي</li>
-      <li data-section="activities">جدول النشاطات</li>
-      <li data-section="news">الأخبار</li>
-      <li data-section="contact">تواصل معنا</li>
-      <li data-section="darkmode">تفعيل الوضع المظلم</li>
-      <li id="logout">تسجيل خروج</li>
-    </ul>
+  <aside id="sidebar" class="sidebar" aria-hidden="true">
+    <div class="sidebar-top">
+      <h3>القائمة</h3>
+    </div>
+
+    <nav>
+      <ul>
+        <li data-section="home">الرئيسية</li>
+        <li data-section="grades">الدرجات</li>
+        <li data-section="schedule">الجدول الأسبوعي</li>
+        <li data-section="activities">جدول النشاطات</li>
+        <li data-section="news">الأخبار</li>
+        <li data-section="contact">تواصل معنا</li>
+        <li id="dark-toggle">تفعيل الوضع المظلم</li>
+      </ul>
+    </nav>
   </aside>
 
-  <!-- ====== المحتوى الرئيسي ====== -->
   <main class="main-content">
-    <!-- الرئيسية -->
     <section id="home" class="section active">
-      <h2>معلومات الطالب</h2>
-      <div id="student-info" class="card"></div>
+      <div class="card info-card">
+        <h2>معلومات الطالب</h2>
+        <div id="student-info">جاري التحميل ...</div>
+      </div>
 
-      <h3>رسالة الإدارة</h3>
-      <div id="admin-message"></div>
+      <div class="card">
+        <h3>رسالة من الإدارة</h3>
+        <div id="admin-message">جاري التحميل ...</div>
+      </div>
 
-      <h3>آخر الأخبار</h3>
-      <div id="home-news"></div>
+      <div class="card">
+        <h3>أحدث الأخبار</h3>
+        <div id="home-news">جاري التحميل ...</div>
+      </div>
     </section>
 
-    <!-- الدرجات -->
     <section id="grades" class="section">
       <h2>الدرجات</h2>
-      <div id="grades-table"></div>
+      <div id="grades-table">جاري التحميل ...</div>
     </section>
 
-    <!-- الجدول الأسبوعي -->
     <section id="schedule" class="section">
       <h2>الجدول الأسبوعي</h2>
-      <div id="schedule-table"></div>
+      <div id="schedule-table">جاري التحميل ...</div>
     </section>
 
-    <!-- جدول النشاطات -->
     <section id="activities" class="section">
       <h2>جدول النشاطات</h2>
-      <div id="activities-table"></div>
+      <div id="activities-table">جاري التحميل ...</div>
     </section>
 
-    <!-- الأخبار -->
     <section id="news" class="section">
       <h2>الأخبار</h2>
-      <div id="news-list"></div>
+      <div id="news-list">جاري التحميل ...</div>
     </section>
 
-    <!-- تواصل معنا -->
     <section id="contact" class="section">
       <h2>تواصل معنا</h2>
       <div class="card">
-        <p>يمكنك التواصل معنا عبر:</p>
+        <p>يمكنك التواصل عبر:</p>
         <p>
-          <a href="https://facebook.com" target="_blank">📘 فيسبوك</a> |
-          <a href="https://t.me" target="_blank">✈️ تيليجرام</a>
+          <a id="fb-link" href="#" target="_blank">📘 فيسبوك</a> |
+          <a id="tg-link" href="#" target="_blank">✈️ تيليجرام</a>
         </p>
       </div>
     </section>
