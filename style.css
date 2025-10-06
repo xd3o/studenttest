@@ -1,246 +1,147 @@
-/* -------------------------
-   إعدادات عامة
--------------------------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Tahoma", Arial, sans-serif;
+:root{
+  --primary: #0b5fd7;
+  --bg: #f3f6fb;
+  --card: #ffffff;
+  --text: #222;
+  --muted: #6b7080;
 }
 
-body {
-  background: #f5f5f5;
-  color: #222;
-  direction: rtl;
+/* ---------- قواعد عامة ---------- */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: "Tajawal", Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  direction:rtl;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--primary); text-decoration:none}
+
+/* ---------- صفحة تسجيل الدخول ---------- */
+.login-header{
+  background:var(--primary);
+  color:#fff;
+  text-align:center;
+  padding:14px 10px;
+}
+.login-container{
+  width:100%;
+  max-width:420px;
+  margin:40px auto;
+  background:var(--card);
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 6px 20px rgba(10,20,40,0.08);
+  text-align:center;
+}
+.login-container .logo{ width:110px; margin-bottom:12px; }
+.login-container h2{ margin-bottom:14px; color:var(--text) }
+.form-row{ margin:10px 0; }
+input[type="text"], select{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #e3e7ef;
+  border-radius:8px;
+  font-size:15px;
+}
+button#login-btn{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  margin-top:6px;
+}
+.error-msg{ color:#c0392b; margin-top:8px; display:block; }
+
+/* ---------- الهيدر والداشبورد ---------- */
+header{
+  background:var(--primary);
+  color:#fff;
+  padding:14px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+header .school-title{ margin:0; font-size:18px; }
+#menu-toggle{
+  position:absolute;
+  left:12px;
+  top:10px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
 }
 
-/* خلفية صفحة تسجيل الدخول */
-.login-bg {
-  background: url('https://i.ibb.co/nmjQxxk/bg-school.jpg') no-repeat center center fixed;
-  background-size: cover;
+/* القائمة الجانبية */
+.sidebar{
+  position:fixed;
+  top:0;
+  right:-280px;
+  width:260px;
+  height:100vh;
+  background:linear-gradient(180deg,var(--primary), #003b94);
+  color:#fff;
+  padding:18px;
+  transition:right .28s ease;
+  z-index:1200;
+  overflow-y:auto;
+}
+.sidebar.active{ right:0; }
+.sidebar h3{ margin:0 0 12px 0; font-size:18px }
+.sidebar ul{ list-style:none; padding:0; margin-top:8px; }
+.sidebar ul li{
+  padding:10px 12px;
+  background:rgba(255,255,255,0.06);
+  margin-bottom:8px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.sidebar ul li:hover{ background:rgba(255,255,255,0.12); }
+
+/* المحتوى */
+.main-content{
+  padding:18px;
+  max-width:1100px;
+  margin:12px auto;
+}
+.section{ display:none; }
+.section.active{ display:block; }
+.card{
+  background:var(--card);
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(10,20,40,0.06);
+  margin-bottom:12px;
 }
 
-/* -------------------------
-   واجهة تسجيل الدخول
--------------------------- */
-.login-container {
-  background: rgba(255, 255, 255, 0.9);
-  width: 95%;
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
+/* جداول */
+table{ width:100%; border-collapse:collapse; margin-top:10px; }
+th, td{ text-align:center; padding:8px; border:1px solid #edf1f7; }
+th{ background:#f7f9fc; }
 
-.school-logo {
-  width: 90px;
-  height: 90px;
-  margin-bottom: 15px;
-}
+/* تواصل وروابط */
+a{ color:var(--primary) }
 
-.school-title {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #004080;
+/* ---------- الوضع المظلم ---------- */
+body.dark{
+  background:#0b1220;
+  color:#e9eef8;
 }
+body.dark header{ background:#0b1220; }
+body.dark .sidebar{ background:#071835; }
+body.dark .card{ background:#0c1726; color:#e9eef8; box-shadow:none }
+body.dark th, body.dark td{ border-color:#132033 }
 
-.login-container label {
-  display: block;
-  text-align: right;
-  margin: 10px 0 5px;
-  font-weight: bold;
-  color: #333;
-}
-
-.login-container select,
-.login-container input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.btn-primary {
-  background: #007BFF;
-  color: #fff;
-  padding: 12px;
-  width: 100%;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-primary:hover {
-  background: #0056b3;
-}
-
-.error-message {
-  margin-top: 10px;
-  color: red;
-  font-size: 14px;
-}
-
-/* -------------------------
-   واجهة الداشبورد
--------------------------- */
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #004080;
-  color: #fff;
-  padding: 10px 20px;
-}
-
-.dashboard-header .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.dashboard-header img {
-  width: 40px;
-  height: 40px;
-}
-
-.dashboard-header h1 {
-  font-size: 18px;
-}
-
-.menu-toggle {
-  font-size: 24px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: #fff;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: -260px;
-  width: 250px;
-  height: 100%;
-  background: #fff;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-  transition: 0.4s;
-  z-index: 1000;
-  padding: 20px;
-}
-
-.sidebar.active {
-  right: 0;
-}
-
-.sidebar h3 {
-  margin-bottom: 15px;
-  text-align: center;
-  color: #004080;
-}
-
-.sidebar ul {
-  list-style: none;
-}
-
-.sidebar ul li {
-  margin-bottom: 12px;
-}
-
-.sidebar ul li button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background: #007BFF;
-  color: #fff;
-  font-size: 15px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.sidebar ul li button:hover {
-  background: #0056b3;
-}
-
-/* -------------------------
-   صناديق المحتوى
--------------------------- */
-.content {
-  padding: 20px;
-}
-
-.card {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-}
-
-.card h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #004080;
-}
-
-.table-container {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-table th, table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-  font-size: 14px;
-}
-
-table th {
-  background: #007BFF;
-  color: #fff;
-}
-
-.low-grade {
-  color: red;
-  font-weight: bold;
-}
-
-/* -------------------------
-   الوضع المظلم
--------------------------- */
-.dark-mode {
-  background: #1e1e1e;
-  color: #eaeaea;
-}
-
-.dark-mode .login-container {
-  background: rgba(34, 34, 34, 0.95);
-  color: #eaeaea;
-}
-
-.dark-mode .card {
-  background: #2c2c2c;
-}
-
-.dark-mode table th {
-  background: #333;
-}
-
-.dark-mode .sidebar {
-  background: #2c2c2c;
-}
-
-.dark-mode .btn-primary {
-  background: #54B8C2;
+/* ---------- تجاوب ---------- */
+@media (max-width: 768px){
+  .login-container{ margin:18px; padding:16px; }
+  .sidebar{ width:86%; right:-90%; }
 }
