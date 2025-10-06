@@ -1,62 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8">
   <title>تسجيل الدخول – إعدادية رافدين</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="style.css" rel="stylesheet">
 </head>
 <body>
-  <header class="login-header">
-    <h1>إعدادية رافدين</h1>
-  </header>
-
-  <main class="login-container">
-    <img class="logo" src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة" />
+  <div class="login-container">
+    <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة" class="logo">
     <h2>تسجيل دخول الطالب</h2>
-
-    <div class="form-row">
-      <input id="code" type="text" autocomplete="off" inputmode="numeric" placeholder="أدخل الكود (القونة)" />
-    </div>
-
-    <div class="form-row">
-      <select id="class">
-        <option value="">اختر الصف والشعبة</option>
-
-        <option value="r4_a">رابع أ</option>
-        <option value="r4_b">رابع ب</option>
-        <option value="r4_c">رابع ج</option>
-        <option value="r4_d">رابع د</option>
-        <option value="r4_e">رابع هـ</option>
-        <option value="r4_f">رابع و</option>
-
-        <option value="r5_a">خامس أ</option>
-        <option value="r5_b">خامس ب</option>
-        <option value="r5_c">خامس ج</option>
-        <option value="r5_d">خامس د</option>
-        <option value="r5_e">خامس هـ</option>
-        <option value="r5_f">خامس و</option>
-
-        <option value="r6_a">سادس أ</option>
-        <option value="r6_b">سادس ب</option>
-        <option value="r6_c">سادس ج</option>
-        <option value="r6_d">سادس د</option>
-        <option value="r6_e">سادس هـ</option>
-        <option value="r6_f">سادس و</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <button id="login-btn">دخول</button>
-    </div>
-
-    <div id="login-error" class="error-msg" aria-live="polite"></div>
-  </main>
-
-  <footer class="login-footer">
-    <small>© إعدادية رافدين</small>
-  </footer>
-
+    <input type="text" id="code" placeholder="أدخل الكود">
+    <select id="class">
+      <option value="">اختر الصف</option>
+      <option>رابع أ</option><option>رابع ب</option><option>رابع ج</option><option>رابع د</option><option>رابع هـ</option><option>رابع و</option>
+      <option>خامس أ</option><option>خامس ب</option><option>خامس ج</option><option>خامس د</option><option>خامس هـ</option><option>خامس و</option>
+      <option>سادس أ</option><option>سادس ب</option><option>سادس ج</option><option>سادس د</option><option>سادس هـ</option><option>سادس و</option>
+    </select>
+    <button onclick="login()">دخول</button>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
