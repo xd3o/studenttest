@@ -78,23 +78,68 @@ function renderGrades(student){
   if(!student || !student["الدرجات"]){ c1.innerHTML = "<div class='card'>لا توجد درجات.</div>"; c2.innerHTML = "<div class='card'>لا توجد درجات.</div>"; return; }
 
   const grades = student["الدرجات"];
-  // كورس1
-  let html1 = "<table><thead><tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>حصة 1</th><th>نصف السنة</th></tr></thead><tbody>";
-  for(const subj in grades){
-    const d = grades[subj];
-    html1 += `<tr><td>${subj}</td><td>${d["الشهر الأول"] ?? d["شهر1"] ?? ""}</td><td>${d["الشهر الثاني"] ?? d["شهر2"] ?? ""}</td><td>${d["نصف السنة"] ?? d["نصف"] ?? ""}</td></tr>`;
-  }
-  html1 += "</tbody></table>";
-  c1.innerHTML = html1;
+// كورس 1
+let html1 = `
+  <table>
+    <thead>
+      <tr>
+        <th>المادة</th>
+        <th>شهر 1</th>
+        <th>شهر 2</th>
+        <th>نصف السنة</th>
+      </tr>
+    </thead>
+    <tbody>
+`;
 
-  // كورس2
-  let html2 = "<table><thead><tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>حصة 2</th><th>السعي السنوي</th><th>النهائي</th><th>بعد الإكمال</th></tr></thead><tbody>";
-  for(const subj in grades){
-    const d = grades[subj];
-    html2 += `<tr><td>${subj}</td><td>${d["الكورس الثاني - الشهر الأول"] ?? d["شهر1_2"] ?? ""}</td><td>${d["الكورس الثاني - الشهر الثاني"] ?? d["شهر2_2"] ?? ""}</td><td>${d["الحصة الثانية"] ?? d["حصة2"] ?? ""}</td><td>${d["السعي السنوي"] ?? d["سعي_سنوي"] ?? ""}</td><td>${d["الدرجة النهائية"] ?? d["نهائي"] ?? ""}</td><td>${d["الدرجة النهائية بعد الإكمال"] ?? d["بعد_الإكمال"] ?? ""}</td></tr>`;
-  }
-  html2 += "</tbody></table>";
-  c2.innerHTML = html2;
+for (const subj in grades) {
+  const d = grades[subj];
+  html1 += `
+    <tr>
+      <td>${subj}</td>
+      <td>${d["الشهر الأول"] ?? d["شهر1"] ?? ""}</td>
+      <td>${d["الشهر الثاني"] ?? d["شهر2"] ?? ""}</td>
+      <td>${d["نصف السنة"] ?? d["نصف"] ?? ""}</td>
+    </tr>
+  `;
+}
+
+html1 += "</tbody></table>";
+c1.innerHTML = html1;
+
+
+// كورس 2
+let html2 = `
+  <table>
+    <thead>
+      <tr>
+        <th>المادة</th>
+        <th>شهر 1</th>
+        <th>شهر 2</th>
+        <th>السعي السنوي</th>
+        <th>النهائي</th>
+        <th>بعد الإكمال</th>
+      </tr>
+    </thead>
+    <tbody>
+`;
+
+for (const subj in grades) {
+  const d = grades[subj];
+  html2 += `
+    <tr>
+      <td>${subj}</td>
+      <td>${d["الكورس الثاني - الشهر الأول"] ?? d["شهر1_2"] ?? ""}</td>
+      <td>${d["الكورس الثاني - الشهر الثاني"] ?? d["شهر2_2"] ?? ""}</td>
+      <td>${d["السعي السنوي"] ?? d["سعي_سنوي"] ?? ""}</td>
+      <td>${d["الدرجة النهائية"] ?? d["نهائي"] ?? ""}</td>
+      <td>${d["الدرجة النهائية بعد الإكمال"] ?? d["بعد_الإكمال"] ?? ""}</td>
+    </tr>
+  `;
+}
+
+html2 += "</tbody></table>";
+c2.innerHTML = html2;
 }
 
 /* عرض الجدول الأسبوعي من بيانات الطالب */
