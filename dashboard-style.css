@@ -1,168 +1,183 @@
-/* ====== الهيكل العام ====== */
 body {
-  font-family: "Tajawal", sans-serif;
-  background-color: #f9f9f9;
   margin: 0;
-  padding: 0;
+  font-family: "Tahoma", sans-serif;
+  background: #f4f6f8;
+  color: #222;
   direction: rtl;
 }
 
-header {
+/* الشريط العلوي */
+.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
-  padding: 10px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #38b6b2;
+  color: white;
+  padding: 10px 15px;
 }
 
-header img {
-  height: 60px;
-}
-
-header h1 {
+.menu-btn {
+  background: none;
+  border: none;
+  color: white;
   font-size: 22px;
-  margin: 0;
-  color: #0077b6;
+  cursor: pointer;
 }
 
-/* ====== القائمة الجانبية ====== */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 45px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* الشريط الجانبي */
 .sidebar {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: -280px;
   width: 250px;
   height: 100%;
-  background-color: #ffffff;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
-  transition: 0.3s ease;
-  z-index: 200;
-  padding: 15px;
-  overflow-y: auto;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s;
+  padding-top: 60px;
+  z-index: 10;
 }
 
-.sidebar.open {
+.sidebar.active {
   right: 0;
 }
 
-.sidebar a {
-  display: block;
-  padding: 12px;
-  text-decoration: none;
-  color: #333;
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  padding: 15px;
+  cursor: pointer;
   border-bottom: 1px solid #eee;
   transition: background 0.3s;
 }
 
-.sidebar a:hover {
-  background-color: #f0f0f0;
+.sidebar nav ul li:hover {
+  background: #38b6b2;
+  color: white;
 }
 
-/* ====== الأيقونات السفلية ====== */
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 15px;
+.sidebar-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 20px;
 }
 
-.social-icons img {
+.sidebar-footer img {
   width: 28px;
-  height: 28px;
-  margin: 6px;
+  margin: 0 6px;
   transition: transform 0.2s;
 }
 
-.social-icons img:hover {
+.sidebar-footer img:hover {
   transform: scale(1.1);
 }
 
-/* ====== كروت الأخبار ====== */
-.news-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-  margin: 20px 0;
+/* الصفحة الرئيسية */
+.main {
+  padding: 20px;
+  margin-top: 10px;
 }
 
-.news-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+.card {
+  background: white;
+  border-radius: 8px;
   padding: 15px;
-  width: 90%;
-  max-width: 400px;
-  transition: transform 0.2s;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 }
 
-.news-card:hover {
-  transform: translateY(-3px);
+.card h3 {
+  margin-top: 0;
+  color: #38b6b2;
+  border-bottom: 2px solid #38b6b2;
+  padding-bottom: 5px;
 }
 
-.news-card h3 {
-  color: #0099cc; /* العنوان باللون السماوي */
-  margin-bottom: 5px;
-}
-
-.news-card p {
-  color: #000; /* الوصف بالأسود */
-}
-
-.news-card .date {
-  color: #000;
-  font-size: 0.9em;
-  opacity: 0.8;
-}
-
-/* ====== الجداول ====== */
-table {
+/* الجداول */
+.table-container table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 8px;
   overflow: hidden;
-  margin: 15px 0;
+  text-align: center;
 }
 
-th {
-  background-color: #f7a600;
+.table-container th {
+  background-color: #38b6b2;
   color: white;
-  text-align: center;
+  padding: 10px;
+}
+
+.table-container td {
   padding: 8px;
+  border: 1px solid #ddd;
 }
 
-td {
-  text-align: center;
-  padding: 6px;
-  border: 1px solid #eee;
+.table-container tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-.grades-table th,
-.weekly-table th,
-.activity-table th {
-  background-color: #f7a600;
-  color: white;
+/* الأخبار */
+.news-item {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
 }
 
-.grades-table td,
-.weekly-table td,
-.activity-table td {
-  text-align: center;
-  padding: 6px;
-  border: 1px solid #eee;
+.news-item h4 {
+  color: #0099cc;
+  margin: 0 0 4px;
+  font-size: 18px;
 }
 
-/* ====== الوضع المظلم ====== */
-body.dark-mode {
-  background-color: #121212;
-  color: #fff;
+.news-item small {
+  color: #000;
+  display: block;
+  margin-bottom: 4px;
 }
 
-body.dark-mode .news-card {
-  background-color: #1e1e1e;
-  color: white;
+.news-item p {
+  color: #000;
+  margin: 0;
+  font-size: 15px;
 }
 
-body.dark-mode th {
-  background-color: #444;
+/* الوضع المظلم */
+body.dark {
+  background: #1e1e1e;
+  color: #ddd;
+}
+
+body.dark .card {
+  background: #2b2b2b;
+  color: #ddd;
+}
+
+body.dark .sidebar {
+  background: #2b2b2b;
+}
+
+body.dark .table-container th {
+  background: #1976d2;
 }
