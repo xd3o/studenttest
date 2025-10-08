@@ -1,0 +1,91 @@
+/* 🌐 ملف: base.css */
+/* تنسيقات عامة موحدة لكل الصفحات */
+
+:root {
+  --main-color: #38b6b2;
+  --accent-color: #f4b400;
+  --text-color: #222;
+  --bg-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --border-radius: 10px;
+  --transition-speed: 0.3s;
+}
+
+/* القاعدة الأساسية */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Cairo", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+/* الروابط والأزرار */
+a {
+  text-decoration: none;
+  color: var(--main-color);
+  transition: color var(--transition-speed);
+}
+a:hover {
+  color: var(--accent-color);
+}
+
+button {
+  background: var(--main-color);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background var(--transition-speed);
+}
+button:hover {
+  background: #2a918e;
+}
+
+/* البطاقات العامة */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* الوضع المظلم */
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+body.dark-mode .card {
+  background-color: #2b2b2b;
+}
+body.dark-mode a {
+  color: #80cbc4;
+}
+
+/* الترويسات */
+h1, h2, h3 {
+  margin: 0 0 10px 0;
+}
+
+/* الرسائل العامة */
+.message-box {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  text-align: center;
+  color: #0d47a1;
+}
+
+/* هوامش عامة */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 15px;
+}
