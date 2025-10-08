@@ -117,7 +117,7 @@ body.dark .sidebar nav li:hover{ background:rgba(255,255,255,0.03); }
 }
 
 /* =========================
-   تنسيق الأزرار الجانبية
+   تنسيق الأزرار الجانبية بعد إصلاح overflow
    ========================= */
 
 .sidebar-footer {
@@ -134,19 +134,20 @@ body.dark .sidebar nav li:hover{ background:rgba(255,255,255,0.03); }
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #f4b400; /* لون افتراضي */
+  background-color: #f4b400 !important; /* لون افتراضي */
   transition: transform 0.3s, background-color 0.3s;
   text-decoration: none; /* إزالة أي underline */
+  overflow: visible !important; /* السماح للصور بالظهور بالكامل */
 }
 
 /* تأثير عند تمرير الماوس */
 .sidebar-footer a#fb-link:hover {
-  background-color: #3b5998; /* أزرق فيسبوك */
+  background-color: #3b5998 !important; /* أزرق فيسبوك */
   transform: scale(1.1);
 }
 
 .sidebar-footer a#tg-link:hover {
-  background-color: #0088cc; /* أزرق تلجرام */
+  background-color: #0088cc !important; /* أزرق تلجرام */
   transform: scale(1.1);
 }
 
@@ -156,12 +157,13 @@ body.dark .sidebar nav li:hover{ background:rgba(255,255,255,0.03); }
   height: 20px;
   object-fit: cover;
   pointer-events: none; /* يمنع تداخل الصورة مع النقر */
+  overflow: visible !important; /* إصلاح مشكلة القص */
 }
 
 /* الوضع المظلم */
 body.dark .sidebar-footer a#fb-link:hover {
-  background-color: #3b5998; /* أزرق فيسبوك */
+  background-color: #3b5998 !important;
 }
 body.dark .sidebar-footer a#tg-link:hover {
-  background-color: #0088cc; /* أزرق تلجرام */
+  background-color: #0088cc !important;
 }
