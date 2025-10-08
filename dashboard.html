@@ -4,82 +4,94 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>لوحة الطالب – إعدادية رافدين</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard-style.css">
 </head>
 <body>
-  <header>
-    <h1 class="school-title">إعدادية رافدين — لوحة الطالب</h1>
-    <button id="menu-toggle" aria-label="قائمة">☰</button>
+  <header class="topbar">
+    <button id="menuBtn" class="menu-btn" aria-label="قائمة">☰</button>
+    <div class="brand">
+      <img src="https://e.top4top.io/p_34909jjnx0.png" alt="logo" class="logo">
+      <div class="title">إعدادية رافدين – لوحة الطالب</div>
+    </div>
   </header>
 
   <aside id="sidebar" class="sidebar" aria-hidden="true">
-    <div class="sidebar-top">
-      <h3>القائمة</h3>
-    </div>
-
     <nav>
       <ul>
         <li data-section="home">الرئيسية</li>
+        <li data-section="news">الأخبار</li>
+        <li data-section="activities">النشاطات</li>
         <li data-section="grades">الدرجات</li>
         <li data-section="schedule">الجدول الأسبوعي</li>
-        <li data-section="activities">جدول النشاطات</li>
-        <li data-section="news">الأخبار</li>
-        <li data-section="contact">تواصل معنا</li>
-        <li id="dark-toggle">تفعيل الوضع المظلم</li>
+        <li id="darkToggle">تفعيل الوضع المظلم</li>
       </ul>
     </nav>
+    <div class="sidebar-footer">
+      <a id="fb-link" href="https://www.facebook.com/share/1C94KzeakB/?mibextid=wwXIfr" target="_blank" aria-label="فيسبوك">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="fb">
+      </a>
+      <a id="tg-link" href="https://t.me/Alrafidain2023" target="_blank" aria-label="تلجرام">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="tg">
+      </a>
+    </div>
   </aside>
 
-  <main class="main-content">
-    <section id="home" class="section active">
+  <main class="main">
+    <!-- الرئيسية -->
+    <section id="home" class="page active">
       <div class="card info-card">
-        <h2>معلومات الطالب</h2>
+        <h3>معلومات الطالب</h3>
         <div id="student-info">جاري التحميل ...</div>
       </div>
 
-      <div class="card">
+      <div class="card admin-card">
         <h3>رسالة من الإدارة</h3>
         <div id="admin-message">جاري التحميل ...</div>
       </div>
 
-      <div class="card">
-        <h3>أحدث الأخبار</h3>
+      <div class="card news-card">
+        <h3>الأخبار</h3>
         <div id="home-news">جاري التحميل ...</div>
       </div>
     </section>
 
-    <section id="grades" class="section">
-      <h2>الدرجات</h2>
-      <div id="grades-table">جاري التحميل ...</div>
-    </section>
-
-    <section id="schedule" class="section">
-      <h2>الجدول الأسبوعي</h2>
-      <div id="schedule-table">جاري التحميل ...</div>
-    </section>
-
-    <section id="activities" class="section">
-      <h2>جدول النشاطات</h2>
-      <div id="activities-table">جاري التحميل ...</div>
-    </section>
-
-    <section id="news" class="section">
-      <h2>الأخبار</h2>
-      <div id="news-list">جاري التحميل ...</div>
-    </section>
-
-    <section id="contact" class="section">
-      <h2>تواصل معنا</h2>
+    <!-- الأخبار -->
+    <section id="news" class="page">
       <div class="card">
-        <p>يمكنك التواصل عبر:</p>
-        <p>
-          <a id="fb-link" href="#" target="_blank">📘 فيسبوك</a> |
-          <a id="tg-link" href="#" target="_blank">✈️ تيليجرام</a>
-        </p>
+        <h3>جميع الأخبار</h3>
+        <div id="news-list">جاري التحميل ...</div>
+      </div>
+    </section>
+
+    <!-- النشاطات -->
+    <section id="activities" class="page">
+      <div class="card">
+        <h3>سجل النشاطات</h3>
+        <div id="activities-list">جاري التحميل ...</div>
+      </div>
+    </section>
+
+    <!-- الدرجات -->
+    <section id="grades" class="page">
+      <div class="card">
+        <h3>الدرجات — الكورس الأول</h3>
+        <div id="course1">جاري التحميل ...</div>
+      </div>
+      <div class="card">
+        <h3>الدرجات — الكورس الثاني</h3>
+        <div id="course2">جاري التحميل ...</div>
+      </div>
+    </section>
+
+    <!-- الجدول الأسبوعي -->
+    <section id="schedule" class="page">
+      <div class="card">
+        <h3>الجدول الأسبوعي</h3>
+        <div id="schedule-table">جاري التحميل ...</div>
       </div>
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script src="dashboard-script.js"></script>
 </body>
 </html>
