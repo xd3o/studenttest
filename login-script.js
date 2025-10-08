@@ -1,3 +1,5 @@
+document.getElementById("login-btn").addEventListener("click", login);
+
 const classMap = {
   "رابع أ": "r4_a", "رابع ب": "r4_b", "رابع ج": "r4_c", "رابع د": "r4_d", "رابع هـ": "r4_e", "رابع و": "r4_f",
   "خامس أ": "r5_a", "خامس ب": "r5_b", "خامس ج": "r5_c", "خامس د": "r5_d", "خامس هـ": "r5_e", "خامس و": "r5_f",
@@ -37,7 +39,7 @@ function login() {
     window.location.href = "dashboard.html";
   };
   script.onerror = function () {
-    alert("تعذر تحميل بيانات الصف المحدد. تأكد من اختيار الصف الصحيح.");
+    alert("تعذر تحميل بيانات الصف المحدد.");
   };
 
   document.body.appendChild(script);
