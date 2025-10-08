@@ -89,11 +89,22 @@ body{
 .card h3{ margin:0 0 10px 0; color:#0b3b3b; }
 
 /* بطاقات الاخبار */
-.news-item{
-  border-radius:8px;
-  padding:10px;
-  background:#f7f7f7;
-  margin-bottom:8px;
+.news-item {
+  border-radius: 8px;
+  padding: 10px;
+  background: #f7f7f7;
+  margin-bottom: 8px;
+}
+
+.news-item .news-date {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.news-item .news-desc {
+  font-size: 14px;
+  color: #222;
 }
 
 /* جداول */
