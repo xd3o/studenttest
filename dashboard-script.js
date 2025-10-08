@@ -26,7 +26,7 @@ async function loadNews() {
     const res = await fetch('news.json');
     const data = await res.json();
 
-    // ✅ عرض جميع الأخبار في صفحة الأخبار
+    // عرض جميع الأخبار
     if (target) {
       target.innerHTML = data.map(item => `
         <div class="news-item">
@@ -37,7 +37,7 @@ async function loadNews() {
       `).join('');
     }
 
-    // ✅ عرض مختصر (أول 3 أخبار) في الصفحة الرئيسية
+    // عرض أول 3 في الرئيسية
     if (homeTarget) {
       homeTarget.innerHTML = data.slice(0, 3).map(n => `
         <div class="news-item">
@@ -50,10 +50,10 @@ async function loadNews() {
 
   } catch (e) {
     console.error("خطأ في تحميل الأخبار:", e);
-    if (target) target.innerHTML = "<div class='card'>تعذر تحميل الأخبار.</div>";
-    if (homeTarget) homeTarget.innerHTML = "<div class='card'>تعذر تحميل الأخبار.</div>";
   }
 }
+
+loadNews();
 
 /* تحميل النشاطات من ac.json */
 async function loadActivities(){
