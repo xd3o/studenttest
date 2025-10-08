@@ -115,3 +115,53 @@ body.dark .sidebar nav li:hover{ background:rgba(255,255,255,0.03); }
   .sidebar.active{ right:0; }
   .main{ padding:10px; margin:10px; }
 }
+
+/* =========================
+   تنسيق الأزرار الجانبية
+   ========================= */
+
+.sidebar-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.sidebar-footer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f4b400; /* لون افتراضي */
+  transition: transform 0.3s, background-color 0.3s;
+  text-decoration: none; /* إزالة أي underline */
+}
+
+/* تأثير عند تمرير الماوس */
+.sidebar-footer a#fb-link:hover {
+  background-color: #3b5998; /* أزرق فيسبوك */
+  transform: scale(1.1);
+}
+
+.sidebar-footer a#tg-link:hover {
+  background-color: #0088cc; /* أزرق تلجرام */
+  transform: scale(1.1);
+}
+
+/* الصورة داخل الرابط */
+.sidebar-footer a img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  pointer-events: none; /* يمنع تداخل الصورة مع النقر */
+}
+
+/* الوضع المظلم */
+body.dark .sidebar-footer a#fb-link:hover {
+  background-color: #3b5998; /* أزرق فيسبوك */
+}
+body.dark .sidebar-footer a#tg-link:hover {
+  background-color: #0088cc; /* أزرق تلجرام */
+}
