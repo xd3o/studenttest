@@ -55,59 +55,71 @@ async function loadActivities(){
 function renderGrades(student){
   const c1 = document.getElementById("course1");
   const c2 = document.getElementById("course2");
-  if(!student || !student["الدرجات"]){ c1.innerHTML = "<div class='card'>لا توجد درجات.</div>"; c2.innerHTML = "<div class='card'>لا توجد درجات.</div>"; return; }
+  if(!student || !student["الدرجات"]){ 
+    c1.innerHTML = "<div class='card'>لا توجد درجات.</div>"; 
+    c2.innerHTML = "<div class='card'>لا توجد درجات.</div>"; 
+    return; 
+  }
 
   const grades = student["الدرجات"];
-  // كورس1
-  let html1 = "<table><thead><tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>حصة 1</th><th>نصف السنة</th></tr></thead><tbody>";
+
+  // الكورس الأول
+  let html1 = `
+  <table>
+    <thead>
+      <tr>
+        <th>المادة</th>
+        <th>شهر 1</th>
+        <th>شهر 2</th>
+        <th>سعي 1</th>
+        <th>نصف السنة</th>
+      </tr>
+    </thead>
+    <tbody>`;
   for(const subj in grades){
     const d = grades[subj];
-    html1 += `<tr><td>${subj}</td><td>${d["الشهر الأول"] ?? d["شهر1"] ?? ""}</td><td>${d["الشهر الثاني"] ?? d["شهر2"] ?? ""}</td><td>${d["الحصة الأولى"] ?? d["حصة1"] ?? ""}</td><td>${d["نصف السنة"] ?? d["نصف"] ?? ""}</td></tr>`;
+    html1 += `
+      <tr>
+        <td>${subj}</td>
+        <td>${d["الكورس الأول - الشهر الأول"] ?? d["شهر1_1"] ?? d["شهر1"] ?? ""}</td>
+        <td>${d["الكورس الأول - الشهر الثاني"] ?? d["شهر2_1"] ?? d["شهر2"] ?? ""}</td>
+        <td>${d["سعي1"] ?? d["السعي الأول"] ?? ""}</td>
+        <td>${d["نصف السنة"] ?? d["نصف"] ?? ""}</td>
+      </tr>`;
   }
   html1 += "</tbody></table>";
   c1.innerHTML = html1;
 
-  // كورس2
-  let html2 = "<table><thead><tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>حصة 2</th><th>السعي السنوي</th><th>النهائي</th><th>بعد الإكمال</th></tr></thead><tbody>";
+  // الكورس الثاني
+  let html2 = `
+  <table>
+    <thead>
+      <tr>
+        <th>المادة</th>
+        <th>شهر 1</th>
+        <th>شهر 2</th>
+        <th>سعي 2</th>
+        <th>السعي السنوي</th>
+        <th>الدرجة النهائية</th>
+        <th>بعد الإكمال</th>
+      </tr>
+    </thead>
+    <tbody>`;
   for(const subj in grades){
     const d = grades[subj];
-    html2 += `<tr><td>${subj}</td><td>${d["الكورس الثاني - الشهر الأول"] ?? d["شهر1_2"] ?? ""}</td><td>${d["الكورس الثاني - الشهر الثاني"] ?? d["شهر2_2"] ?? ""}</td><td>${d["الحصة الثانية"] ?? d["حصة2"] ?? ""}</td><td>${d["السعي السنوي"] ?? d["سعي_سنوي"] ?? ""}</td><td>${d["الدرجة النهائية"] ?? d["نهائي"] ?? ""}</td><td>${d["الدرجة النهائية بعد الإكمال"] ?? d["بعد_الإكمال"] ?? ""}</td></tr>`;
+    html2 += `
+      <tr>
+        <td>${subj}</td>
+        <td>${d["الكورس الثاني - الشهر الأول"] ?? d["شهر1_2"] ?? ""}</td>
+        <td>${d["الكورس الثاني - الشهر الثاني"] ?? d["شهر2_2"] ?? ""}</td>
+        <td>${d["سعي2"] ?? d["السعي الثاني"] ?? ""}</td>
+        <td>${d["السعي السنوي"] ?? d["سعي_سنوي"] ?? ""}</td>
+        <td>${d["الدرجة النهائية"] ?? d["نهائي"] ?? ""}</td>
+        <td>${d["الدرجة النهائية بعد الإكمال"] ?? d["بعد_الإكمال"] ?? ""}</td>
+      </tr>`;
   }
   html2 += "</tbody></table>";
   c2.innerHTML = html2;
-}
-
-/* عرض الجدول الأسبوعي من بيانات الطالب */
-function renderSchedule(student){
-  const el = document.getElementById("schedule-table");
-  if(!student || !student["الجدول"]){ el.innerHTML = "<div class='card'>لا يوجد جدول أسبوعي.</div>"; return; }
-  const week = student["الجدول"];
-  // رؤوس الأيام
-  const days = Object.keys(week);
-  // بناء جدول: أعمدة: اليوم + 6 حصص
-  let html = "<table><thead><tr><th>اليوم</th><th>حصة1</th><th>حصة2</th><th>حصة3</th><th>حصة4</th><th>حصة5</th><th>حصة6</th></tr></thead><tbody>";
-  for(const day of days){
-    const row = week[day] || [];
-    // ضمان 6 خلايا
-    const cells = [];
-    for(let i=0;i<6;i++) cells.push(`<td>${row[i] ?? ""}</td>`);
-    html += `<tr><td>${day}</td>` + cells.join("") + `</tr>`;
-  }
-  html += "</tbody></table>";
-  el.innerHTML = html;
-}
-
-/* عرض معلومات الطالب ورسالة الإدارة */
-function renderStudentHome(student){
-  const si = document.getElementById("student-info");
-  if(!student){ si.innerHTML = "<div>لا توجد بيانات.</div>"; return; }
-  const name = student["الاسم"] || student.name || student.fullname || "";
-  const cls = student["الصف"] || student.class || "";
-  const sec = student["الشعبة"] || student.section || "";
-  si.innerHTML = `<p><strong>الاسم:</strong> ${name}</p><p><strong>الصف:</strong> ${cls} - ${sec}</p>`;
-  const admin = document.getElementById("admin-message");
-  const msg = student["رسالة"] || student["adminMessage"] || student.message || "";
-  admin.innerHTML = msg ? `<div>${msg}</div>` : `<div>لا توجد رسالة من الإدارة.</div>`;
 }
 
 /* تفعيل الوضع المظلم */
