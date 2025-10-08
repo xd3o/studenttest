@@ -18,25 +18,40 @@ function showPage(id){
 }
 
 /* تحميل الأخبار من news.json */
-async function loadNews(){
-  const newsList = document.getElementById('home-news');
+async function loadNews() {
+  const target = document.getElementById('news-list');
+  const homeTarget = document.getElementById('home-news');
 
-fetch('news.json')
-  .then(res => res.json())
-  .then(data => {
-    newsList.innerHTML = data.map(item => `
-      <div class="news-item">
-        <h3>${item.title}</h3>
-        <p class="news-date">${item.date}</p>
-        <p class="news-desc">${item.description}</p>
-      </div>
-    `).join('');
-  });
-    // عرض مختصر (أول 3) في الرئيسية
-    if(homeTarget) homeTarget.innerHTML = (data.slice(0,3).map(n=>`<div class="news-item"><h4>${n.title||''}</h4><p>${n.content||''}</p></div>`)).join("");
-  }catch(e){
-    if(target) target.innerHTML = "<div class='card'>تعذر تحميل الأخبار.</div>";
-    if(homeTarget) homeTarget.innerHTML = "<div class='card'>تعذر تحميل الأخبار.</div>";
+  try {
+    const res = await fetch('news.json');
+    const data = await res.json();
+
+    // ✅ عرض جميع الأخبار في صفحة الأخبار
+    if (target) {
+      target.innerHTML = data.map(item => `
+        <div class="news-item">
+          <h3>${item.title}</h3>
+          <p class="news-date">${item.date}</p>
+          <p class="news-desc">${item.description}</p>
+        </div>
+      `).join('');
+    }
+
+    // ✅ عرض مختصر (أول 3 أخبار) في الصفحة الرئيسية
+    if (homeTarget) {
+      homeTarget.innerHTML = data.slice(0, 3).map(n => `
+        <div class="news-item">
+          <h4>${n.title}</h4>
+          <p class="news-date">${n.date}</p>
+          <p class="news-desc">${n.description}</p>
+        </div>
+      `).join('');
+    }
+
+  } catch (e) {
+    console.error("خطأ في تحميل الأخبار:", e);
+    if (target) target.innerHTML = "<div class='card'>تعذر تحميل الأخبار.</div>";
+    if (homeTarget) homeTarget.innerHTML = "<div class='card'>تعذر تحميل الأخبار.</div>";
   }
 }
 
