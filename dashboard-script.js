@@ -19,14 +19,19 @@ function showPage(id){
 
 /* تحميل الأخبار من news.json */
 async function loadNews(){
-  const target = document.getElementById("news-list");
-  const homeTarget = document.getElementById("home-news");
-  try{
-    const res = await fetch("news.json",{cache:"no-store"});
-    if(!res.ok) throw new Error("no news");
-    const data = await res.json();
-    // عرض كامل للأخبار في صفحة الأخبار
-    if(target) target.innerHTML = data.map(n=>`<div class="news-item"><h4>${n.title||''}</h4><p>${n.content||''}</p></div>`).join("");
+  const newsList = document.getElementById('home-news');
+
+fetch('news.json')
+  .then(res => res.json())
+  .then(data => {
+    newsList.innerHTML = data.map(item => `
+      <div class="news-item">
+        <h3>${item.title}</h3>
+        <p class="news-date">${item.date}</p>
+        <p class="news-desc">${item.description}</p>
+      </div>
+    `).join('');
+  });
     // عرض مختصر (أول 3) في الرئيسية
     if(homeTarget) homeTarget.innerHTML = (data.slice(0,3).map(n=>`<div class="news-item"><h4>${n.title||''}</h4><p>${n.content||''}</p></div>`)).join("");
   }catch(e){
