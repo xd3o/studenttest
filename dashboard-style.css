@@ -39,7 +39,7 @@ body{
 }
 .brand{ display:flex; flex-direction:column; align-items:center; gap:6px; }
 .logo{ width:9px; }
-.title{ font-size:18px; font-weight:700; }
+.title{ font-size:18px; font-weight:300; }
 
 /* السايدبار */
 .sidebar{
