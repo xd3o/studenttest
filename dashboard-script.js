@@ -1,147 +1,85 @@
-// ====== القائمة الجانبية ======
-const menuBtn = document.querySelector(".menu-btn");
-const sidebar = document.querySelector(".sidebar");
+// فتح / غلق القائمة الجانبية
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+menuBtn.onclick = () => sidebar.classList.toggle("active");
 
-if (menuBtn && sidebar) {
-  menuBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
+// تفعيل الوضع المظلم
+document.getElementById("darkToggle").onclick = () => {
+  document.body.classList.toggle("dark");
+};
+
+// التنقل بين الصفحات
+document.querySelectorAll(".sidebar nav ul li[data-section]").forEach(item => {
+  item.addEventListener("click", () => {
+    document.querySelectorAll(".page").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(item.dataset.section).classList.add("active");
+    sidebar.classList.remove("active");
   });
+});
+
+// تحميل بيانات الطالب
+const student = JSON.parse(localStorage.getItem("studentData"));
+if (student) {
+  document.getElementById("student-info").innerHTML = `
+    <strong>الاسم:</strong> ${student["الاسم"]}<br>
+    <strong>الصف:</strong> ${student["الصف"]}<br>
+    <strong>الشعبة:</strong> ${student["الشعبة"]}
+  `;
+  document.getElementById("admin-message").textContent = student["رسالة"] || "نتمنى لكم دوام التوفيق.";
+
+  // عرض الجداول (الدرجات + النشاطات + الجدول)
+  const renderTable = (id, headers, rows) => {
+    const container = document.getElementById(id);
+    container.innerHTML = `
+      <div class="table-container">
+        <table>
+          <thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead>
+          <tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
+        </table>
+      </div>`;
+  };
+
+  // حذف الحصة الأولى والثانية من الدرجات وإعادة تنسيقها
+  const c1 = Object.entries(student["الدرجات"]).map(([sub, d]) => [
+    sub, d["الشهر الأول"], d["الشهر الثاني"], d["السعي الأول"], d["نصف السنة"]
+  ]);
+  const c2 = Object.entries(student["الدرجات"]).map(([sub, d]) => [
+    sub, d["الكورس الثاني - الشهر الأول"], d["الكورس الثاني - الشهر الثاني"],
+    d["السعي الثاني"], d["الدرجة النهائية"], d["الدرجة النهائية بعد الإكمال"]
+  ]);
+
+  renderTable("course1", ["المادة", "شهر 1", "شهر 2", "سعي 1", "نصف السنة"], c1);
+  renderTable("course2", ["المادة", "شهر 1", "شهر 2", "سعي 2", "النهائي", "بعد الإكمال"], c2);
+
+  // الجدول الأسبوعي
+  const week = student["الجدول"];
+  const scheduleRows = Object.entries(week).map(([day, p]) => [day, ...p]);
+  renderTable("schedule-table", ["اليوم", "1", "2", "3", "4", "5", "6"], scheduleRows);
+
+  // سجل النشاطات (من نفس التنسيق)
+  const activities = student["النشاطات"] || [];
+  const actRows = activities.map(a => [a["الاسم"], a["الصف"], a["الشعبة"], a["النشاط"]]);
+  renderTable("activities-list", ["الاسم", "الصف", "الشعبة", "النشاط"], actRows);
 }
 
-// ====== الوضع المظلم ======
-const darkModeToggle = document.getElementById("darkModeToggle");
-if (darkModeToggle) {
-  darkModeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-  });
-}
-
-// ====== عرض الأخبار ======
+// الأخبار
 fetch("news.json")
-  .then((res) => res.json())
-  .then((data) => {
-    const newsContainer = document.getElementById("newsContainer");
-    if (!newsContainer) return;
+  .then(res => res.json())
+  .then(data => {
+    const homeNews = document.getElementById("home-news");
+    const allNews = document.getElementById("news-list");
 
-    newsContainer.innerHTML = "";
-    data.forEach((item) => {
-      newsContainer.innerHTML += `
-        <div class="news-card">
-          <h3>${item.title}</h3>
-          <p class="date">${item.date}</p>
-          <p>${item.description}</p>
-        </div>
-      `;
-    });
+    const renderNews = arr =>
+      arr.map(n => `
+        <div class="news-item">
+          <h4>${n.title}</h4>
+          <small>${n.date}</small>
+          <p>${n.description}</p>
+        </div>`).join("");
+
+    homeNews.innerHTML = renderNews(data.slice(0, 3));
+    allNews.innerHTML = renderNews(data);
+  })
+  .catch(() => {
+    document.getElementById("home-news").textContent = "تعذر تحميل الأخبار.";
   });
-
-// ====== عرض الدرجات ======
-function renderGrades(data) {
-  const container = document.getElementById("gradesContainer");
-  if (!container) return;
-
-  let html = `
-    <table class="grades-table">
-      <thead>
-        <tr>
-          <th>المادة</th>
-          <th>شهر 1</th>
-          <th>شهر 2</th>
-          <th>شهر 3</th>
-          <th>السعي 2</th>
-          <th>السنوي</th>
-          <th>النهائي</th>
-          <th>بعد الإكمال</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  data.forEach((row) => {
-    html += `
-      <tr>
-        <td>${row.subject}</td>
-        <td>${row.m1}</td>
-        <td>${row.m2}</td>
-        <td>${row.m3}</td>
-        <td>${row.sa2}</td>
-        <td>${row.annual}</td>
-        <td>${row.final}</td>
-        <td>${row.after}</td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table>`;
-  container.innerHTML = html;
-}
-
-// ====== توحيد الجداول ======
-function renderWeeklyTable(weeklyData) {
-  const container = document.getElementById("weeklyContainer");
-  if (!container) return;
-
-  let html = `
-    <table class="weekly-table">
-      <thead>
-        <tr>
-          <th>اليوم</th>
-          <th>الحصة 1</th>
-          <th>الحصة 2</th>
-          <th>الحصة 3</th>
-          <th>الحصة 4</th>
-          <th>الحصة 5</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  weeklyData.forEach((d) => {
-    html += `
-      <tr>
-        <td>${d.day}</td>
-        <td>${d.h1}</td>
-        <td>${d.h2}</td>
-        <td>${d.h3}</td>
-        <td>${d.h4}</td>
-        <td>${d.h5}</td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table>`;
-  container.innerHTML = html;
-}
-
-// ====== الأنشطة ======
-function renderActivities(data) {
-  const container = document.getElementById("activitiesContainer");
-  if (!container) return;
-
-  let html = `
-    <table class="activity-table">
-      <thead>
-        <tr>
-          <th>الاسم</th>
-          <th>الصف</th>
-          <th>الشعبة</th>
-          <th>نوع النشاط</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  data.forEach((a) => {
-    html += `
-      <tr>
-        <td>${a.name}</td>
-        <td>${a.grade}</td>
-        <td>${a.section}</td>
-        <td>${a.activity}</td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table>`;
-  container.innerHTML = html;
-}
