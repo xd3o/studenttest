@@ -82,7 +82,7 @@ function renderGrades(student){
   let html1 = "<table><thead><tr><th>المادة</th><th>شهر 1</th><th>شهر 2</th><th>حصة 1</th><th>نصف السنة</th></tr></thead><tbody>";
   for(const subj in grades){
     const d = grades[subj];
-    html1 += `<tr><td>${subj}</td><td>${d["الشهر الأول"] ?? d["شهر1"] ?? ""}</td><td>${d["الشهر الثاني"] ?? d["شهر2"] ?? ""}</td><td>${d["الحصة الأولى"] ?? d["حصة1"] ?? ""}</td><td>${d["نصف السنة"] ?? d["نصف"] ?? ""}</td></tr>`;
+    html1 += `<tr><td>${subj}</td><td>${d["الشهر الأول"] ?? d["شهر1"] ?? ""}</td><td>${d["الشهر الثاني"] ?? d["شهر2"] ?? ""}</td><td>${d["نصف السنة"] ?? d["نصف"] ?? ""}</td></tr>`;
   }
   html1 += "</tbody></table>";
   c1.innerHTML = html1;
