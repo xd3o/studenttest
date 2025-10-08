@@ -115,3 +115,11 @@ body.dark .sidebar nav li:hover{ background:rgba(255,255,255,0.03); }
   .sidebar.active{ right:0; }
   .main{ padding:10px; margin:10px; }
 }
+
+.logo img,
+.facebook-logo img {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
