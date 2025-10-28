@@ -34,18 +34,16 @@ function toggleDark() {
   // Create ripple effect
   const ripple = document.createElement('div');
   ripple.classList.add('dark-mode-ripple');
-  // تم تعديل إحداثيات الريبل لتكون أكثر مركزية أو ثابتة نسبياً
   ripple.style.cssText = `
     position: fixed;
-    top: 50%; 
-    left: 50%; 
+    top: 115px;
+    left: 45px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%); /* استخدام accent-color ليكون أوضح */
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
     pointer-events: none;
     z-index: 9999;
-    transform: translate(-50%, -50%);
     animation: rippleExpand 0.8s ease-out forwards;
   `;
   document.body.appendChild(ripple);
@@ -129,20 +127,16 @@ function showAlert(message, type = 'info') {
     <button class="alert-close">&times;</button>
   `;
   
-  // Add styles (تم تعديل بعض المتغيرات لتتوافق مع base.css)
-  const shadowHover = getComputedStyle(document.body).getPropertyValue('--shadow-hover') || '0 6px 20px rgba(0, 0, 0, 0.15)';
-  const border = getComputedStyle(document.body).getPropertyValue('--border-color') || '#e0e0e0';
-  const primaryColor = getComputedStyle(document.body).getPropertyValue('--main-color') || '#38b6b2';
-
+  // Add styles
   alert.style.cssText = `
     position: fixed;
     top: 90px;
     left: 50%;
     transform: translateX(-50%) translateY(-100px);
-    background: var(--card-bg);
+    background: var(--card);
     padding: 16px 20px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px var(--shadow-hover);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -150,7 +144,7 @@ function showAlert(message, type = 'info') {
     z-index: 10000;
     opacity: 0;
     transition: all 0.3s ease;
-    border: 1px solid ${border};
+    border: 1px solid var(--border);
   `;
   
   document.body.appendChild(alert);
@@ -200,7 +194,7 @@ async function loadNews() {
       } else {
         target.innerHTML = data.map(item => `
           <div class="news-item" style="animation: slideInRight 0.4s ease forwards; opacity: 0;">
-            <h3 style="color: var(--text-color); font-size: 18px; margin-bottom: 8px; font-weight: 700;">
+            <h3 style="color: var(--text); font-size: 18px; margin-bottom: 8px; font-weight: 700;">
               ${item.title || item.عنوان || 'بدون عنوان'}
             </h3>
             <p class="news-date">
@@ -228,7 +222,7 @@ async function loadNews() {
       } else {
         homeTarget.innerHTML = data.slice(0, 3).map(n => `
           <div class="news-item">
-            <h4 style="color: var(--text-color); font-size: 16px; margin-bottom: 6px; font-weight: 600;">
+            <h4 style="color: var(--text); font-size: 16px; margin-bottom: 6px; font-weight: 600;">
               ${n.title || n.عنوان || 'بدون عنوان'}
             </h4>
             <p class="news-date">${n.date || n.التاريخ || ''}</p>
@@ -299,8 +293,8 @@ function renderGrades(student) {
   
   if (!student || !student["الدرجات"]) {
     const emptyMsg = '<div class="empty-state">📚 لا توجد درجات مسجلة</div>';
-    if (c1) c1.innerHTML = emptyMsg;
-    if (c2) c2.innerHTML = emptyMsg;
+    c1.innerHTML = emptyMsg;
+    c2.innerHTML = emptyMsg;
     return;
   }
 
@@ -334,7 +328,7 @@ function renderGrades(student) {
   }
 
   html1 += "</tbody></table></div>";
-  if (c1) c1.innerHTML = html1;
+  c1.innerHTML = html1;
 
   // Course 2
   let html2 = `
@@ -368,17 +362,17 @@ function renderGrades(student) {
   }
 
   html2 += "</tbody></table></div>";
-  if (c2) c2.innerHTML = html2;
+  c2.innerHTML = html2;
 }
 
 // ============================================
-// RENDER SCHEDULE (OLD FUNCTION - Still used for student.json data)
+// RENDER SCHEDULE
 // ============================================
 function renderSchedule(student) {
   const el = document.getElementById("schedule-table");
   
   if (!student || !student["الجدول"]) {
-    if (el) el.innerHTML = '<div class="empty-state">📅 لا يوجد جدول أسبوعي</div>';
+    el.innerHTML = '<div class="empty-state">📅 لا يوجد جدول أسبوعي</div>';
     return;
   }
 
@@ -412,7 +406,7 @@ function renderSchedule(student) {
   }
 
   html += "</tbody></table></div>";
-  if (el) el.innerHTML = html;
+  el.innerHTML = html;
 }
 
 // ============================================
@@ -422,7 +416,7 @@ function renderStudentHome(student) {
   const si = document.getElementById("student-info");
   
   if (!student) {
-    if (si) si.innerHTML = '<div class="error-state">⚠️ لا توجد بيانات</div>';
+    si.innerHTML = '<div class="error-state">⚠️ لا توجد بيانات</div>';
     return;
   }
 
@@ -431,47 +425,43 @@ function renderStudentHome(student) {
   const sec = student["الشعبة"] || student.section || "";
   const code = student["الكود"] || student.code || "";
 
-  if (si) {
-      si.innerHTML = `
-        <div class="info-row">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          <span><strong>الاسم:</strong> ${name}</span>
-        </div>
-        <div class="info-row">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          </svg>
-          <span><strong>الصف:</strong> ${cls} ${sec ? `- ${sec}` : ''}</span>
-        </div>
-        ${code ? `
-          <div class="info-row">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <span><strong>الكود:</strong> ${code}</span>
-          </div>
-        ` : ''}
-      `;
-  }
+  si.innerHTML = `
+    <div class="info-row">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      <span><strong>الاسم:</strong> ${name}</span>
+    </div>
+    <div class="info-row">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
+      <span><strong>الصف:</strong> ${cls} ${sec ? `- ${sec}` : ''}</span>
+    </div>
+    ${code ? `
+      <div class="info-row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span><strong>الكود:</strong> ${code}</span>
+      </div>
+    ` : ''}
+  `;
 
   // Admin message
   const admin = document.getElementById("admin-message");
   const msg = student["رسالة"] || student["adminMessage"] || student.message || "";
   
-  if (admin) {
-      if (msg) {
-        admin.innerHTML = `
-          <div class="admin-msg-content">
-            <p>${msg}</p>
-          </div>
-        `;
-      } else {
-        admin.innerHTML = '<div class="empty-state">✉️ لا توجد رسالة من الإدارة</div>';
-      }
+  if (msg) {
+    admin.innerHTML = `
+      <div class="admin-msg-content">
+        <p>${msg}</p>
+      </div>
+    `;
+  } else {
+    admin.innerHTML = '<div class="empty-state">✉️ لا توجد رسالة من الإدارة</div>';
   }
 }
 
@@ -491,98 +481,6 @@ function handleLogout() {
       window.location.href = 'index.html';
     }, 1000);
   }
-}
-
-// ============================================
-// NEW: BUILD TABLE HTML HELPER
-// ============================================
-function buildTableHtml(data, headers, isWeekly = false) {
-    if (!data || Object.keys(data).length === 0) {
-        return '<div class="empty-state">📅 لا يوجد جدول متاح حالياً</div>';
-    }
-
-    const days = Object.keys(data);
-
-    let html = `
-      <div class="table-container">
-        <table class="schedule-table">
-          <thead>
-            <tr>
-              <th>${isWeekly ? 'اليوم' : 'المادة'}</th>
-              ${headers.map(h => `<th>${h}</th>`).join('')}
-            </tr>
-          </thead>
-          <tbody>
-    `;
-
-    for (const dayOrSubject of days) {
-        const row = data[dayOrSubject] || [];
-        const cells = [];
-        // تأكد من عرض عدد الخلايا بناءً على طول صف العناوين
-        for (let i = 0; i < headers.length; i++) {
-            cells.push(`<td>${row[i] ?? "-"}</td>`);
-        }
-        html += `<tr><td><strong>${dayOrSubject}</strong></td>${cells.join("")}</tr>`;
-    }
-
-    html += "</tbody></table></div>";
-    return html;
-}
-
-// ============================================
-// NEW: LOAD SCHEDULES FROM JSON
-// ============================================
-async function loadSchedules() {
-    const weeklyTarget = document.getElementById("weekly-schedule-content");
-    const examMonth1Target = document.getElementById("exam-month-1-content");
-    const examHalfYearTarget = document.getElementById("exam-half-year-content");
-    
-    // وضع حالة التحميل
-    if (weeklyTarget) weeklyTarget.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
-    if (examMonth1Target) examMonth1Target.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
-    if (examHalfYearTarget) examHalfYearTarget.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
-    
-    try {
-        // يتم جلب البيانات من ملف جديد (يجب أن تنشئه في الخطوة التالية)
-        const res = await fetch('schedules.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error("schedules.json not found or network error");
-        const data = await res.json(); 
-
-        // 1. الجدول الأسبوعي (يفضل بيانات schedules.json)
-        const student = readStudentSession();
-        if (data["weekly"]) {
-            const headers = data["weekly"]["headers"] || ["حصة 1", "حصة 2", "حصة 3", "حصة 4", "حصة 5", "حصة 6"];
-            if (weeklyTarget) weeklyTarget.innerHTML = buildTableHtml(data["weekly"]["data"], headers, true);
-        } else if (student && student["الجدول"]) {
-             // العودة للبيانات القديمة إذا لم يوجد schedules.json
-            const headers = ["حصة 1", "حصة 2", "حصة 3", "حصة 4", "حصة 5", "حصة 6"];
-            if (weeklyTarget) weeklyTarget.innerHTML = buildTableHtml(student["الجدول"], headers, true);
-        } else if (weeklyTarget) {
-             weeklyTarget.innerHTML = '<div class="empty-state">📅 لا يوجد جدول أسبوعي</div>';
-        }
-        
-        // 2. جدول امتحان الشهر الأول
-        if (data["examMonth1"] && examMonth1Target) {
-            const headers = data["examMonth1"]["headers"] || ["التاريخ", "اليوم", "المادة"];
-            examMonth1Target.innerHTML = buildTableHtml(data["examMonth1"]["data"], headers, false);
-        } else if (examMonth1Target) {
-            examMonth1Target.innerHTML = '<div class="empty-state">📝 لا يوجد جدول امتحان الشهر الأول حالياً</div>';
-        }
-
-        // 3. جدول امتحان نصف السنة
-        if (data["examHalfYear"] && examHalfYearTarget) {
-            const headers = data["examHalfYear"]["headers"] || ["التاريخ", "اليوم", "المادة", "وقت البداية"];
-            examHalfYearTarget.innerHTML = buildTableHtml(data["examHalfYear"]["data"], headers, false);
-        } else if (examHalfYearTarget) {
-            examHalfYearTarget.innerHTML = '<div class="empty-state">📝 لا يوجد جدول امتحان نصف السنة حالياً</div>';
-        }
-        
-    } catch (e) {
-        console.error("خطأ في تحميل الجداول:", e);
-        if (weeklyTarget) weeklyTarget.innerHTML = '<div class="error-state">⚠️ تعذر تحميل الجدول الأسبوعي</div>';
-        if (examMonth1Target) examMonth1Target.innerHTML = '<div class="error-state">⚠️ تعذر تحميل جدول الامتحانات</div>';
-        if (examHalfYearTarget) examHalfYearTarget.innerHTML = '<div class="error-state">⚠️ تعذر تحميل جدول الامتحانات</div>';
-    }
 }
 
 // ============================================
@@ -692,11 +590,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     await Promise.all([
       loadNews(),
-      loadActivities(),
-      loadSchedules() // تم استدعاء دالة الجداول الجديدة هنا
+      loadActivities()
     ]);
     renderGrades(student);
-    // renderSchedule(student); // تم استبدالها بـ loadSchedules
+    renderSchedule(student);
     
     // Remove skeletons
     document.querySelectorAll('.skeleton').forEach(s => s.remove());
@@ -719,18 +616,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Add CSS for empty and error states (Keep this section for better feedback)
+// Add CSS for empty and error states
 const additionalStyles = document.createElement('style');
 additionalStyles.textContent = `
   .empty-state, .error-state {
     text-align: center;
     padding: 40px 20px;
-    color: var(--text-light, #666666);
+    color: var(--text-light);
     font-size: 16px;
   }
   
   .error-state {
-    color: var(--error-color, #f44336);
+    color: var(--danger);
   }
   
   .info-row {
@@ -738,27 +635,27 @@ additionalStyles.textContent = `
     align-items: center;
     gap: 12px;
     padding: 12px;
-    background: var(--bg-secondary, #e8ecf1);
+    background: var(--bg);
     border-radius: 8px;
     margin-bottom: 10px;
-    transition: var(--transition, all 0.3s ease);
+    transition: var(--transition);
   }
   
   .info-row:hover {
     transform: translateX(-4px);
-    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 8px var(--shadow);
   }
   
   .info-row svg {
-    color: var(--main-color, #38b6b2);
+    color: var(--primary);
     flex-shrink: 0;
   }
   
   .admin-msg-content {
-    background: var(--bg-secondary, #e8ecf1);
+    background: var(--bg);
     padding: 16px;
     border-radius: 12px;
-    border-right: 4px solid var(--main-color, #38b6b2);
+    border-right: 4px solid var(--primary);
     line-height: 1.8;
   }
   
@@ -786,23 +683,23 @@ additionalStyles.textContent = `
   }
   
   .dashboard-alert .alert-icon {
-    color: var(--main-color, #38b6b2);
+    color: var(--primary);
     flex-shrink: 0;
   }
   
   .dashboard-alert.error .alert-icon {
-    color: var(--error-color, #f44336);
+    color: var(--danger);
   }
   
   .dashboard-alert.success .alert-icon {
-    color: var(--success-color, #4caf50);
+    color: var(--success);
   }
   
   .dashboard-alert .alert-close {
     background: none;
     border: none;
     font-size: 24px;
-    color: var(--text-light, #666666);
+    color: var(--text-light);
     cursor: pointer;
     padding: 0;
     width: 24px;
@@ -811,12 +708,12 @@ additionalStyles.textContent = `
     align-items: center;
     justify-content: center;
     border-radius: 4px;
-    transition: var(--transition-fast, all 0.2s ease);
+    transition: var(--transition);
   }
   
   .dashboard-alert .alert-close:hover {
-    background: var(--border-color, #e0e0e0);
-    color: var(--text-color, #222222);
+    background: var(--border);
+    color: var(--text);
   }
 `;
 document.head.appendChild(additionalStyles);
