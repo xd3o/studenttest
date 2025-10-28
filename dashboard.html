@@ -1,17 +1,14 @@
+هذا html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>لوحة الطالب – إعدادية رافدين</title>
-
-  <link rel="stylesheet" href="base.css">
-  
   <link rel="stylesheet" href="dashboard-style.css">
-
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Dark Mode Toggle -->
   <button class="dark-mode-toggle" id="darkModeToggle" aria-label="تبديل الوضع الليلي">
     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="5"></circle>
@@ -29,6 +26,7 @@
     </svg>
   </button>
 
+  <!-- Logout Button -->
   <button class="logout-btn" id="logoutBtn" aria-label="تسجيل الخروج">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -38,6 +36,7 @@
     <span>خروج</span>
   </button>
 
+  <!-- Top Bar -->
   <header class="topbar">
     <button id="menuBtn" class="menu-btn" aria-label="قائمة">
       <span class="hamburger-line"></span>
@@ -61,6 +60,7 @@
     </div>
   </header>
 
+  <!-- Sidebar -->
   <aside id="sidebar" class="sidebar" aria-hidden="true">
     <div class="sidebar-header">
       <img src="https://e.top4top.io/p_34909jjnx0.png" alt="logo" class="sidebar-logo">
@@ -110,7 +110,7 @@
           </svg>
           <span>الدرجات</span>
         </li>
-        <li data-section="weekly-schedule-single">
+        <li data-section="schedule">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -124,15 +124,6 @@
             <path d="M16 18h.01"></path>
           </svg>
           <span>الجدول الأسبوعي</span>
-        </li>
-        <li data-section="exam-schedules">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 3v4M18 3v4M3 10h18" />
-            <path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2" />
-            <line x1="12" y1="13" x2="12" y2="17"></line>
-            <line x1="10" y1="15" x2="14" y2="15"></line>
-          </svg>
-          <span>الجداول الامتحانية</span>
         </li>
       </ul>
     </nav>
@@ -161,9 +152,12 @@
     </div>
   </aside>
 
+  <!-- Overlay for mobile sidebar -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+  <!-- Main Content -->
   <main class="main">
+    <!-- الرئيسية -->
     <section id="home" class="page active">
       <div class="page-header">
         <h2>
@@ -219,6 +213,7 @@
       </div>
     </section>
 
+    <!-- الأخبار -->
     <section id="news" class="page">
       <div class="page-header">
         <button class="back-btn" data-back="home">
@@ -244,6 +239,7 @@
       </div>
     </section>
 
+    <!-- النشاطات -->
     <section id="activities" class="page">
       <div class="page-header">
         <button class="back-btn" data-back="home">
@@ -271,6 +267,7 @@
       </div>
     </section>
 
+    <!-- الدرجات -->
     <section id="grades" class="page">
       <div class="page-header">
         <button class="back-btn" data-back="home">
@@ -317,7 +314,8 @@
       </div>
     </section>
 
-    <section id="weekly-schedule-single" class="page">
+    <!-- الجدول الأسبوعي -->
+    <section id="schedule" class="page">
       <div class="page-header">
         <button class="back-btn" data-back="home">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -333,310 +331,18 @@
             <line x1="8" y1="2" x2="8" y2="6"></line>
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
-          الجدول الأسبوعي لصفك
+          الجدول الأسبوعي
         </h2>
       </div>
       <div class="card">
-        <div id="single-weekly-table" class="content-area table-responsive">
-          <p class="placeholder-text">سيتم عرض جدولك الأسبوعي الشخصي هنا.</p>
-          </div>
-      </div>
-    </section>
-
-
-    <section id="exam-schedules" class="page">
-      <div class="page-header">
-        <button class="back-btn" data-back="home">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          رجوع
-        </button>
-        <h2>
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 3v4M18 3v4M3 10h18" />
-            <path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2" />
-            <line x1="12" y1="13" x2="12" y2="17"></line>
-            <line x1="10" y1="15" x2="14" y2="15"></line>
-          </svg>
-          الجداول الامتحانية
-        </h2>
-        <p class="page-subtitle">اختر الجدول الامتحاني الخاص بالصف</p>
-      </div>
-
-      <div class="cards-grid">
-        <div class="card schedule-link-card" data-schedule-target="exam-4th">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="9" y1="15" x2="15" y2="15"></line>
-              <line x1="9" y1="19" x2="15" y2="19"></line>
-            </svg>
-          </div>
-          <h3>جدول امتحانات الرابع</h3>
-          <p>امتحان الشهر الأول - الرابع العلمي</p>
-        </div>
-
-        <div class="card schedule-link-card" data-schedule-target="exam-5th">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="9" y1="15" x2="15" y2="15"></line>
-              <line x1="9" y1="19" x2="15" y2="19"></line>
-            </svg>
-          </div>
-          <h3>جدول امتحانات الخامس</h3>
-          <p>امتحان الشهر الأول - الخامس العلمي</p>
-        </div>
-
-        <div class="card schedule-link-card" data-schedule-target="exam-6th">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="9" y1="15" x2="15" y2="15"></line>
-              <line x1="9" y1="19" x2="15" y2="19"></line>
-            </svg>
-          </div>
-          <h3>جدول امتحانات السادس</h3>
-          <p>امتحان الشهر الأول - السادس العلمي</p>
-        </div>
-
-      </div>
-    </section>
-
-    <section id="exam-4th" class="page sub-schedule-page">
-      <div class="page-header">
-        <button class="back-btn" data-back="exam-schedules">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          رجوع للجداول
-        </button>
-        <h2>جدول امتحانات الرابع العلمي</h2>
-      </div>
-      <div class="card exam-card">
-        <div class="exam-header">
-          <h3>امتحان الشهر الأول - الفصل الأول</h3>
-          <p>للصف: الرابع العلمي | للعام الدراسي: 2025/2026</p>
-        </div>
-        <div class="content-area table-responsive">
-          <table class="data-table exam-table">
-            <thead>
-              <tr>
-                <th>اليوم والتاريخ</th>
-                <th>المادة</th>
-                <th>الملاحظات</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 10/21</td>
-                <td data-label="المادة">كردي / فنية</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأربعاء 10/22</td>
-                <td data-label="المادة">فيزياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الخميس 10/23</td>
-                <td data-label="المادة">كيمياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 10/27</td>
-                <td data-label="المادة">عربي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الاثنين 10/28</td>
-                <td data-label="المادة">أحياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 10/29</td>
-                <td data-label="المادة">حاسوب</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأربعاء 10/30</td>
-                <td data-label="المادة">اسلامية</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الخميس 11/2</td>
-                <td data-label="المادة">رياضيات</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 11/3</td>
-                <td data-label="المادة">جرائم</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الاثنين 11/4</td>
-                <td data-label="المادة">انكليزي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-            </tbody>
-          </table>
+        <div id="schedule-table" class="content-area">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
         </div>
       </div>
     </section>
-
-    <section id="exam-5th" class="page sub-schedule-page">
-      <div class="page-header">
-        <button class="back-btn" data-back="exam-schedules">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          رجوع للجداول
-        </button>
-        <h2>جدول امتحانات الخامس العلمي</h2>
-      </div>
-      <div class="card exam-card">
-        <div class="exam-header">
-          <h3>امتحان الشهر الأول - الفصل الأول</h3>
-          <p>للصف: الخامس العلمي | للعام الدراسي: 2025/2026</p>
-        </div>
-        <div class="content-area table-responsive">
-          <table class="data-table exam-table">
-            <thead>
-              <tr>
-                <th>اليوم والتاريخ</th>
-                <th>المادة</th>
-                <th>الملاحظات</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 10/21</td>
-                <td data-label="المادة">فيزياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الخميس 10/23</td>
-                <td data-label="المادة">أحياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 10/27</td>
-                <td data-label="المادة">اسلامية</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الاثنين 10/28</td>
-                <td data-label="المادة">كيمياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 10/29</td>
-                <td data-label="المادة">عربي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأربعاء 10/30</td>
-                <td data-label="المادة">كردي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الخميس 11/2</td>
-                <td data-label="المادة">انكليزي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 11/3</td>
-                <td data-label="المادة">حاسوب / فنية</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الاثنين 11/4</td>
-                <td data-label="المادة">رياضيات</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="exam-6th" class="page sub-schedule-page">
-      <div class="page-header">
-        <button class="back-btn" data-back="exam-schedules">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          رجوع للجداول
-        </button>
-        <h2>جدول امتحانات السادس العلمي</h2>
-      </div>
-      <div class="card exam-card">
-        <div class="exam-header">
-          <h3>امتحان الشهر الأول - الفصل الأول</h3>
-          <p>للصف: السادس العلمي | للعام الدراسي: 2025/2026</p>
-        </div>
-        <div class="content-area table-responsive">
-          <table class="data-table exam-table">
-            <thead>
-              <tr>
-                <th>اليوم والتاريخ</th>
-                <th>المادة</th>
-                <th>الملاحظات</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 10/21</td>
-                <td data-label="المادة">رياضيات</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 10/27</td>
-                <td data-label="المادة">الكيمياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 10/28</td>
-                <td data-label="المادة">الاسلامية</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الخميس 10/30</td>
-                <td data-label="المادة">الفيزياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 11/2</td>
-                <td data-label="المادة">الأحياء</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الثلاثاء 11/4</td>
-                <td data-label="المادة">الانكليزي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-              <tr>
-                <td data-label="اليوم والتاريخ">الأحد 11/16</td>
-                <td data-label="المادة">العربي</td>
-                <td data-label="الملاحظات"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <script src="base.js"></script>
   <script src="dashboard-script.js"></script>
 </body>
 </html>
