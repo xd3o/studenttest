@@ -12,19 +12,17 @@
 function toggleDarkMode() {
   const body = document.body;
   
-  // Create ripple effect at the toggle position (CSS handles the animation)
+  // Create ripple effect at the toggle position
   const ripple = document.createElement('div');
   ripple.className = 'dark-mode-ripple-global';
   
   // Try to find the dark mode toggle button position
   const toggleBtn = document.querySelector('.dark-mode-toggle') || 
                     document.getElementById('darkModeToggle') ||
-                    document.getElementById('darkToggle') ||
-                    document.querySelector('[data-dark-toggle]');
+                    document.getElementById('darkToggle');
   
   if (toggleBtn) {
     const rect = toggleBtn.getBoundingClientRect();
-    // Position the center of the ripple at the center of the toggle button
     ripple.style.left = `${rect.left + rect.width / 2}px`;
     ripple.style.top = `${rect.top + rect.height / 2}px`;
   } else {
@@ -35,12 +33,12 @@ function toggleDarkMode() {
   
   document.body.appendChild(ripple);
   
-  // Toggle dark mode classes
-  // We keep both classes for maximum compatibility, but primarily use 'dark'
+  // Toggle dark mode
+  body.classList.toggle("dark-mode");
   body.classList.toggle("dark");
   
   // Save preference
-  const isDark = body.classList.contains("dark");
+  const isDark = body.classList.contains("dark-mode") || body.classList.contains("dark");
   localStorage.setItem("darkMode", isDark);
   localStorage.setItem("theme", isDark ? "dark" : "light");
   
@@ -59,10 +57,8 @@ function applySavedDarkMode() {
                     localStorage.getItem("theme") === "dark";
   
   if (savedMode) {
-    // We only need to add the 'dark' class now, as it's the main reference in CSS
+    document.body.classList.add("dark-mode");
     document.body.classList.add("dark");
-    // If you need the old class for legacy components, keep this line:
-    // document.body.classList.add("dark-mode");
   }
 }
 
@@ -74,92 +70,102 @@ applySavedDarkMode();
 // ============================================
 
 /**
- * SVG icons using a single function to avoid repetition
- */
-const getIcon = (type) => {
-    const icons = {
-        success: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
-        error: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
-        warning: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
-        info: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
-        loading: `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="animation: spin 1s linear infinite;">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.415, 31.415" stroke-dashoffset="0"/>
-        </svg>`
-    };
-    return icons[type] || icons['info'];
-};
-
-const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
-
-
-/**
- * Show a beautiful animated message notification (supports loading type)
+ * Show a beautiful animated message notification
  * @param {string} text - Message text to display
- * @param {string} type - Message type: 'success', 'error', 'warning', 'info', 'loading'
- * @param {number} duration - Duration in milliseconds (default: 4000). Set to 0 for permanent.
- * @returns {HTMLElement} The created message box element.
+ * @param {string} type - Message type: 'success', 'error', 'warning', 'info'
+ * @param {number} duration - Duration in milliseconds (default: 4000)
  */
 function showMessage(text, type = "info", duration = 4000) {
-    // Remove any existing messages of the same type if it's not loading
-    if (type !== 'loading') {
-        const existing = document.querySelectorAll(`.message-box.${type}`);
-        existing.forEach(msg => msg.remove());
-    }
+  // Remove any existing messages of the same type
+  const existing = document.querySelectorAll(`.message-box.${type}`);
+  existing.forEach(msg => msg.remove());
   
-    // Create message box
-    const box = document.createElement("div");
-    box.className = `message-box ${type}`;
+  // Create message box
+  const box = document.createElement("div");
+  box.className = `message-box ${type}`;
   
-    const isClosable = type !== 'loading' || duration > 0;
-
-    box.innerHTML = `
-        <div class="message-icon">${getIcon(type)}</div>
-        <div class="message-text">${text}</div>
-        ${isClosable ? `<button class="message-close" aria-label="إغلاق">${closeIcon}</button>` : ''}
-    `;
+  // Get icon based on type
+  const icons = {
+    success: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>`,
+    error: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="15" y1="9" x2="9" y2="15"></line>
+      <line x1="9" y1="9" x2="15" y2="15"></line>
+    </svg>`,
+    warning: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+      <line x1="12" y1="9" x2="12" y2="13"></line>
+      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+    </svg>`,
+    info: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>`
+  };
   
-    document.body.appendChild(box);
+  box.innerHTML = `
+    <div class="message-icon">${icons[type]}</div>
+    <div class="message-text">${text}</div>
+    <button class="message-close" aria-label="إغلاق">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  `;
   
-    // Animate in
-    requestAnimationFrame(() => box.classList.add("show"));
+  document.body.appendChild(box);
   
-    // Close button functionality
-    const closeBtn = box.querySelector(".message-close");
-    if (closeBtn) {
-        closeBtn.addEventListener("click", () => hideMessage(box));
-    }
+  // Animate in
+  setTimeout(() => box.classList.add("show"), 10);
   
-    // Auto hide after duration
-    if (duration > 0) {
-        setTimeout(() => hideMessage(box), duration);
-    }
+  // Close button functionality
+  const closeBtn = box.querySelector(".message-close");
+  closeBtn.addEventListener("click", () => hideMessage(box));
   
-    return box;
+  // Auto hide after duration
+  if (duration > 0) {
+    setTimeout(() => hideMessage(box), duration);
+  }
+  
+  return box;
 }
 
 /**
  * Hide a message box with animation
- * @param {HTMLElement} box - The message box element to hide
  */
 function hideMessage(box) {
   box.classList.remove("show");
   box.classList.add("hide");
-  // Ensure that the box is an element before removing
-  if (box && typeof box.remove === 'function') {
-    setTimeout(() => box.remove(), 300);
-  }
+  setTimeout(() => box.remove(), 300);
 }
 
 /**
- * Helper function to show a dedicated loading message (shorthand for showMessage)
- * @param {string} text - Loading message (default: 'جاري التحميل...')
- * @returns {HTMLElement} The created loading message box.
+ * Show loading message
  */
 function showLoading(text = "جاري التحميل...") {
-  // Duration is set to 0 (permanent) since the caller must explicitly hide it
-  return showMessage(text, 'loading', 0);
+  const box = document.createElement("div");
+  box.className = "message-box loading";
+  box.innerHTML = `
+    <div class="message-spinner">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.415, 31.415" stroke-dashoffset="0">
+          <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+    <div class="message-text">${text}</div>
+  `;
+  
+  document.body.appendChild(box);
+  setTimeout(() => box.classList.add("show"), 10);
+  
+  return box;
 }
-
 
 // ============================================
 // CONFIRMATION DIALOG
@@ -168,73 +174,64 @@ function showLoading(text = "جاري التحميل...") {
 /**
  * Show a custom confirmation dialog
  * @param {string} message - Confirmation message
- * @param {function} onConfirm - Callback when confirmed (Yes)
- * @param {function} onCancel - Callback when cancelled (No) (optional)
+ * @param {function} onConfirm - Callback when confirmed
+ * @param {function} onCancel - Callback when cancelled
  */
 function showConfirm(message, onConfirm, onCancel) {
-  // Use a Promise to make the showConfirm call cleaner and asynchronous
-  return new Promise((resolve) => {
-    const overlay = document.createElement("div");
-    overlay.className = "confirm-overlay";
-    
-    const dialog = document.createElement("div");
-    dialog.className = "confirm-dialog";
-    
-    // Check if the message contains HTML, otherwise, use textContent
-    const messageContent = message.includes('<') ? message : `<div>${message}</div>`;
-
-    dialog.innerHTML = `
-      <div class="confirm-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-      </div>
-      <div class="confirm-message">${messageContent}</div>
-      <div class="confirm-buttons">
-        <button class="confirm-btn confirm-yes">تأكيد</button>
-        <button class="confirm-btn confirm-no">إلغاء</button>
-      </div>
-    `;
-    
-    overlay.appendChild(dialog);
-    document.body.appendChild(overlay);
-    
-    // Animate in
-    requestAnimationFrame(() => {
-      overlay.classList.add("show");
-      dialog.classList.add("show");
-    });
-    
-    // Button handlers
-    const yesBtn = dialog.querySelector(".confirm-yes");
-    const noBtn = dialog.querySelector(".confirm-no");
-    
-    const close = (result) => {
-      overlay.classList.remove("show");
-      dialog.classList.remove("show");
-      setTimeout(() => overlay.remove(), 300);
-      resolve(result); // Resolve the promise
-    };
-    
-    yesBtn.addEventListener("click", () => {
-      close(true);
-      if (onConfirm) onConfirm();
-    });
-    
-    noBtn.addEventListener("click", () => {
-      close(false);
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-overlay";
+  
+  const dialog = document.createElement("div");
+  dialog.className = "confirm-dialog";
+  dialog.innerHTML = `
+    <div class="confirm-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+    <div class="confirm-message">${message}</div>
+    <div class="confirm-buttons">
+      <button class="confirm-btn confirm-yes">تأكيد</button>
+      <button class="confirm-btn confirm-no">إلغاء</button>
+    </div>
+  `;
+  
+  overlay.appendChild(dialog);
+  document.body.appendChild(overlay);
+  
+  // Animate in
+  setTimeout(() => {
+    overlay.classList.add("show");
+    dialog.classList.add("show");
+  }, 10);
+  
+  // Button handlers
+  const yesBtn = dialog.querySelector(".confirm-yes");
+  const noBtn = dialog.querySelector(".confirm-no");
+  
+  const close = () => {
+    overlay.classList.remove("show");
+    dialog.classList.remove("show");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  
+  yesBtn.addEventListener("click", () => {
+    close();
+    if (onConfirm) onConfirm();
+  });
+  
+  noBtn.addEventListener("click", () => {
+    close();
+    if (onCancel) onCancel();
+  });
+  
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      close();
       if (onCancel) onCancel();
-    });
-    
-    // Close on overlay click
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        close(false);
-        if (onCancel) onCancel();
-      }
-    });
+    }
   });
 }
 
@@ -244,10 +241,8 @@ function showConfirm(message, onConfirm, onCancel) {
 
 /**
  * Smooth scroll to element
- * @param {string} selector - CSS selector of the target element
- * @param {number} offset - Offset from the top in pixels (default: 80)
  */
-function scrollToElement(selector, offset = 80) {
+function scrollToElement(selector, offset = 0) {
   const element = document.querySelector(selector);
   if (element) {
     const top = element.getBoundingClientRect().top + window.pageYOffset - offset;
@@ -257,8 +252,6 @@ function scrollToElement(selector, offset = 80) {
 
 /**
  * Copy text to clipboard
- * @param {string} text - The text to copy
- * @returns {Promise<boolean>} True if successful, false otherwise
  */
 async function copyToClipboard(text) {
   try {
@@ -266,79 +259,42 @@ async function copyToClipboard(text) {
     showMessage("تم النسخ بنجاح!", "success", 2000);
     return true;
   } catch (err) {
-    // Fallback for older browsers or restricted environments
-    try {
-      const tempInput = document.createElement('textarea');
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      showMessage("تم النسخ بنجاح (طريقة بديلة)!", "success", 2000);
-      return true;
-    } catch (fallbackErr) {
-      showMessage("فشل النسخ", "error", 3000);
-      return false;
-    }
+    showMessage("فشل النسخ", "error", 2000);
+    return false;
   }
 }
 
 /**
  * Format date to Arabic
- * @param {Date|string} date - Date object or date string
- * @returns {string} Arabic formatted date string
  */
 function formatArabicDate(date) {
   const d = new Date(date);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  // Using 'ar-SA' (Saudi Arabia) or 'ar-EG' (Egypt) is common, 'ar-IQ' is good too.
-  return d.toLocaleDateString('ar-SA', options);
+  return d.toLocaleDateString('ar-IQ', options);
 }
 
 /**
- * Debounce function to limit the rate of function execution
- * @param {function} func - The function to debounce
- * @param {number} wait - The delay in milliseconds
- * @returns {function} The debounced function
+ * Debounce function
  */
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
-    const context = this;
     const later = () => {
       clearTimeout(timeout);
-      func.apply(context, args);
+      func(...args);
     };
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
 }
 
-/**
- * Throttle function to ensure a function is executed at most once every specified period
- * @param {function} func - The function to throttle
- * @param {number} limit - The limit in milliseconds
- * @returns {function} The throttled function
- */
-function throttle(func, limit) {
-  let inThrottle;
-  return function() {
-    const context = this;
-    const args = arguments;
-    if (!inThrottle) {
-      func.apply(context, args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
-    }
-  };
-}
-
-
 // ============================================
 // INITIALIZE ON DOM LOAD
 // ============================================
 
 window.addEventListener("DOMContentLoaded", () => {
+  // Apply saved dark mode
+  applySavedDarkMode();
   
   // Setup all dark mode toggle buttons
   const darkModeToggles = document.querySelectorAll(
@@ -354,78 +310,388 @@ window.addEventListener("DOMContentLoaded", () => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const target = this.getAttribute('href');
-      if (target && target !== '#') {
-        // Use the common offset (80px) for fixed headers
-        scrollToElement(target, 80); 
+      if (target !== '#') {
+        scrollToElement(target, 80);
       }
     });
   });
   
   // Initialize tooltips (if elements have data-tooltip)
   document.querySelectorAll('[data-tooltip]').forEach(el => {
-    let tooltip = null;
-
-    const showTooltip = function() {
+    el.addEventListener('mouseenter', function() {
       const text = this.getAttribute('data-tooltip');
-      if (!text || tooltip) return;
-
-      tooltip = document.createElement('div');
+      const tooltip = document.createElement('div');
       tooltip.className = 'tooltip';
       tooltip.textContent = text;
-      
-      // Append to body to avoid clipping issues with parent elements
-      document.body.appendChild(tooltip); 
-      
-      // Calculate position (must be done after appending)
-      const rect = this.getBoundingClientRect();
-      const scrollY = window.scrollY;
-      
-      tooltip.style.left = `${rect.left + rect.width / 2}px`;
-      // Position the tooltip above the element
-      tooltip.style.top = `${rect.top + scrollY - tooltip.offsetHeight - 8}px`; 
-
-      requestAnimationFrame(() => tooltip.classList.add('show'));
-    };
-
-    const hideTooltip = function() {
+      this.appendChild(tooltip);
+      setTimeout(() => tooltip.classList.add('show'), 10);
+    });
+    
+    el.addEventListener('mouseleave', function() {
+      const tooltip = this.querySelector('.tooltip');
       if (tooltip) {
         tooltip.classList.remove('show');
-        setTimeout(() => {
-          if (tooltip && tooltip.parentElement) {
-            tooltip.remove();
-          }
-          tooltip = null;
-        }, 200);
+        setTimeout(() => tooltip.remove(), 200);
       }
-    };
-
-    el.addEventListener('mouseenter', showTooltip);
-    el.addEventListener('mouseleave', hideTooltip);
-    // Hide tooltip on scroll to prevent detachment issues
-    window.addEventListener('scroll', throttle(hideTooltip, 100));
+    });
   });
 });
 
 // ============================================
-// EXPORT FOR GLOBAL ACCESS
+// INJECT GLOBAL STYLES
 // ============================================
 
-window.toggleDarkMode = toggleDarkMode;
-window.showMessage = showMessage;
-window.showLoading = showLoading;
-window.hideMessage = hideMessage;
-window.showConfirm = showConfirm;
-window.scrollToElement = scrollToElement;
-window.copyToClipboard = copyToClipboard;
-window.formatArabicDate = formatArabicDate;
-window.debounce = debounce;
-window.throttle = throttle;
+const globalStyles = document.createElement('style');
+globalStyles.textContent = `
+  /* Message Box Styles */
+  .message-box {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10000;
+    min-width: 300px;
+    max-width: 500px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .message-box.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  .message-box.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50px);
+  }
+  
+  .message-box.success {
+    background: #e8f5e9;
+    border-right: 4px solid #4caf50;
+  }
+  
+  .message-box.error {
+    background: #ffebee;
+    border-right: 4px solid #f44336;
+  }
+  
+  .message-box.warning {
+    background: #fff3e0;
+    border-right: 4px solid #ff9800;
+  }
+  
+  .message-box.info {
+    background: #e3f2fd;
+    border-right: 4px solid #2196f3;
+  }
+  
+  .message-box.loading {
+    background: #f5f5f5;
+    border-right: 4px solid #9e9e9e;
+  }
+  
+  body.dark-mode .message-box,
+  body.dark .message-box {
+    background: #1a1f3a;
+    color: #e6eef6;
+  }
+  
+  body.dark-mode .message-box.success,
+  body.dark .message-box.success {
+    background: #1b3a1f;
+    border-right-color: #66bb6a;
+  }
+  
+  body.dark-mode .message-box.error,
+  body.dark .message-box.error {
+    background: #3a1b1b;
+    border-right-color: #ef5350;
+  }
+  
+  body.dark-mode .message-box.warning,
+  body.dark .message-box.warning {
+    background: #3a2f1b;
+    border-right-color: #ffa726;
+  }
+  
+  body.dark-mode .message-box.info,
+  body.dark .message-box.info {
+    background: #1b2a3a;
+    border-right-color: #42a5f5;
+  }
+  
+  .message-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .message-box.success .message-icon { color: #4caf50; }
+  .message-box.error .message-icon { color: #f44336; }
+  .message-box.warning .message-icon { color: #ff9800; }
+  .message-box.info .message-icon { color: #2196f3; }
+  .message-box.loading .message-icon { color: #9e9e9e; }
+  
+  .message-text {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  body.dark-mode .message-text,
+  body.dark .message-text {
+    color: #e6eef6;
+  }
+  
+  .message-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+    color: #666;
+  }
+  
+  .message-close:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+  }
+  
+  body.dark-mode .message-close,
+  body.dark .message-close {
+    color: #b8c5d6;
+  }
+  
+  body.dark-mode .message-close:hover,
+  body.dark .message-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e6eef6;
+  }
+  
+  .message-spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Dark Mode Ripple */
+  .dark-mode-ripple-global {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f4b400 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    animation: rippleExpandGlobal 0.8s ease-out forwards;
+  }
+  
+  @keyframes rippleExpandGlobal {
+    0% {
+      width: 50px;
+      height: 50px;
+      opacity: 0.8;
+    }
+    100% {
+      width: 3000px;
+      height: 3000px;
+      opacity: 0;
+    }
+  }
+  
+  /* Confirmation Dialog */
+  .confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .confirm-overlay.show {
+    opacity: 1;
+  }
+  
+  .confirm-dialog {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .confirm-dialog.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  
+  body.dark-mode .confirm-dialog,
+  body.dark .confirm-dialog {
+    background: #1a1f3a;
+    color: #e6eef6;
+  }
+  
+  .confirm-icon {
+    color: #ff9800;
+    margin-bottom: 20px;
+  }
+  
+  .confirm-message {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: #333;
+  }
+  
+  body.dark-mode .confirm-message,
+  body.dark .confirm-message {
+    color: #e6eef6;
+  }
+  
+  .confirm-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .confirm-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .confirm-yes {
+    background: linear-gradient(135deg, #f4b400 0%, #d89e00 100%);
+    color: white;
+  }
+  
+  .confirm-yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.4);
+  }
+  
+  .confirm-no {
+    background: #e0e0e0;
+    color: #333;
+  }
+  
+  body.dark-mode .confirm-no,
+  body.dark .confirm-no {
+    background: #2a3552;
+    color: #e6eef6;
+  }
+  
+  .confirm-no:hover {
+    background: #d0d0d0;
+  }
+  
+  body.dark-mode .confirm-no:hover,
+  body.dark .confirm-no:hover {
+    background: #3a4562;
+  }
+  
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: #333;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s;
+    z-index: 1000;
+  }
+  
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+  }
+  
+  .tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .message-box {
+      min-width: 280px;
+      max-width: calc(100% - 40px);
+    }
+    
+    .confirm-dialog {
+      padding: 24px;
+    }
+    
+    .confirm-buttons {
+      flex-direction: column;
+    }
+    
+    .confirm-btn {
+      width: 100%;
+    }
+  }
+`;
 
+document.head.appendChild(globalStyles);
 
 // ============================================
-// INJECT GLOBAL STYLES (REMOVED)
+// EXPORT FOR MODULE USAGE (optional)
 // ============================================
 
-// تم إزالة كتلة حقن الأنماط بالكامل
-// (const globalStyles = document.createElement('style'); ... document.head.appendChild(globalStyles);)
-// لضمان الاعتماد الكلي على ملف base.css الخارجي الذي تم تعديله مسبقاً.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    toggleDarkMode,
+    showMessage,
+    showLoading,
+    hideMessage,
+    showConfirm,
+    scrollToElement,
+    copyToClipboard,
+    formatArabicDate,
+    debounce
+  };
+}
