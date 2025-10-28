@@ -314,7 +314,7 @@
     </section>
 
     <!-- الجدول الأسبوعي -->
-        <section id="schedule" class="page active">
+           <section id="schedule" class="page">
       <div class="page-header">
         <button class="back-btn" data-back="home">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -336,63 +336,52 @@
             <path d="M12 18h.01"></path>
             <path d="M16 18h.01"></path>
           </svg>
-          الجدول
+          جداول الحصص والامتحانات
         </h2>
+        </div>
+      
+      <div class="card schedule-card">
+        <h3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+             <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          الجدول الأسبوعي
+        </h3>
+        <div id="weekly-schedule-content" class="content-area table-container">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
       </div>
       
-      <div class="card grades-card">
-        <div class="card-header-tabs">
-          <button class="tab-btn active" data-schedule-tab="weekly">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            الجدول الأسبوعي
-          </button>
-          <button class="tab-btn" data-schedule-tab="exam_month_1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            امتحان الشهر الأول
-          </button>
-          <button class="tab-btn" data-schedule-tab="exam_half_year">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22v-4"></path>
-              <path d="M18 10V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4"></path>
-              <path d="M16 18v-2"></path>
-              <path d="M8 18v-2"></path>
-            </svg>
-            امتحان نصف السنة
-          </button>
+      <div class="card schedule-card">
+        <h3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          جدول امتحان الشهر الأول - الفصل الأول
+        </h3>
+        <p class="exam-date-info">للعام الدراسي ٢٠٢٦/٢٠٢٥</p>
+        <div id="exam-month-1-content" class="content-area table-container">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
         </div>
-
-        <div id="weekly" class="schedule-content active">
-          <div class="content-area">
-            <p>هنا سيتم عرض الجدول الأسبوعي (سيتم ملؤه بالـ JS)</p>
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-          </div>
-        </div>
-
-        <div id="exam_month_1" class="schedule-content">
-          <h3>امتحان الشهر الأول - الفصل الأول (٢٠٢٦/٢٠٢٥)</h3>
-          <div class="content-area">
-            <p>سيتم عرض جدول امتحانات الشهر الأول هنا (سيتم ملؤه بالـ JS)</p>
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-          </div>
-        </div>
-
-        <div id="exam_half_year" class="schedule-content">
-          <h3>جدول امتحانات نصف السنة</h3>
-          <div class="content-area">
-            <p>سيتم عرض جدول امتحانات نصف السنة هنا (سيتم ملؤه بالـ JS)</p>
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-          </div>
+      </div>
+      
+      <div class="card schedule-card">
+        <h3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect>
+            <path d="M16 21V3"></path>
+            <path d="M8 21V3"></path>
+          </svg>
+          جدول امتحان نصف السنة
+        </h3>
+        <p class="exam-date-info">يحدد لاحقاً</p>
+        <div id="exam-half-year-content" class="content-area table-container">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
         </div>
       </div>
     </section>
