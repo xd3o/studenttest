@@ -5,117 +5,104 @@
   <title>تسجيل الدخول – إعدادية رافدين</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="login-style.css" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', sans-serif;
-      background-color: #0d1b2a;
-      color: #fff;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .login-container {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 40px 35px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-      text-align: center;
-      width: 90%;
-      max-width: 380px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .footer-text {
-      text-align: center;
-      margin-top: 15px;
-      color: #b0c4de;
-      font-size: 14px;
-    }
-
-    /* ✅ جملة "منصة آمنة ومحمية" تظهر أسفل الصفحة */
-    .background-text {
-      position: absolute;
-      bottom: 15px;
-      right: 0;
-      left: 0;
-      text-align: center;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.35);
-      z-index: 1;
-    }
-
-    .background-text svg {
-      vertical-align: middle;
-      margin-left: 5px;
-    }
-
-    .login-button {
-      background: linear-gradient(90deg, #007bff, #00bcd4);
-      border: none;
-      color: white;
-      padding: 12px 0;
-      border-radius: 10px;
-      width: 100%;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .login-button:hover {
-      opacity: 0.9;
-      transform: scale(1.02);
-    }
-
-  </style>
 </head>
 <body>
+  <button class="dark-mode-toggle" id="darkModeToggle" aria-label="تبديل الوضع الليلي">
+    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
 
   <div class="login-container">
     <div class="logo-wrapper">
-      <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة" class="logo" style="width:80px;">
+      <img src="https://e.top4top.io/p_34909jjnx0.png" alt="شعار المدرسة" class="logo">
+      <div class="logo-glow"></div>
     </div>
 
-    <h2 class="title-animated">تسجيل دخول الطالب</h2>
+    <h2 class="title-animated">
+      <span class="title-word">تسجيل</span>
+      <span class="title-word">دخول</span>
+      <span class="title-word">الطالب</span>
+    </h2>
+
     <p class="welcome-text">مرحباً بك في منصة إعدادية رافدين</p>
 
     <div class="input-group">
-      <input type="text" placeholder="أدخل الكود" style="width:100%; padding:10px; border-radius:8px; border:none;">
+      <div class="input-wrapper">
+        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <input type="text" id="code" placeholder="أدخل الكود" autocomplete="off">
+        <div class="input-border"></div>
+      </div>
     </div>
 
-    <div class="input-group" style="margin-top:10px;">
-      <select style="width:100%; padding:10px; border-radius:8px; border:none;">
-        <option>اختر الصف</option>
-        <option>رابع أ</option>
-        <option>رابع ب</option>
-        <option>خامس أ</option>
-        <option>سادس أ</option>
-      </select>
+    <div class="input-group">
+      <div class="input-wrapper">
+        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <select id="class">
+          <option value="">اختر الصف</option>
+          <option>رابع أ</option><option>رابع ب</option><option>رابع ج</option><option>رابع د</option><option>رابع هـ</option><option>رابع و</option>
+          <option>خامس أ</option><option>خامس ب</option><option>خامس ج</option><option>خامس د</option><option>خامس هـ</option><option>خامس و</option>
+          <option>سادس أ</option><option>سادس ب</option><option>سادس ج</option><option>سادس د</option><option>سادس هـ</option><option>سادس و</option>
+        </select>
+        <div class="input-border"></div>
+      </div>
     </div>
 
-    <button class="login-button" style="margin-top:15px;">دخول</button>
+    <button id="login-btn" class="login-button">
+      <span class="button-text">دخول</span>
+      <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+      <div class="button-shine"></div>
+    </button>
 
-    <!-- اسم المطور يبقى داخل الصندوق -->
-    <div class="footer-text">
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- ✅ النصوص أصبحت خارج الصندوق الأزرق -->
+  <div class="footer-text" style="text-align: center; margin-top: 25px;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 5px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V22a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 20.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9v-.09A1.65 1.65 0 0 0 11.4 3.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82 1.65 1.65 0 0 0 1.51 1H22a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09A1.65 1.65 0 0 0 20.4 15z"></path>
+      </svg>
       <span>أباالفضل نهاد العذاري</span>
     </div>
+
+    <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      <span>منصة آمنة ومحمية</span>
+    </div>
   </div>
 
-  <!-- ✅ جملة "منصة آمنة ومحمية" في الخلفية تحت -->
-  <div class="background-text">
-    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-    </svg>
-    <span>منصة آمنة ومحمية</span>
-  </div>
-
+  <script src="login-script.js"></script>
 </body>
 </html>
