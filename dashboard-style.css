@@ -997,100 +997,58 @@ a:focus-visible {
 }
 
 /* ============================================
-   SCHEDULE/EXAM TABS (New Styling)
+   SCHEDULE CARDS STYLING (New)
    ============================================ */
-.schedule-content {
-  display: none;
-  animation: fadeIn 0.4s ease;
+.schedule-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary); /* جعل العنوان يبرز باللون الأصفر */
+    margin-bottom: 8px;
 }
 
-.schedule-content.active {
-  display: block;
+.schedule-card h3 svg {
+    color: var(--text); /* لون الأيقونة داخل البطاقة */
 }
 
-.schedule-content h3 {
-  font-size: 22px;
-  margin-bottom: 16px;
-  color: var(--primary);
-  text-align: center;
+.exam-date-info {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-align: center;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 10px;
 }
 
 /* ============================================
-   TABLE STYLING FOR GRADES & EXAMS
-   (مكرر لكن يُستخدم لضمان التنسيق لجميع الجداول)
+   TABLE STYLING FOR WEEKLY AND EXAMS
    ============================================ */
-.grades-card table,
-#weekly table,
-.schedule-content table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 14px;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-top: 20px;
+.table-container table {
+    /* تطبيق الأنماط الأساسية الموحدة التي كانت موجودة سابقاً */
+    margin-top: 0;
 }
 
-.grades-card th,
-#weekly th,
-.schedule-content th {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  padding: 14px 12px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 15px;
+/* تخصيص أنماط خلايا الجدول لتكون أكثر وضوحاً */
+.table-container th {
+    /* Header background is already primary in your existing CSS */
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    white-space: nowrap; /* منع العناوين من الانكسار في الأجهزة الصغيرة */
 }
 
-.grades-card th:first-child,
-#weekly th:first-child,
-.schedule-content th:first-child {
-  border-radius: 12px 0 0 0;
+.table-container td {
+    padding: 10px;
+    font-weight: 500;
+    line-height: 1.4;
+    vertical-align: middle;
 }
 
-.grades-card th:last-child,
-#weekly th:last-child,
-.schedule-content th:last-child {
-  border-radius: 0 12px 0 0;
+.table-container tr:nth-child(even) td {
+    background: var(--bg-secondary); /* إضافة لون خفيف للصفوف الزوجية لتحسين القراءة */
 }
 
-.grades-card td,
-#weekly td,
-.schedule-content td {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 12px;
-  text-align: center;
-  color: var(--text);
-  transition: var(--transition);
-}
-
-.grades-card tr:hover td,
-#weekly tr:hover td,
-.schedule-content tr:hover td {
-  background: var(--bg);
-}
-
-.grades-card tr:last-child td:first-child,
-#weekly tr:last-child td:first-child,
-.schedule-content tr:last-child td:first-child {
-  border-radius: 0 0 0 12px;
-}
-
-.grades-card tr:last-child td:last-child,
-#weekly tr:last-child td:last-child,
-.schedule-content tr:last-child td:last-child {
-  border-radius: 0 0 12px 0;
-}
-
-/* --- Adjustments for Responsive (if needed for tables) --- */
-@media (max-width: 768px) {
-    .grades-card th, #weekly th, .schedule-content th {
-        padding: 10px 5px;
-        font-size: 13px;
-    }
-    .grades-card td, #weekly td, .schedule-content td {
-        padding: 10px 5px;
-        font-size: 12px;
-    }
+.table-container tr:hover td {
+    background: var(--primary-light) !important;
+    color: var(--text);
 }
