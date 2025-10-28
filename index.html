@@ -5,21 +5,7 @@
   <title>تسجيل الدخول – إعدادية رافدين</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="login-style.css" rel="stylesheet">
-  <style>
-    .footer-text span {
-      display: block; /* لجعل الـ span يأخذ سطر كامل */
-      margin-top: 5px; /* مسافة بسيطة بين السطرين */
-      font-size: 1em; /* نفس حجم الخط الافتراضي للـ footer */
-    }
-    /* تنسيق خاص للأيقونة */
-    .developer-icon {
-        margin-left: 5px;
-        vertical-align: middle;
-        width: 16px; /* حجم الأيقونة */
-        height: 16px;
-    }
-  </style>
-</head>
+  </head>
 <body>
   <button class="dark-mode-toggle" id="darkModeToggle" aria-label="تبديل الوضع الليلي">
     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -104,19 +90,19 @@
     </div>
 
     <div class="footer-text">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-      </svg>
-      <span>منصة آمنة ومحمية</span>
-
-      <span class="developer-info">
-        <svg class="developer-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 18l4-4-4-4"></path>
-            <path d="M8 6l-4 4 4 4"></path>
-            <path d="M14 4l-4 16"></path>
-        </svg>
-        أباالفضل نهاد العذاري
-      </span>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>منصة آمنة ومحمية</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 5px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>أباالفضل نهاد العذاري</span>
+        </div>
     </div>
   </div>
 
