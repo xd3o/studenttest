@@ -1,751 +1,697 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    // ============================================
-    // DOM ELEMENTS & SESSION MANAGEMENT
-    // ============================================
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const pages = document.querySelectorAll('.main .page');
-    const navItems = document.querySelectorAll(".sidebar-menu li[data-section]");
-    const backBtns = document.querySelectorAll(".back-btn");
-    const tabBtns = document.querySelectorAll(".tab-btn");
-    
-    // NEW: Exam Schedule Link Cards
-    const scheduleLinkCards = document.querySelectorAll('.schedule-link-card');
+// ============================================
+// ⚙️ ENHANCED BASE.JS - GLOBAL UTILITIES
+// ============================================
 
-    const sessionKeyCandidates = ["studentData", "studentSession", "student"];
+// ============================================
+// DARK MODE FUNCTIONALITY
+// ============================================
 
-    function readStudentSession() {
-        for (const k of sessionKeyCandidates) {
-            const raw = localStorage.getItem(k);
-            if (raw) {
-                try {
-                    return JSON.parse(raw);
-                } catch (e) {
-                    console.error("Error parsing session:", e);
-                }
-            }
-        }
-        return null;
-    }
-    
-    // ============================================
-    // DARK MODE FUNCTIONALITY (RETAINED)
-    // ============================================
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const body = document.body;
-    
-    function applyDarkFromStorage() {
-        const savedTheme = localStorage.getItem('theme') || localStorage.getItem('darkMode');
-        if (savedTheme === 'dark' || savedTheme === 'on') {
-            body.classList.add('dark');
-        }
-    }
-
-    function toggleDark() {
-        // Create ripple effect
-        const ripple = document.createElement('div');
-        ripple.classList.add('dark-mode-ripple');
-        ripple.style.cssText = `
-            position: fixed;
-            top: 115px;
-            left: 45px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 9999;
-            animation: rippleExpand 0.8s ease-out forwards;
-        `;
-        document.body.appendChild(ripple);
-
-        // Toggle dark mode
-        body.classList.toggle('dark');
-
-        // Save preference
-        const isDark = body.classList.contains('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        localStorage.setItem('darkMode', isDark ? 'on' : 'off');
-
-        // Remove ripple after animation
-        setTimeout(() => ripple.remove(), 800);
-    }
-    
-    // Add ripple animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes rippleExpand {
-            0% {
-                width: 50px;
-                height: 50px;
-                opacity: 0.8;
-            }
-            100% {
-                width: 3000px;
-                height: 3000px;
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-
-    // ============================================
-    // PAGE NAVIGATION (MODIFIED)
-    // ============================================
-    function showPage(id) {
-        // Hide all pages
-        pages.forEach(p => p.classList.remove("active"));
-        
-        // Hide sidebar navigation active state from all items
-        navItems.forEach(li => li.classList.remove("active"));
-        
-        // Show the target page
-        const el = document.getElementById(id);
-        if (el) {
-            el.classList.add("active");
-            
-            // Determine which sidebar item should be active:
-            let activeId = id;
-            
-            // If the target is a sub-page (like exam-4th), highlight the parent (exam-schedules)
-            if (el.classList.contains('sub-schedule-page')) {
-                activeId = 'exam-schedules';
-            }
-            
-            // Add active to the corresponding sidebar item
-            const menuItem = document.querySelector(`[data-section="${activeId}"]`);
-            if (menuItem) menuItem.classList.add("active");
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
-    // ============================================
-    // CUSTOM ALERT FUNCTION (RETAINED)
-    // ============================================
-    function showAlert(message, type = 'info') {
-        const existing = document.querySelector('.dashboard-alert');
-        if (existing) existing.remove();
-
-        const alert = document.createElement('div');
-        alert.className = `dashboard-alert ${type}`;
-        
-        let iconContent = '';
-        if (type === 'error') {
-            iconContent = '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>';
-        } else if (type === 'success') {
-            iconContent = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>';
-        } else {
-            iconContent = '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>';
-        }
-        
-        alert.innerHTML = `
-            <div class="alert-content">
-                <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${iconContent}</svg>
-                <span>${message}</span>
-            </div>
-            <button class="alert-close">&times;</button>
-        `;
-        
-        // ... (Alert Styles and close logic retained) ...
-        alert.style.cssText = `
-            position: fixed;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: var(--card);
-            padding: 16px 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px var(--shadow-hover);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            max-width: 500px;
-            z-index: 10000;
-            opacity: 0;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border);
-        `;
-        document.body.appendChild(alert);
-        
-        setTimeout(() => {
-            alert.style.opacity = '1';
-            alert.style.transform = 'translateX(-50%) translateY(0)';
-        }, 10);
-        
-        alert.querySelector('.alert-close').addEventListener('click', () => {
-            alert.style.opacity = '0';
-            alert.style.transform = 'translateX(-50%) translateY(-100px)';
-            setTimeout(() => alert.remove(), 300);
-        });
-        
-        setTimeout(() => {
-            alert.style.opacity = '0';
-            alert.style.transform = 'translateX(-50%) translateY(-100px)';
-            setTimeout(() => alert.remove(), 300);
-        }, 4000);
-    }
-
-
-    // ============================================
-    // LOAD NEWS FROM JSON (RETAINED)
-    // ============================================
-    async function loadNews() {
-        // ... (Function content retained) ...
-        const target = document.getElementById('news-list');
-        const homeTarget = document.getElementById('home-news');
-        const newsBadge = document.getElementById('newsBadge');
-
-        try {
-            const res = await fetch('news.json', { cache: 'no-store' });
-            const data = await res.json();
-
-            // Update badge
-            if (newsBadge) {
-                newsBadge.textContent = data.length;
-            }
-
-            // Display all news
-            if (target) {
-                if (data.length === 0) {
-                    target.innerHTML = '<div class="empty-state">📰 لا توجد أخبار حالياً</div>';
-                } else {
-                    target.innerHTML = data.map(item => `
-                        <div class="news-item" style="animation: slideInRight 0.4s ease forwards; opacity: 0;">
-                            <h3 style="color: var(--text); font-size: 18px; margin-bottom: 8px; font-weight: 700;">
-                                ${item.title || item.عنوان || 'بدون عنوان'}
-                            </h3>
-                            <p class="news-date">
-                                ${item.date || item.التاريخ || ''}
-                            </p>
-                            <p class="news-desc">
-                                ${item.description || item.الوصف || item.desc || ''}
-                            </p>
-                        </div>
-                    `).join('');
-                    
-                    // Animate items
-                    document.querySelectorAll('#news-list .news-item').forEach((item, index) => {
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                        }, index * 100);
-                    });
-                }
-            }
-
-            // Display first 3 in home
-            if (homeTarget) {
-                if (data.length === 0) {
-                    homeTarget.innerHTML = '<div class="empty-state">📰 لا توجد أخبار حالياً</div>';
-                } else {
-                    homeTarget.innerHTML = data.slice(0, 3).map(n => `
-                        <div class="news-item">
-                            <h4 style="color: var(--text); font-size: 16px; margin-bottom: 6px; font-weight: 600;">
-                                ${n.title || n.عنوان || 'بدون عنوان'}
-                            </h4>
-                            <p class="news-date">${n.date || n.التاريخ || ''}</p>
-                            <p class="news-desc">${n.description || n.الوصف || n.desc || ''}</p>
-                        </div>
-                    `).join('');
-                }
-            }
-        } catch (e) {
-            console.error("خطأ في تحميل الأخبار:", e);
-            if (target) target.innerHTML = '<div class="error-state">⚠️ تعذر تحميل الأخبار</div>';
-            if (homeTarget) homeTarget.innerHTML = '<div class="error-state">⚠️ تعذر تحميل الأخبار</div>';
-        }
-    }
-
-    // ============================================
-    // LOAD ACTIVITIES FROM JSON (RETAINED)
-    // ============================================
-    async function loadActivities() {
-        // ... (Function content retained) ...
-        const el = document.getElementById("activities-list");
+/**
+ * Toggle dark mode with smooth ripple animation
+ */
+function toggleDarkMode() {
+  const body = document.body;
   
-        try {
-            const res = await fetch("ac.json", { cache: "no-store" });
-            if (!res.ok) throw new Error("no activities");
-            
-            const data = await res.json();
-            if (!Array.isArray(data) || data.length === 0) {
-                el.innerHTML = '<div class="empty-state">🎯 لا توجد نشاطات مسجلة حالياً</div>';
-                return;
-            }
+  // Create ripple effect at the toggle position
+  const ripple = document.createElement('div');
+  ripple.className = 'dark-mode-ripple-global';
+  
+  // Try to find the dark mode toggle button position
+  const toggleBtn = document.querySelector('.dark-mode-toggle') || 
+                    document.getElementById('darkModeToggle') ||
+                    document.getElementById('darkToggle');
+  
+  if (toggleBtn) {
+    const rect = toggleBtn.getBoundingClientRect();
+    ripple.style.left = `${rect.left + rect.width / 2}px`;
+    ripple.style.top = `${rect.top + rect.height / 2}px`;
+  } else {
+    // Default position if button not found
+    ripple.style.left = '50px';
+    ripple.style.top = '50px';
+  }
+  
+  document.body.appendChild(ripple);
+  
+  // Toggle dark mode
+  body.classList.toggle("dark-mode");
+  body.classList.toggle("dark");
+  
+  // Save preference
+  const isDark = body.classList.contains("dark-mode") || body.classList.contains("dark");
+  localStorage.setItem("darkMode", isDark);
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  
+  // Remove ripple after animation
+  setTimeout(() => ripple.remove(), 800);
+  
+  // Trigger custom event for other components
+  window.dispatchEvent(new CustomEvent('darkModeChanged', { detail: { isDark } }));
+}
 
-            el.innerHTML = `
-                <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الاسم</th>
-                            <th>الصف</th>
-                            <th>الشعبة</th>
-                            <th>نوع النشاط</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.map(a => `
-                            <tr>
-                                <td>${a.name || a.الاسم || ""}</td>
-                                <td>${a.class || a.الصف || ""}</td>
-                                <td>${a.section || a.الشعبة || ""}</td>
-                                <td>${a.type || a.نوع || a.النوع || ""}</td>
-                            </tr>
-                        `).join("")}
-                    </tbody>
-                </table>
-                </div>
-            `;
-        } catch (e) {
-            console.error("خطأ في تحميل النشاطات:", e);
-            el.innerHTML = '<div class="error-state">⚠️ تعذر تحميل جدول النشاطات</div>';
-        }
+/**
+ * Apply saved dark mode on page load
+ */
+function applySavedDarkMode() {
+  const savedMode = localStorage.getItem("darkMode") === "true" || 
+                    localStorage.getItem("theme") === "dark";
+  
+  if (savedMode) {
+    document.body.classList.add("dark-mode");
+    document.body.classList.add("dark");
+  }
+}
+
+// Apply dark mode as early as possible to prevent flash
+applySavedDarkMode();
+
+// ============================================
+// MESSAGE NOTIFICATION SYSTEM
+// ============================================
+
+/**
+ * Show a beautiful animated message notification
+ * @param {string} text - Message text to display
+ * @param {string} type - Message type: 'success', 'error', 'warning', 'info'
+ * @param {number} duration - Duration in milliseconds (default: 4000)
+ */
+function showMessage(text, type = "info", duration = 4000) {
+  // Remove any existing messages of the same type
+  const existing = document.querySelectorAll(`.message-box.${type}`);
+  existing.forEach(msg => msg.remove());
+  
+  // Create message box
+  const box = document.createElement("div");
+  box.className = `message-box ${type}`;
+  
+  // Get icon based on type
+  const icons = {
+    success: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>`,
+    error: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="15" y1="9" x2="9" y2="15"></line>
+      <line x1="9" y1="9" x2="15" y2="15"></line>
+    </svg>`,
+    warning: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+      <line x1="12" y1="9" x2="12" y2="13"></line>
+      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+    </svg>`,
+    info: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>`
+  };
+  
+  box.innerHTML = `
+    <div class="message-icon">${icons[type]}</div>
+    <div class="message-text">${text}</div>
+    <button class="message-close" aria-label="إغلاق">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  `;
+  
+  document.body.appendChild(box);
+  
+  // Animate in
+  setTimeout(() => box.classList.add("show"), 10);
+  
+  // Close button functionality
+  const closeBtn = box.querySelector(".message-close");
+  closeBtn.addEventListener("click", () => hideMessage(box));
+  
+  // Auto hide after duration
+  if (duration > 0) {
+    setTimeout(() => hideMessage(box), duration);
+  }
+  
+  return box;
+}
+
+/**
+ * Hide a message box with animation
+ */
+function hideMessage(box) {
+  box.classList.remove("show");
+  box.classList.add("hide");
+  setTimeout(() => box.remove(), 300);
+}
+
+/**
+ * Show loading message
+ */
+function showLoading(text = "جاري التحميل...") {
+  const box = document.createElement("div");
+  box.className = "message-box loading";
+  box.innerHTML = `
+    <div class="message-spinner">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.415, 31.415" stroke-dashoffset="0">
+          <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+    <div class="message-text">${text}</div>
+  `;
+  
+  document.body.appendChild(box);
+  setTimeout(() => box.classList.add("show"), 10);
+  
+  return box;
+}
+
+// ============================================
+// CONFIRMATION DIALOG
+// ============================================
+
+/**
+ * Show a custom confirmation dialog
+ * @param {string} message - Confirmation message
+ * @param {function} onConfirm - Callback when confirmed
+ * @param {function} onCancel - Callback when cancelled
+ */
+function showConfirm(message, onConfirm, onCancel) {
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-overlay";
+  
+  const dialog = document.createElement("div");
+  dialog.className = "confirm-dialog";
+  dialog.innerHTML = `
+    <div class="confirm-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+    <div class="confirm-message">${message}</div>
+    <div class="confirm-buttons">
+      <button class="confirm-btn confirm-yes">تأكيد</button>
+      <button class="confirm-btn confirm-no">إلغاء</button>
+    </div>
+  `;
+  
+  overlay.appendChild(dialog);
+  document.body.appendChild(overlay);
+  
+  // Animate in
+  setTimeout(() => {
+    overlay.classList.add("show");
+    dialog.classList.add("show");
+  }, 10);
+  
+  // Button handlers
+  const yesBtn = dialog.querySelector(".confirm-yes");
+  const noBtn = dialog.querySelector(".confirm-no");
+  
+  const close = () => {
+    overlay.classList.remove("show");
+    dialog.classList.remove("show");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  
+  yesBtn.addEventListener("click", () => {
+    close();
+    if (onConfirm) onConfirm();
+  });
+  
+  noBtn.addEventListener("click", () => {
+    close();
+    if (onCancel) onCancel();
+  });
+  
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      close();
+      if (onCancel) onCancel();
     }
+  });
+}
 
-    // ============================================
-    // RENDER GRADES (RETAINED)
-    // ============================================
-    function renderGrades(student) {
-        // ... (Function content retained) ...
-        const c1 = document.getElementById("course1");
-        const c2 = document.getElementById("course2");
-        
-        if (!student || !student["الدرجات"]) {
-            const emptyMsg = '<div class="empty-state">📚 لا توجد درجات مسجلة</div>';
-            c1.innerHTML = emptyMsg;
-            c2.innerHTML = emptyMsg;
-            return;
-        }
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
 
-        const grades = student["الدرجات"];
+/**
+ * Smooth scroll to element
+ */
+function scrollToElement(selector, offset = 0) {
+  const element = document.querySelector(selector);
+  if (element) {
+    const top = element.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
 
-        // Course 1
-        let html1 = `
-            <div class="table-container">
-            <table>
-                <thead>
-                <tr>
-                    <th>المادة</th>
-                    <th>شهر 1</th>
-                    <th>شهر 2</th>
-                    <th>نصف السنة</th>
-                </tr>
-                </thead>
-                <tbody>
-        `;
+/**
+ * Copy text to clipboard
+ */
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showMessage("تم النسخ بنجاح!", "success", 2000);
+    return true;
+  } catch (err) {
+    showMessage("فشل النسخ", "error", 2000);
+    return false;
+  }
+}
 
-        for (const subj in grades) {
-            const d = grades[subj];
-            html1 += `
-                <tr>
-                <td><strong>${subj}</strong></td>
-                <td>${d["الشهر الأول"] ?? d["شهر1"] ?? "-"}</td>
-                <td>${d["الشهر الثاني"] ?? d["شهر2"] ?? "-"}</td>
-                <td>${d["نصف السنة"] ?? d["نصف"] ?? "-"}</td>
-                </tr>
-            `;
-        }
+/**
+ * Format date to Arabic
+ */
+function formatArabicDate(date) {
+  const d = new Date(date);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('ar-IQ', options);
+}
 
-        html1 += "</tbody></table></div>";
-        c1.innerHTML = html1;
+/**
+ * Debounce function
+ */
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 
-        // Course 2
-        let html2 = `
-            <div class="table-container">
-            <table>
-                <thead>
-                <tr>
-                    <th>المادة</th>
-                    <th>شهر 1</th>
-                    <th>شهر 2</th>
-                    <th>السعي السنوي</th>
-                    <th>النهائي</th>
-                    <th>بعد الإكمال</th>
-                </tr>
-                </thead>
-                <tbody>
-        `;
+// ============================================
+// INITIALIZE ON DOM LOAD
+// ============================================
 
-        for (const subj in grades) {
-            const d = grades[subj];
-            html2 += `
-                <tr>
-                <td><strong>${subj}</strong></td>
-                <td>${d["الكورس الثاني - الشهر الأول"] ?? d["شهر1_2"] ?? "-"}</td>
-                <td>${d["الكورس الثاني - الشهر الثاني"] ?? d["شهر2_2"] ?? "-"}</td>
-                <td>${d["السعي السنوي"] ?? d["سعي_سنوي"] ?? "-"}</td>
-                <td>${d["الدرجة النهائية"] ?? d["نهائي"] ?? "-"}</td>
-                <td>${d["الدرجة النهائية بعد الإكمال"] ?? d["بعد_الإكمال"] ?? "-"}</td>
-                </tr>
-            `;
-        }
-
-        html2 += "</tbody></table></div>";
-        c2.innerHTML = html2;
-    }
-
-    // ============================================
-    // RENDER SCHEDULE (MODIFIED for single-weekly-table)
-    // ============================================
-    function renderSchedule(student) {
-        // تم تغيير الـ ID إلى "single-weekly-table" كما في الـ HTML المعدل
-        const el = document.getElementById("single-weekly-table"); 
-        
-        if (!student || !student["الجدول"]) {
-            el.innerHTML = '<p class="placeholder-text">📅 سيتم عرض جدولك الأسبوعي الشخصي هنا.</p>';
-            return;
-        }
-
-        const week = student["الجدول"];
-        // تحديد الأيام الرئيسية للجدول (الأحد، الاثنين، إلخ) لضمان الترتيب
-        const orderedDays = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
-
-        let html = `
-            <div class="table-container">
-            <table class="data-table">
-                <thead>
-                <tr>
-                    <th>الحصة</th>
-                    <th>الأحد</th>
-                    <th>الاثنين</th>
-                    <th>الثلاثاء</th>
-                    <th>الأربعاء</th>
-                    <th>الخميس</th>
-                </tr>
-                </thead>
-                <tbody>
-        `;
-        
-        // نفترض أن الحد الأقصى للحصص هو 6 (يمكن تعديله بناءً على البيانات)
-        const maxPeriods = 6; 
-
-        for (let i = 0; i < maxPeriods; i++) {
-            let rowHtml = `<tr><td><strong>${i + 1}</strong></td>`;
-            for (const day of orderedDays) {
-                // الوصول إلى الحصة i (التي هي بترتيب i في مصفوفة الحصص لذلك اليوم)
-                const subject = week[day] ? week[day][i] : "-"; 
-                rowHtml += `<td>${subject ?? "-"}</td>`;
-            }
-            rowHtml += `</tr>`;
-            html += rowHtml;
-        }
-
-        html += "</tbody></table></div>";
-        el.innerHTML = html;
-    }
-
-    // ============================================
-    // RENDER STUDENT HOME INFO (RETAINED)
-    // ============================================
-    function renderStudentHome(student) {
-        // ... (Function content retained) ...
-        const si = document.getElementById("student-info");
-        
-        if (!student) {
-            si.innerHTML = '<div class="error-state">⚠️ لا توجد بيانات</div>';
-            return;
-        }
-
-        const name = student["الاسم"] || student.name || student.fullname || "غير محدد";
-        const cls = student["الصف"] || student.class || "غير محدد";
-        const sec = student["الشعبة"] || student.section || "";
-        const code = student["الكود"] || student.code || "";
-
-        si.innerHTML = `
-            <div class="info-row">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                <span><strong>الاسم:</strong> ${name}</span>
-            </div>
-            <div class="info-row">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                </svg>
-                <span><strong>الصف:</strong> ${cls} ${sec ? `- ${sec}` : ''}</span>
-            </div>
-            ${code ? `
-                <div class="info-row">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                    <span><strong>الكود:</strong> ${code}</span>
-                </div>
-            ` : ''}
-        `;
-
-        const admin = document.getElementById("admin-message");
-        const msg = student["رسالة"] || student["adminMessage"] || student.message || "";
-        
-        if (msg) {
-            admin.innerHTML = `
-                <div class="admin-msg-content">
-                    <p>${msg}</p>
-                </div>
-            `;
-        } else {
-            admin.innerHTML = '<div class="empty-state">✉️ لا توجد رسالة من الإدارة</div>';
-        }
-    }
-
-    // ============================================
-    // LOGOUT FUNCTIONALITY (RETAINED)
-    // ============================================
-    function handleLogout() {
-        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-            // Clear session
-            sessionKeyCandidates.forEach(key => localStorage.removeItem(key));
-            
-            // Show success message
-            showAlert('تم تسجيل الخروج بنجاح', 'success');
-            
-            // Redirect after delay
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        }
-    }
-
-    // ============================================
-    // INITIALIZATION AND EVENT LISTENERS
-    // ============================================
-
-    // Apply dark mode
-    applyDarkFromStorage();
-
-    // Dark mode toggle
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', toggleDark);
-    }
-
-    // Logout button
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-
-    // Sidebar toggle (functions retained and simplified usage)
-    const menuBtn = document.getElementById("menuBtn");
-    const sidebarClose = document.getElementById("sidebarClose");
-
-    function closeSidebar() {
-        sidebar.classList.remove("active");
-        sidebar.setAttribute("aria-hidden", true);
-        sidebarOverlay.classList.remove("active");
-    }
-
-    function openSidebar() {
-        sidebar.classList.add("active");
-        sidebar.setAttribute("aria-hidden", false);
-        sidebarOverlay.classList.add("active");
-    }
-
-    if (menuBtn) {
-        menuBtn.addEventListener("click", () => {
-            if (sidebar.classList.contains("active")) {
-                closeSidebar();
-            } else {
-                openSidebar();
-            }
-        });
-    }
-
-    if (sidebarClose) {
-        sidebarClose.addEventListener("click", closeSidebar);
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener("click", closeSidebar);
-    }
-
-    // Sidebar navigation
-    navItems.forEach(li => {
-        li.addEventListener("click", () => {
-            const section = li.getAttribute("data-section");
-            showPage(section);
-            closeSidebar();
-        });
+window.addEventListener("DOMContentLoaded", () => {
+  // Apply saved dark mode
+  applySavedDarkMode();
+  
+  // Setup all dark mode toggle buttons
+  const darkModeToggles = document.querySelectorAll(
+    '.dark-mode-toggle, #darkModeToggle, #darkToggle, [data-dark-toggle]'
+  );
+  
+  darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', toggleDarkMode);
+  });
+  
+  // Add smooth scroll to all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = this.getAttribute('href');
+      if (target !== '#') {
+        scrollToElement(target, 80);
+      }
     });
-
-    // Back buttons
-    backBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const target = btn.getAttribute("data-back");
-            if (target) showPage(target);
-        });
-    });
-
-    // Grades tabs
-    tabBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            // Remove active from all tabs
-            tabBtns.forEach(t => t.classList.remove("active"));
-            document.querySelectorAll(".course-content").forEach(c => c.classList.remove("active"));
-            
-            // Add active to clicked tab
-            btn.classList.add("active");
-            const course = btn.getAttribute("data-course");
-            const content = document.getElementById(`course${course}`);
-            if (content) content.classList.add("active");
-        });
+  });
+  
+  // Initialize tooltips (if elements have data-tooltip)
+  document.querySelectorAll('[data-tooltip]').forEach(el => {
+    el.addEventListener('mouseenter', function() {
+      const text = this.getAttribute('data-tooltip');
+      const tooltip = document.createElement('div');
+      tooltip.className = 'tooltip';
+      tooltip.textContent = text;
+      this.appendChild(tooltip);
+      setTimeout(() => tooltip.classList.add('show'), 10);
     });
     
-    // NEW LOGIC: Exam Schedule Link Cards
-    scheduleLinkCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const targetId = card.getAttribute('data-schedule-target');
-            showPage(targetId);
-        });
+    el.addEventListener('mouseleave', function() {
+      const tooltip = this.querySelector('.tooltip');
+      if (tooltip) {
+        tooltip.classList.remove('show');
+        setTimeout(() => tooltip.remove(), 200);
+      }
     });
-
-    // Check student session
-    const student = readStudentSession();
-    if (!student) {
-        showAlert('الجلسة منتهية، يرجى تسجيل الدخول مرة أخرى', 'error');
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 2000);
-        return;
-    }
-
-    // Show loading state
-    showAlert('جاري تحميل البيانات...', 'info');
-
-    // Render student home
-    renderStudentHome(student);
-
-    // Load all data
-    try {
-        await Promise.all([
-            loadNews(),
-            loadActivities()
-        ]);
-        renderGrades(student);
-        renderSchedule(student);
-        
-        // Remove skeletons
-        document.querySelectorAll('.skeleton').forEach(s => s.remove());
-        
-        showAlert('تم تحميل جميع البيانات بنجاح', 'success');
-    } catch (error) {
-        console.error('Error loading data:', error);
-        showAlert('حدث خطأ أثناء تحميل البيانات', 'error');
-    }
-    
-    // Add smooth scroll behavior (retained)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
+  });
 });
 
-// Add CSS for empty and error states (RETAINED)
-const additionalStyles = document.createElement('style');
-additionalStyles.textContent = `
-    .empty-state, .error-state {
-        text-align: center;
-        padding: 40px 20px;
-        color: var(--text-light);
-        font-size: 16px;
+// ============================================
+// INJECT GLOBAL STYLES
+// ============================================
+
+const globalStyles = document.createElement('style');
+globalStyles.textContent = `
+  /* Message Box Styles */
+  .message-box {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10000;
+    min-width: 300px;
+    max-width: 500px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .message-box.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  .message-box.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50px);
+  }
+  
+  .message-box.success {
+    background: #e8f5e9;
+    border-right: 4px solid #4caf50;
+  }
+  
+  .message-box.error {
+    background: #ffebee;
+    border-right: 4px solid #f44336;
+  }
+  
+  .message-box.warning {
+    background: #fff3e0;
+    border-right: 4px solid #ff9800;
+  }
+  
+  .message-box.info {
+    background: #e3f2fd;
+    border-right: 4px solid #2196f3;
+  }
+  
+  .message-box.loading {
+    background: #f5f5f5;
+    border-right: 4px solid #9e9e9e;
+  }
+  
+  body.dark-mode .message-box,
+  body.dark .message-box {
+    background: #1a1f3a;
+    color: #e6eef6;
+  }
+  
+  body.dark-mode .message-box.success,
+  body.dark .message-box.success {
+    background: #1b3a1f;
+    border-right-color: #66bb6a;
+  }
+  
+  body.dark-mode .message-box.error,
+  body.dark .message-box.error {
+    background: #3a1b1b;
+    border-right-color: #ef5350;
+  }
+  
+  body.dark-mode .message-box.warning,
+  body.dark .message-box.warning {
+    background: #3a2f1b;
+    border-right-color: #ffa726;
+  }
+  
+  body.dark-mode .message-box.info,
+  body.dark .message-box.info {
+    background: #1b2a3a;
+    border-right-color: #42a5f5;
+  }
+  
+  .message-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .message-box.success .message-icon { color: #4caf50; }
+  .message-box.error .message-icon { color: #f44336; }
+  .message-box.warning .message-icon { color: #ff9800; }
+  .message-box.info .message-icon { color: #2196f3; }
+  .message-box.loading .message-icon { color: #9e9e9e; }
+  
+  .message-text {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  body.dark-mode .message-text,
+  body.dark .message-text {
+    color: #e6eef6;
+  }
+  
+  .message-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+    color: #666;
+  }
+  
+  .message-close:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+  }
+  
+  body.dark-mode .message-close,
+  body.dark .message-close {
+    color: #b8c5d6;
+  }
+  
+  body.dark-mode .message-close:hover,
+  body.dark .message-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e6eef6;
+  }
+  
+  .message-spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Dark Mode Ripple */
+  .dark-mode-ripple-global {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f4b400 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    animation: rippleExpandGlobal 0.8s ease-out forwards;
+  }
+  
+  @keyframes rippleExpandGlobal {
+    0% {
+      width: 50px;
+      height: 50px;
+      opacity: 0.8;
+    }
+    100% {
+      width: 3000px;
+      height: 3000px;
+      opacity: 0;
+    }
+  }
+  
+  /* Confirmation Dialog */
+  .confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .confirm-overlay.show {
+    opacity: 1;
+  }
+  
+  .confirm-dialog {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .confirm-dialog.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  
+  body.dark-mode .confirm-dialog,
+  body.dark .confirm-dialog {
+    background: #1a1f3a;
+    color: #e6eef6;
+  }
+  
+  .confirm-icon {
+    color: #ff9800;
+    margin-bottom: 20px;
+  }
+  
+  .confirm-message {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: #333;
+  }
+  
+  body.dark-mode .confirm-message,
+  body.dark .confirm-message {
+    color: #e6eef6;
+  }
+  
+  .confirm-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .confirm-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .confirm-yes {
+    background: linear-gradient(135deg, #f4b400 0%, #d89e00 100%);
+    color: white;
+  }
+  
+  .confirm-yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.4);
+  }
+  
+  .confirm-no {
+    background: #e0e0e0;
+    color: #333;
+  }
+  
+  body.dark-mode .confirm-no,
+  body.dark .confirm-no {
+    background: #2a3552;
+    color: #e6eef6;
+  }
+  
+  .confirm-no:hover {
+    background: #d0d0d0;
+  }
+  
+  body.dark-mode .confirm-no:hover,
+  body.dark .confirm-no:hover {
+    background: #3a4562;
+  }
+  
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: #333;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s;
+    z-index: 1000;
+  }
+  
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+  }
+  
+  .tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .message-box {
+      min-width: 280px;
+      max-width: calc(100% - 40px);
     }
     
-    .error-state {
-        color: var(--danger);
+    .confirm-dialog {
+      padding: 24px;
     }
     
-    .info-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        background: var(--bg);
-        border-radius: 8px;
-        margin-bottom: 10px;
-        transition: var(--transition);
+    .confirm-buttons {
+      flex-direction: column;
     }
     
-    .info-row:hover {
-        transform: translateX(-4px);
-        box-shadow: 0 2px 8px var(--shadow);
+    .confirm-btn {
+      width: 100%;
     }
-    
-    .info-row svg {
-        color: var(--primary);
-        flex-shrink: 0;
-    }
-    
-    .admin-msg-content {
-        background: var(--bg);
-        padding: 16px;
-        border-radius: 12px;
-        border-right: 4px solid var(--primary);
-        line-height: 1.8;
-    }
-    
-    .table-container {
-        overflow-x: auto;
-        border-radius: 12px;
-    }
-    
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    .dashboard-alert .alert-content {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex: 1;
-    }
-    
-    .dashboard-alert .alert-icon {
-        color: var(--primary);
-        flex-shrink: 0;
-    }
-    
-    .dashboard-alert.error .alert-icon {
-        color: var(--danger);
-    }
-    
-    .dashboard-alert.success .alert-icon {
-        color: var(--success);
-    }
-    
-    .dashboard-alert .alert-close {
-        background: none;
-        border: none;
-        font-size: 24px;
-        color: var(--text-light);
-        cursor: pointer;
-        padding: 0;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        transition: var(--transition);
-    }
-    
-    .dashboard-alert .alert-close:hover {
-        background: var(--border);
-        color: var(--text);
-    }
+  }
 `;
-document.head.appendChild(additionalStyles);
+
+document.head.appendChild(globalStyles);
+
+// ============================================
+// EXPORT FOR MODULE USAGE (optional)
+// ============================================
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    toggleDarkMode,
+    showMessage,
+    showLoading,
+    hideMessage,
+    showConfirm,
+    scrollToElement,
+    copyToClipboard,
+    formatArabicDate,
+    debounce
+  };
+}
