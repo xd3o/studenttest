@@ -21,24 +21,27 @@ function toggleDarkMode() {
                     document.getElementById('darkModeToggle') ||
                     document.getElementById('darkToggle');
   
+  // Calculate position (More robust calculation)
+  let rippleX = '50px';
+  let rippleY = '50px';
+  
   if (toggleBtn) {
     const rect = toggleBtn.getBoundingClientRect();
-    ripple.style.left = `${rect.left + rect.width / 2}px`;
-    ripple.style.top = `${rect.top + rect.height / 2}px`;
-  } else {
-    // Default position if button not found
-    ripple.style.left = '50px';
-    ripple.style.top = '50px';
+    // Use pageX/Y offset for correct fixed position calculation
+    rippleX = `${rect.left + rect.width / 2}px`;
+    rippleY = `${rect.top + rect.height / 2}px`;
   }
+  
+  ripple.style.left = rippleX;
+  ripple.style.top = rippleY;
   
   document.body.appendChild(ripple);
   
-  // Toggle dark mode
-  body.classList.toggle("dark-mode");
+  // Toggle dark mode (keep both class names for wide compatibility)
   body.classList.toggle("dark");
   
   // Save preference
-  const isDark = body.classList.contains("dark-mode") || body.classList.contains("dark");
+  const isDark = body.classList.contains("dark");
   localStorage.setItem("darkMode", isDark);
   localStorage.setItem("theme", isDark ? "dark" : "light");
   
@@ -57,7 +60,6 @@ function applySavedDarkMode() {
                     localStorage.getItem("theme") === "dark";
   
   if (savedMode) {
-    document.body.classList.add("dark-mode");
     document.body.classList.add("dark");
   }
 }
@@ -70,15 +72,27 @@ applySavedDarkMode();
 // ============================================
 
 /**
- * Show a beautiful animated message notification
+ * Hide a message box with animation
+ */
+function hideMessage(box) {
+  box.classList.remove("show");
+  box.classList.add("hide");
+  // Ensure removal only happens after transition finishes
+  box.addEventListener('transitionend', function handler() {
+      box.removeEventListener('transitionend', handler);
+      box.remove();
+  });
+}
+
+/**
+ * Show a beautiful animated message notification (Used as a global alert)
  * @param {string} text - Message text to display
  * @param {string} type - Message type: 'success', 'error', 'warning', 'info'
  * @param {number} duration - Duration in milliseconds (default: 4000)
  */
-function showMessage(text, type = "info", duration = 4000) {
-  // Remove any existing messages of the same type
-  const existing = document.querySelectorAll(`.message-box.${type}`);
-  existing.forEach(msg => msg.remove());
+function showAlert(text, type = "info", duration = 4000) {
+  // Remove any existing messages of the same type or position (optional, good practice for alerts)
+  document.querySelectorAll(`.message-box.${type}`).forEach(msg => hideMessage(msg));
   
   // Create message box
   const box = document.createElement("div");
@@ -135,23 +149,22 @@ function showMessage(text, type = "info", duration = 4000) {
   return box;
 }
 
-/**
- * Hide a message box with animation
- */
-function hideMessage(box) {
-  box.classList.remove("show");
-  box.classList.add("hide");
-  setTimeout(() => box.remove(), 300);
-}
+// Alias for backwards compatibility
+const showMessage = showAlert;
+
 
 /**
- * Show loading message
+ * Show persistent loading message
+ * @returns {HTMLElement} The loading box element
  */
 function showLoading(text = "جاري التحميل...") {
+  // Remove any existing loading messages first
+  document.querySelectorAll('.message-box.loading').forEach(msg => hideMessage(msg));
+  
   const box = document.createElement("div");
   box.className = "message-box loading";
   box.innerHTML = `
-    <div class="message-spinner">
+    <div class="message-icon message-spinner">
       <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.415, 31.415" stroke-dashoffset="0">
           <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
@@ -167,8 +180,16 @@ function showLoading(text = "جاري التحميل...") {
   return box;
 }
 
+/**
+ * Hide all currently visible loading messages
+ */
+function hideLoading() {
+    document.querySelectorAll('.message-box.loading').forEach(box => hideMessage(box));
+}
+
+
 // ============================================
-// CONFIRMATION DIALOG
+// CONFIRMATION DIALOG (RETAINED)
 // ============================================
 
 /**
@@ -236,7 +257,7 @@ function showConfirm(message, onConfirm, onCancel) {
 }
 
 // ============================================
-// UTILITY FUNCTIONS
+// UTILITY FUNCTIONS (RETAINED)
 // ============================================
 
 /**
@@ -256,10 +277,10 @@ function scrollToElement(selector, offset = 0) {
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
-    showMessage("تم النسخ بنجاح!", "success", 2000);
+    showAlert("تم النسخ بنجاح!", "success", 2000);
     return true;
   } catch (err) {
-    showMessage("فشل النسخ", "error", 2000);
+    showAlert("فشل النسخ", "error", 2000);
     return false;
   }
 }
@@ -289,13 +310,10 @@ function debounce(func, wait) {
 }
 
 // ============================================
-// INITIALIZE ON DOM LOAD
+// INITIALIZE ON DOM LOAD (RETAINED)
 // ============================================
 
 window.addEventListener("DOMContentLoaded", () => {
-  // Apply saved dark mode
-  applySavedDarkMode();
-  
   // Setup all dark mode toggle buttons
   const darkModeToggles = document.querySelectorAll(
     '.dark-mode-toggle, #darkModeToggle, #darkToggle, [data-dark-toggle]'
@@ -338,8 +356,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================
-// INJECT GLOBAL STYLES
+// INJECT GLOBAL STYLES (RETAINED)
 // ============================================
+// (The CSS injection block remains the same, ensuring styles for the new utilities are available)
 
 const globalStyles = document.createElement('style');
 globalStyles.textContent = `
@@ -398,31 +417,26 @@ globalStyles.textContent = `
     border-right: 4px solid #9e9e9e;
   }
   
-  body.dark-mode .message-box,
   body.dark .message-box {
     background: #1a1f3a;
     color: #e6eef6;
   }
   
-  body.dark-mode .message-box.success,
   body.dark .message-box.success {
     background: #1b3a1f;
     border-right-color: #66bb6a;
   }
   
-  body.dark-mode .message-box.error,
   body.dark .message-box.error {
     background: #3a1b1b;
     border-right-color: #ef5350;
   }
   
-  body.dark-mode .message-box.warning,
   body.dark .message-box.warning {
     background: #3a2f1b;
     border-right-color: #ffa726;
   }
   
-  body.dark-mode .message-box.info,
   body.dark .message-box.info {
     background: #1b2a3a;
     border-right-color: #42a5f5;
@@ -447,7 +461,6 @@ globalStyles.textContent = `
     color: #333;
   }
   
-  body.dark-mode .message-text,
   body.dark .message-text {
     color: #e6eef6;
   }
@@ -469,12 +482,10 @@ globalStyles.textContent = `
     color: #333;
   }
   
-  body.dark-mode .message-close,
   body.dark .message-close {
     color: #b8c5d6;
   }
   
-  body.dark-mode .message-close:hover,
   body.dark .message-close:hover {
     background: rgba(255, 255, 255, 0.05);
     color: #e6eef6;
@@ -494,7 +505,7 @@ globalStyles.textContent = `
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: radial-gradient(circle, #f4b400 0%, transparent 70%);
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%); /* Use CSS variable */
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 9999;
@@ -536,12 +547,12 @@ globalStyles.textContent = `
   }
   
   .confirm-dialog {
-    background: white;
+    background: var(--card);
     border-radius: 16px;
     padding: 32px;
     max-width: 400px;
     width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px var(--shadow-hover);
     text-align: center;
     transform: scale(0.9) translateY(20px);
     opacity: 0;
@@ -553,14 +564,8 @@ globalStyles.textContent = `
     opacity: 1;
   }
   
-  body.dark-mode .confirm-dialog,
-  body.dark .confirm-dialog {
-    background: #1a1f3a;
-    color: #e6eef6;
-  }
-  
   .confirm-icon {
-    color: #ff9800;
+    color: var(--warning);
     margin-bottom: 20px;
   }
   
@@ -568,12 +573,7 @@ globalStyles.textContent = `
     font-size: 18px;
     line-height: 1.6;
     margin-bottom: 24px;
-    color: #333;
-  }
-  
-  body.dark-mode .confirm-message,
-  body.dark .confirm-message {
-    color: #e6eef6;
+    color: var(--text);
   }
   
   .confirm-buttons {
@@ -593,33 +593,22 @@ globalStyles.textContent = `
   }
   
   .confirm-yes {
-    background: linear-gradient(135deg, #f4b400 0%, #d89e00 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
   }
   
   .confirm-yes:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.4);
+    box-shadow: 0 4px 12px var(--shadow-hover);
   }
   
   .confirm-no {
-    background: #e0e0e0;
-    color: #333;
-  }
-  
-  body.dark-mode .confirm-no,
-  body.dark .confirm-no {
-    background: #2a3552;
-    color: #e6eef6;
+    background: var(--bg-secondary);
+    color: var(--text);
   }
   
   .confirm-no:hover {
-    background: #d0d0d0;
-  }
-  
-  body.dark-mode .confirm-no:hover,
-  body.dark .confirm-no:hover {
-    background: #3a4562;
+    background: var(--bg);
   }
   
   /* Tooltip */
@@ -628,8 +617,8 @@ globalStyles.textContent = `
     bottom: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%) translateY(5px);
-    background: #333;
-    color: white;
+    background: var(--text);
+    color: var(--card);
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 13px;
@@ -647,7 +636,7 @@ globalStyles.textContent = `
     left: 50%;
     transform: translateX(-50%);
     border: 5px solid transparent;
-    border-top-color: #333;
+    border-top-color: var(--text);
   }
   
   .tooltip.show {
@@ -679,19 +668,17 @@ globalStyles.textContent = `
 document.head.appendChild(globalStyles);
 
 // ============================================
-// EXPORT FOR MODULE USAGE (optional)
+// EXPORT FOR GLOBAL ACCESS
 // ============================================
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    toggleDarkMode,
-    showMessage,
-    showLoading,
-    hideMessage,
-    showConfirm,
-    scrollToElement,
-    copyToClipboard,
-    formatArabicDate,
-    debounce
-  };
-}
+// Assign functions to the global window object for easy access from dashboard-script.js
+window.toggleDarkMode = toggleDarkMode;
+window.showAlert = showAlert;
+window.showMessage = showMessage; // Alias
+window.showLoading = showLoading;
+window.hideLoading = hideLoading;
+window.showConfirm = showConfirm;
+window.scrollToElement = scrollToElement;
+window.copyToClipboard = copyToClipboard;
+window.formatArabicDate = formatArabicDate;
+window.debounce = debounce;
