@@ -7,28 +7,28 @@
    ============================================ */
 :root {
   /* Primary Colors */
-  --primary: #38b6b2; /* Renamed main-color for clarity */
-  --primary-dark: #2a918e;
-  --primary-light: #5ec9c5;
-  --accent: #f4b400; /* Renamed accent-color */
-  --accent-dark: #d89e00;
-  --accent-light: #ffcd38;
+  --main-color: #38b6b2;
+  --main-color-dark: #2a918e;
+  --main-color-light: #5ec9c5;
+  --accent-color: #f4b400;
+  --accent-color-dark: #d89e00;
+  --accent-color-light: #ffcd38;
   
   /* Semantic Colors */
-  --success: #4caf50; /* Renamed success-color */
-  --error: #f44336; /* Renamed error-color */
-  --warning: #ff9800; /* Renamed warning-color */
-  --info: #2196f3; /* Renamed info-color */
+  --success-color: #4caf50;
+  --error-color: #f44336;
+  --warning-color: #ff9800;
+  --info-color: #2196f3;
   
   /* Text Colors */
-  --text: #222222; /* Renamed text-color */
+  --text-color: #222222;
   --text-light: #666666;
   --text-muted: #999999;
   
   /* Background Colors */
-  --bg: #f5f7fa; /* Renamed bg-color */
+  --bg-color: #f5f7fa;
   --bg-secondary: #e8ecf1;
-  --card: #ffffff; /* Renamed card-bg */
+  --card-bg: #ffffff;
   
   /* Border & Shadow */
   --border-color: #e0e0e0;
@@ -65,25 +65,19 @@
 /* ============================================
    DARK MODE VARIABLES
    ============================================ */
-/* Unified class name to .dark only, as used in the JS */
+body.dark-mode,
 body.dark {
-  --text: #e6eef6;
+  --text-color: #e6eef6;
   --text-light: #b8c5d6;
   --text-muted: #8a99ad;
-  --bg: #0a0e27;
+  --bg-color: #0a0e27;
   --bg-secondary: #141a32;
-  --card: #1a1f3a;
+  --card-bg: #1a1f3a;
   --border-color: #2a3552;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.6);
-  
-  /* Dark mode specific semantic colors for backgrounds/borders */
-  --success-bg-dark: #1b3a1f;
-  --error-bg-dark: #3a1b1b;
-  --warning-bg-dark: #3a2f1b;
-  --info-bg-dark: #1b2a3a;
 }
 
 /* ============================================
@@ -105,8 +99,8 @@ html {
 
 body {
   font-family: var(--font-family);
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: var(--bg-color);
+  color: var(--text-color);
   direction: rtl;
   line-height: 1.6;
   min-height: 100vh;
@@ -121,12 +115,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--spacing-md) 0;
   font-weight: 700;
   line-height: 1.3;
-  color: var(--text);
+  color: var(--text-color);
 }
 
 h1 {
   font-size: 32px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(135deg, var(--main-color) 0%, var(--accent-color) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -155,17 +149,17 @@ p {
    ============================================ */
 a {
   text-decoration: none;
-  color: var(--primary);
+  color: var(--main-color);
   transition: var(--transition-fast);
   position: relative;
 }
 
 a:hover {
-  color: var(--accent);
+  color: var(--accent-color);
 }
 
 a:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--main-color);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -183,7 +177,7 @@ a:focus-visible {
   right: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  background: linear-gradient(90deg, var(--main-color), var(--accent-color));
   transition: width 0.3s ease;
 }
 
@@ -196,7 +190,7 @@ a:focus-visible {
    ============================================ */
 button,
 .btn {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
   color: #ffffff;
   border: none;
   padding: 12px 24px;
@@ -235,7 +229,7 @@ button:disabled,
 button:focus-visible,
 .btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 30%, transparent);
+  box-shadow: 0 0 0 3px rgba(56, 182, 178, 0.3);
 }
 
 /* Button shine effect */
@@ -258,26 +252,26 @@ button:hover::before,
 
 /* Button Variants */
 .btn-accent {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-dark) 100%);
 }
 
 .btn-success {
-  background: linear-gradient(135deg, var(--success) 0%, #388e3c 100%);
+  background: linear-gradient(135deg, var(--success-color) 0%, #388e3c 100%);
 }
 
 .btn-error {
-  background: linear-gradient(135deg, var(--error) 0%, #d32f2f 100%);
+  background: linear-gradient(135deg, var(--error-color) 0%, #d32f2f 100%);
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
+  border: 2px solid var(--main-color);
+  color: var(--main-color);
   box-shadow: none;
 }
 
 .btn-outline:hover {
-  background: var(--primary);
+  background: var(--main-color);
   color: white;
 }
 
@@ -295,7 +289,7 @@ button:hover::before,
    CARDS
    ============================================ */
 .card {
-  background: var(--card);
+  background: var(--card-bg);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   padding: var(--spacing-lg);
@@ -313,7 +307,7 @@ button:hover::before,
   right: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(90deg, var(--main-color) 0%, var(--accent-color) 100%);
 }
 
 .card:hover {
@@ -333,7 +327,7 @@ button:hover::before,
 .card-title {
   font-size: var(--font-size-lg);
   font-weight: 700;
-  color: var(--text);
+  color: var(--text-color);
   margin: 0;
   display: flex;
   align-items: center;
@@ -365,306 +359,20 @@ button:hover::before,
 }
 
 .card-success {
-  border-right: 4px solid var(--success);
+  border-right: 4px solid var(--success-color);
 }
 
 .card-error {
-  border-right: 4px solid var(--error);
+  border-right: 4px solid var(--error-color);
 }
 
 .card-warning {
-  border-right: 4px solid var(--warning);
+  border-right: 4px solid var(--warning-color);
 }
 
 .card-info {
-  border-right: 4px solid var(--info);
+  border-right: 4px solid var(--info-color);
 }
-
-/* ============================================
-   CUSTOM BASE.JS STYLES (Message Box, Confirm, Ripple)
-   ============================================ */
-
-/* Message Box Styles */
-.message-box {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100px);
-  background: var(--card);
-  padding: 16px 20px;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 10000;
-  min-width: 300px;
-  max-width: 500px;
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.message-box.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-.message-box.hide {
-  opacity: 0;
-  transform: translateX(-50%) translateY(-50px);
-}
-
-.message-box.success {
-  background: #e8f5e9;
-  border-right: 4px solid var(--success);
-}
-
-.message-box.error {
-  background: #ffebee;
-  border-right: 4px solid var(--error);
-}
-
-.message-box.warning {
-  background: #fff3e0;
-  border-right: 4px solid var(--warning);
-}
-
-.message-box.info {
-  background: #e3f2fd;
-  border-right: 4px solid var(--info);
-}
-
-.message-box.loading {
-  background: var(--bg-secondary);
-  border-right: 4px solid var(--text-muted);
-}
-
-/* Dark Mode Message Box Overrides */
-body.dark .message-box {
-  background: var(--card);
-  color: var(--text);
-}
-
-body.dark .message-box.success {
-  background: var(--success-bg-dark);
-  border-right-color: var(--success);
-}
-
-body.dark .message-box.error {
-  background: var(--error-bg-dark);
-  border-right-color: var(--error);
-}
-
-body.dark .message-box.warning {
-  background: var(--warning-bg-dark);
-  border-right-color: var(--warning);
-}
-
-body.dark .message-box.info {
-  background: var(--info-bg-dark);
-  border-right-color: var(--info);
-}
-
-.message-icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
-
-.message-box.success .message-icon { color: var(--success); }
-.message-box.error .message-icon { color: var(--error); }
-.message-box.warning .message-icon { color: var(--warning); }
-.message-box.info .message-icon { color: var(--info); }
-.message-box.loading .message-icon { color: var(--text-muted); }
-
-.message-text {
-  flex: 1;
-  font-size: var(--font-size);
-  font-weight: 500;
-  color: var(--text);
-}
-
-.message-close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  transition: var(--transition-fast);
-  color: var(--text-light);
-}
-
-.message-close:hover {
-  background: color-mix(in srgb, var(--text) 5%, transparent);
-  color: var(--text);
-}
-
-body.dark .message-close:hover {
-  background: color-mix(in srgb, var(--text) 10%, transparent);
-}
-
-/* Dark Mode Ripple */
-.dark-mode-ripple-global {
-  position: fixed;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
-  animation: rippleExpandGlobal 0.8s ease-out forwards;
-}
-
-@keyframes rippleExpandGlobal {
-  0% {
-    width: 50px;
-    height: 50px;
-    opacity: 0.8;
-  }
-  100% {
-    width: 3000px;
-    height: 3000px;
-    opacity: 0;
-  }
-}
-
-/* Confirmation Dialog */
-.confirm-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10001;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.confirm-overlay.show {
-  opacity: 1;
-}
-
-.confirm-dialog {
-  background: var(--card);
-  border-radius: var(--border-radius-lg);
-  padding: 32px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: var(--shadow-lg);
-  text-align: center;
-  transform: scale(0.9) translateY(20px);
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.confirm-dialog.show {
-  transform: scale(1) translateY(0);
-  opacity: 1;
-}
-
-.confirm-icon {
-  color: var(--warning);
-  margin-bottom: 20px;
-}
-
-.confirm-message {
-  font-size: var(--font-size-lg);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-lg);
-  color: var(--text);
-}
-
-.confirm-buttons {
-  display: flex;
-  gap: var(--spacing);
-  justify-content: center;
-}
-
-.confirm-btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 10px;
-  font-size: var(--font-size);
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
-
-.confirm-yes {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-}
-
-.confirm-yes:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 50%, transparent);
-}
-
-.confirm-no {
-  background: var(--bg-secondary);
-  color: var(--text-light);
-}
-
-.confirm-no:hover {
-  background: var(--border-color);
-}
-
-body.dark .confirm-no {
-  background: #2a3552;
-  color: var(--text);
-}
-
-body.dark .confirm-no:hover {
-  background: #3a4562;
-}
-
-/* Tooltip */
-[data-tooltip] {
-  position: relative;
-  /* Required for tooltip positioning */
-}
-
-.tooltip {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(5px);
-  background: var(--text);
-  color: var(--card);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: var(--font-size-sm);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s;
-  z-index: 1000;
-  box-shadow: var(--shadow-sm);
-}
-
-.tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--text);
-}
-
-.tooltip.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
 
 /* ============================================
    CONTAINERS
@@ -676,7 +384,18 @@ body.dark .confirm-no:hover {
   width: 100%;
 }
 
-/* ... (Remaining utilities are kept as is) ... */
+.container-sm {
+  max-width: 800px;
+}
+
+.container-lg {
+  max-width: 1400px;
+}
+
+.container-fluid {
+  max-width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
 
 /* ============================================
    GRID SYSTEM
@@ -792,11 +511,11 @@ body.dark .confirm-no:hover {
 
 .text-muted { color: var(--text-muted); }
 .text-light { color: var(--text-light); }
-.text-primary { color: var(--primary); }
-.text-accent { color: var(--accent); }
-.text-success { color: var(--success); }
-.text-error { color: var(--error); }
-.text-warning { color: var(--warning); }
+.text-primary { color: var(--main-color); }
+.text-accent { color: var(--accent-color); }
+.text-success { color: var(--success-color); }
+.text-error { color: var(--error-color); }
+.text-warning { color: var(--warning-color); }
 
 /* ============================================
    ANIMATIONS
@@ -886,34 +605,34 @@ body.dark .confirm-no:hover {
   border-radius: 12px;
   font-size: var(--font-size-sm);
   font-weight: 600;
-  background: var(--primary);
+  background: var(--main-color);
   color: white;
 }
 
 .badge-accent {
-  background: var(--accent);
+  background: var(--accent-color);
 }
 
 .badge-success {
-  background: var(--success);
+  background: var(--success-color);
 }
 
 .badge-error {
-  background: var(--error);
+  background: var(--error-color);
 }
 
 .badge-warning {
-  background: var(--warning);
+  background: var(--warning-color);
 }
 
 .badge-info {
-  background: var(--info);
+  background: var(--info-color);
 }
 
 .badge-outline {
   background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
+  border: 2px solid var(--main-color);
+  color: var(--main-color);
 }
 
 /* ============================================
@@ -931,7 +650,7 @@ body.dark .confirm-no:hover {
 
 .divider-thick {
   height: 3px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(90deg, var(--main-color) 0%, var(--accent-color) 100%);
 }
 
 /* ============================================
@@ -941,7 +660,7 @@ body.dark .confirm-no:hover {
   width: 40px;
   height: 40px;
   border: 4px solid var(--border-color);
-  border-top-color: var(--primary);
+  border-top-color: var(--main-color);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -961,7 +680,7 @@ body.dark .confirm-no:hover {
 .loading-dots span {
   width: 10px;
   height: 10px;
-  background: var(--primary);
+  background: var(--main-color);
   border-radius: 50%;
   animation: bounce 1.4s infinite ease-in-out both;
 }
@@ -996,24 +715,24 @@ body.dark .confirm-no:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: var(--main-color);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
+  background: var(--main-color-dark);
 }
 
 /* ============================================
    SELECTION
    ============================================ */
 ::selection {
-  background: var(--primary);
+  background: var(--main-color);
   color: white;
 }
 
 ::-moz-selection {
-  background: var(--primary);
+  background: var(--main-color);
   color: white;
 }
 
@@ -1033,7 +752,7 @@ body.dark .confirm-no:hover {
 }
 
 *:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--main-color);
   outline-offset: 2px;
 }
 
@@ -1064,19 +783,6 @@ body.dark .confirm-no:hover {
   
   .container {
     padding: var(--spacing);
-  }
-  
-  /* Responsive for Confirm Dialog */
-  .confirm-dialog {
-    padding: var(--spacing-lg);
-  }
-  
-  .confirm-buttons {
-    flex-direction: column;
-  }
-  
-  .confirm-btn {
-    width: 100%;
   }
 }
 
