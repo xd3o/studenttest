@@ -717,3 +717,144 @@ additionalStyles.textContent = `
   }
 `;
 document.head.appendChild(additionalStyles);
+
+// ============================================
+// RENDER SCHEDULES (NEW & ENHANCED)
+// ============================================
+// دالة مساعدة لبناء جدول HTML
+function buildTableHtml(data, headers, isWeekly = false) {
+    if (!data || Object.keys(data).length === 0) {
+        return '<div class="empty-state">📅 لا يوجد جدول متاح حالياً</div>';
+    }
+
+    const days = Object.keys(data);
+
+    let html = `
+      <div class="table-container">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>${isWeekly ? 'اليوم' : 'المادة'}</th>
+              ${headers.map(h => `<th>${h}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    for (const dayOrSubject of days) {
+        const row = data[dayOrSubject] || [];
+        const cells = [];
+        // تأكد من عرض عدد الخلايا بناءً على طول صف العناوين
+        for (let i = 0; i < headers.length; i++) {
+            cells.push(`<td>${row[i] ?? "-"}</td>`);
+        }
+        html += `<tr><td><strong>${dayOrSubject}</strong></td>${cells.join("")}</tr>`;
+    }
+
+    html += "</tbody></table></div>";
+    return html;
+}
+
+// دالة لجلب وعرض جداول الامتحانات الأسبوعية والشهرية
+async function loadSchedules() {
+    const weeklyTarget = document.getElementById("weekly-schedule-content");
+    const examMonth1Target = document.getElementById("exam-month-1-content");
+    const examHalfYearTarget = document.getElementById("exam-half-year-content");
+    
+    // وضع حالة التحميل
+    if (weeklyTarget) weeklyTarget.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+    if (examMonth1Target) examMonth1Target.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+    if (examHalfYearTarget) examHalfYearTarget.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+    
+    try {
+        // يتم جلب البيانات من ملف جديد (يجب أن تنشئه في الخطوة التالية)
+        const res = await fetch('schedules.json', { cache: 'no-store' });
+        const data = await res.json(); 
+
+        // 1. الجدول الأسبوعي
+        const student = readStudentSession();
+        if (student && student["الجدول"]) {
+            // إذا كان الجدول الأسبوعي مخزناً في بيانات الطالب (الوضع القديم)
+            const headers = ["حصة 1", "حصة 2", "حصة 3", "حصة 4", "حصة 5", "حصة 6"];
+            if (weeklyTarget) weeklyTarget.innerHTML = buildTableHtml(student["الجدول"], headers, true);
+        } else if (data["weekly"]) {
+             // إذا كان الجدول الأسبوعي مخزناً في ملف schedules.json (الوضع الجديد)
+            const headers = data["weekly"]["headers"] || ["حصة 1", "حصة 2", "حصة 3", "حصة 4", "حصة 5", "حصة 6"];
+            if (weeklyTarget) weeklyTarget.innerHTML = buildTableHtml(data["weekly"]["data"], headers, true);
+        } else if (weeklyTarget) {
+             weeklyTarget.innerHTML = '<div class="empty-state">📅 لا يوجد جدول أسبوعي</div>';
+        }
+        
+        // 2. جدول امتحان الشهر الأول
+        if (data["examMonth1"]) {
+            const headers = data["examMonth1"]["headers"] || ["التاريخ", "اليوم", "المادة"];
+            if (examMonth1Target) examMonth1Target.innerHTML = buildTableHtml(data["examMonth1"]["data"], headers, false);
+        } else if (examMonth1Target) {
+            examMonth1Target.innerHTML = '<div class="empty-state">📝 لا يوجد جدول امتحان الشهر الأول حالياً</div>';
+        }
+
+        // 3. جدول امتحان نصف السنة
+        if (data["examHalfYear"]) {
+            const headers = data["examHalfYear"]["headers"] || ["التاريخ", "اليوم", "المادة"];
+            if (examHalfYearTarget) examHalfYearTarget.innerHTML = buildTableHtml(data["examHalfYear"]["data"], headers, false);
+        } else if (examHalfYearTarget) {
+            examHalfYearTarget.innerHTML = '<div class="empty-state">📝 لا يوجد جدول امتحان نصف السنة حالياً</div>';
+        }
+        
+    } catch (e) {
+        console.error("خطأ في تحميل الجداول:", e);
+        if (weeklyTarget) weeklyTarget.innerHTML = '<div class="error-state">⚠️ تعذر تحميل الجدول الأسبوعي</div>';
+        if (examMonth1Target) examMonth1Target.innerHTML = '<div class="error-state">⚠️ تعذر تحميل جدول الامتحانات</div>';
+        if (examHalfYearTarget) examHalfYearTarget.innerHTML = '<div class="error-state">⚠️ تعذر تحميل جدول الامتحانات</div>';
+    }
+}
+
+// ============================================
+// RENDER STUDENT HOME INFO (لا تحتاج لتغيير)
+// ... (الوظيفة السابقة تبقى كما هي) ...
+
+// ============================================
+// INITIALIZATION (تحديث بسيط هنا)
+// ============================================
+document.addEventListener("DOMContentLoaded", async () => {
+  // ... (كود تطبيق الوضع الليلي وعناصر الشريط الجانبي كما هو) ...
+
+  // Check student session
+  const student = readStudentSession();
+  if (!student) {
+    showAlert('الجلسة منتهية، يرجى تسجيل الدخول مرة أخرى', 'error');
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 2000);
+    return;
+  }
+
+  // Show loading state
+  // يجب أن تكون showAlert جاهزة في Base.js لتظهر بشكل صحيح
+  // بما أنك لم ترسل Base.css، فلن تظهر بشكل مثالي ولكنها ستعمل
+  showAlert('جاري تحميل البيانات...', 'info');
+
+  // Render student home
+  renderStudentHome(student);
+
+  // Load all data
+  try {
+    // تم تحديث الدالة لدمج جلب الجداول
+    await Promise.all([
+      loadNews(),
+      loadActivities(),
+      loadSchedules() // تم استدعاء دالة الجداول الجديدة هنا
+    ]);
+    renderGrades(student); 
+    
+    // Remove skeletons
+    document.querySelectorAll('.skeleton').forEach(s => s.remove());
+    
+    showAlert('تم تحميل جميع البيانات بنجاح', 'success');
+  } catch (error) {
+    console.error('Error loading data:', error);
+    showAlert('حدث خطأ أثناء تحميل البيانات', 'error');
+  }
+
+  // ... (بقية كود DOMContentLoaded كما هو) ...
+});
