@@ -1,52 +1,722 @@
-body {
-  font-family: 'Tahoma', sans-serif;
-  background: #f5f7fa url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center center fixed;
-  background-size: cover;
+/* ============================================
+   CSS VARIABLES FOR EASY CUSTOMIZATION
+   ============================================ */
+:root {
+  --primary-color: #1976d2;
+  --primary-dark: #125ca1;
+  --primary-light: #42a5f5;
+  --secondary-color: #0d47a1;
+  --success-color: #4caf50;
+  --error-color: #f44336;
+  --text-color: #333;
+  --text-light: #666;
+  --background: #f5f7fa;
+  --card-background: rgba(255, 255, 255, 0.95);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.15);
+  --border-color: #e0e0e0;
+  --input-border: #ccc;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   DARK MODE VARIABLES
+   ============================================ */
+body.dark-mode {
+  --text-color: #e0e0e0;
+  --text-light: #b0b0b0;
+  --background: #0a0e27;
+  --card-background: rgba(20, 26, 50, 0.95);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(0, 0, 0, 0.5);
+  --border-color: #2a2e45;
+  --input-border: #3a3e55;
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  background: var(--background) url('https://k.top4top.io/p_3498f7ivx1.png') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
+  transition: background-color 0.5s ease, color 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
+/* ============================================
+   DARK MODE TOGGLE BUTTON
+   ============================================ */
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  z-index: 1000;
+  box-shadow: 0 4px 15px var(--shadow);
+  overflow: hidden;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 20px var(--shadow-hover);
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
+}
+
+.sun-icon {
+  color: #ffa726;
+  transition: var(--transition);
+}
+
+.moon-icon {
+  color: #7986cb;
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-180deg) scale(0);
+  transition: var(--transition);
+}
+
+body.dark-mode .sun-icon {
+  opacity: 0;
+  transform: rotate(180deg) scale(0);
+}
+
+body.dark-mode .moon-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Dark Mode Ripple Effect */
+.dark-mode-ripple {
+  position: fixed;
+  top: 45px;
+  left: 45px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999;
+  animation: rippleExpand 0.8s ease-out forwards;
+}
+
+@keyframes rippleExpand {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 0.8;
+  }
+  100% {
+    width: 3000px;
+    height: 3000px;
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   ANIMATED BACKGROUND PARTICLES
+   ============================================ */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 20s infinite ease-in-out;
+}
+
+.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 50%; top: 50%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 70%; top: 10%; animation-delay: 1s; }
+.particle:nth-child(5) { left: 80%; top: 70%; animation-delay: 3s; }
+.particle:nth-child(6) { left: 30%; top: 30%; animation-delay: 5s; }
+.particle:nth-child(7) { left: 90%; top: 40%; animation-delay: 2.5s; }
+.particle:nth-child(8) { left: 40%; top: 90%; animation-delay: 4.5s; }
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-80px) translateX(40px) scale(1.2);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-160px) translateX(-20px) scale(0.8);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translateY(-80px) translateX(-60px) scale(1.1);
+    opacity: 0.4;
+  }
+}
+
+/* ============================================
+   LOGIN CONTAINER
+   ============================================ */
 .login-container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
-  border-radius: 10px;
+  background: var(--card-background);
+  backdrop-filter: blur(10px);
+  padding: 40px 35px;
+  border-radius: 20px;
   text-align: center;
   width: 90%;
-  max-width: 380px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 420px;
+  box-shadow: 0 10px 40px var(--shadow);
+  position: relative;
+  z-index: 10;
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: var(--transition);
+}
+
+.login-container.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.login-container.success {
+  animation: successPulse 0.6s ease;
+}
+
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ============================================
+   LOGO STYLES
+   ============================================ */
+.logo-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 25px;
+  animation: logoFloat 3s ease-in-out infinite;
 }
 
 .logo {
-  width: 110px;
-  margin-bottom: 20px;
+  width: 120px;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: var(--transition);
 }
 
-h2 {
-  margin-bottom: 20px;
-  color: #0d47a1;
+.logo-wrapper:hover .logo {
+  transform: scale(1.1) rotate(5deg);
 }
 
-input, select, button {
+.logo-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+  opacity: 0.3;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+}
+
+/* ============================================
+   TITLE ANIMATION
+   ============================================ */
+h2.title-animated {
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+body.dark-mode h2.title-animated {
+  color: var(--primary-light);
+}
+
+.title-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: var(--transition);
+}
+
+.title-word.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   WELCOME TEXT
+   ============================================ */
+.welcome-text {
+  color: var(--text-light);
+  font-size: 14px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+/* ============================================
+   INPUT GROUPS
+   ============================================ */
+.input-group {
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: var(--transition);
+}
+
+.input-group.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.input-wrapper {
+  position: relative;
   width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
 }
 
-button {
-  background: #1976d2;
-  color: white;
+.input-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  z-index: 2;
+  transition: var(--transition);
+  pointer-events: none;
+}
+
+.input-wrapper.focused .input-icon {
+  color: var(--primary-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+input, select {
+  width: 100%;
+  padding: 14px 45px 14px 15px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 2px solid var(--input-border);
+  background: var(--card-background);
+  color: var(--text-color);
+  transition: var(--transition);
+  outline: none;
+  position: relative;
+  z-index: 1;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+}
+
+input::placeholder {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+/* Input Border Animation */
+.input-border {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.input-wrapper.focused .input-border {
+  width: 100%;
+}
+
+/* Error State */
+.input-wrapper.error input,
+.input-wrapper.error select {
+  border-color: var(--error-color);
+  animation: shake 0.5s;
+}
+
+.input-wrapper.error .input-icon {
+  color: var(--error-color);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* ============================================
+   LOGIN BUTTON
+   ============================================ */
+.login-button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 12px;
   border: none;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: white;
   cursor: pointer;
-  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition);
+  opacity: 0;
+  transform: translateY(20px);
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
 }
 
-button:hover {
-  background: #125ca1;
+.login-button.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(25, 118, 210, 0.4);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Button Icon Animation */
+.button-icon {
+  transition: var(--transition);
+}
+
+.login-button:hover .button-icon {
+  transform: translateX(5px);
+}
+
+/* Button Shine Effect */
+.button-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.login-button:hover .button-shine {
+  left: 100%;
+}
+
+/* Button Hover Glow Effect */
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.login-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+.loading-spinner {
+  display: none;
+  margin-top: 20px;
+}
+
+.loading-spinner.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   CUSTOM ALERT
+   ============================================ */
+.custom-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 400px;
+  z-index: 10000;
+  transform: translateX(450px);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+body.dark-mode .custom-alert {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+.custom-alert.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.custom-alert.error {
+  border-right: 4px solid var(--error-color);
+}
+
+.custom-alert.success {
+  border-right: 4px solid var(--success-color);
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.alert-icon {
+  flex-shrink: 0;
+}
+
+.custom-alert.error .alert-icon {
+  color: var(--error-color);
+}
+
+.custom-alert.success .alert-icon {
+  color: var(--success-color);
+}
+
+.alert-content span {
+  color: var(--text-color);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.alert-close:hover {
+  background: var(--border-color);
+  color: var(--text-color);
+}
+
+/* ============================================
+   FOOTER TEXT
+   ============================================ */
+.footer-text {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.footer-text svg {
+  color: var(--success-color);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 25px;
+    max-width: 100%;
+  }
+  
+  .logo {
+    width: 100px;
+  }
+  
+  h2.title-animated {
+    font-size: 22px;
+  }
+  
+  .welcome-text {
+    font-size: 13px;
+  }
+  
+  input, select {
+    padding: 12px 40px 12px 12px;
+    font-size: 14px;
+  }
+  
+  .login-button {
+    padding: 13px;
+    font-size: 16px;
+  }
+  
+  .dark-mode-toggle {
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    left: 15px;
+  }
+  
+  .custom-alert {
+    right: 10px;
+    left: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
+
+/* ============================================
+   ANIMATIONS FOR SMOOTH TRANSITIONS
+   ============================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
