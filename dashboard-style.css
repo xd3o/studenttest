@@ -995,3 +995,102 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================
+   SCHEDULE/EXAM TABS (New Styling)
+   ============================================ */
+.schedule-content {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.schedule-content.active {
+  display: block;
+}
+
+.schedule-content h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: var(--primary);
+  text-align: center;
+}
+
+/* ============================================
+   TABLE STYLING FOR GRADES & EXAMS
+   (مكرر لكن يُستخدم لضمان التنسيق لجميع الجداول)
+   ============================================ */
+.grades-card table,
+#weekly table,
+.schedule-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.grades-card th,
+#weekly th,
+.schedule-content th {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 14px 12px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.grades-card th:first-child,
+#weekly th:first-child,
+.schedule-content th:first-child {
+  border-radius: 12px 0 0 0;
+}
+
+.grades-card th:last-child,
+#weekly th:last-child,
+.schedule-content th:last-child {
+  border-radius: 0 12px 0 0;
+}
+
+.grades-card td,
+#weekly td,
+.schedule-content td {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 12px;
+  text-align: center;
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.grades-card tr:hover td,
+#weekly tr:hover td,
+.schedule-content tr:hover td {
+  background: var(--bg);
+}
+
+.grades-card tr:last-child td:first-child,
+#weekly tr:last-child td:first-child,
+.schedule-content tr:last-child td:first-child {
+  border-radius: 0 0 0 12px;
+}
+
+.grades-card tr:last-child td:last-child,
+#weekly tr:last-child td:last-child,
+.schedule-content tr:last-child td:last-child {
+  border-radius: 0 0 12px 0;
+}
+
+/* --- Adjustments for Responsive (if needed for tables) --- */
+@media (max-width: 768px) {
+    .grades-card th, #weekly th, .schedule-content th {
+        padding: 10px 5px;
+        font-size: 13px;
+    }
+    .grades-card td, #weekly td, .schedule-content td {
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+}
